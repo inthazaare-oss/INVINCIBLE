@@ -34,3 +34,6 @@ a full JID (`1555...@s.whatsapp.net` for a person, `...@g.us` for a group).
   in a sandboxed environment with restricted egress.
 - `store/` is gitignored; it holds your session credentials and message
   history and should never be committed.
+- Uses a pure-Go SQLite driver (`modernc.org/sqlite`), so no C compiler
+  (gcc/clang) is required — just `go run .` with a plain Go install, including
+  on Windows.

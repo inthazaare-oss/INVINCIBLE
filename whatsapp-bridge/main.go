@@ -8,11 +8,11 @@ import (
 	"os/signal"
 	"syscall"
 
-	_ "github.com/mattn/go-sqlite3"
 	"github.com/mdp/qrterminal/v3"
 	"go.mau.fi/whatsmeow"
 	"go.mau.fi/whatsmeow/store/sqlstore"
 	waLog "go.mau.fi/whatsmeow/util/log"
+	_ "modernc.org/sqlite"
 )
 
 // App bundles the live WhatsApp client together with our local history
@@ -29,7 +29,7 @@ func main() {
 
 	ctx := context.Background()
 	dbLog := waLog.Stdout("Database", "INFO", true)
-	container, err := sqlstore.New(ctx, "sqlite3", "file:store/whatsapp.db?_foreign_keys=on", dbLog)
+	container, err := sqlstore.New(ctx, "sqlite", "file:store/whatsapp.db?_foreign_keys=on", dbLog)
 	if err != nil {
 		log.Fatalf("failed to open device store: %v", err)
 	}
