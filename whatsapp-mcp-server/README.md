@@ -25,4 +25,4 @@ uv run main.py
 `search_contacts`, `list_chats`, `get_chat`, `get_direct_chat_by_contact`,
 `get_contact_chats`, `get_last_interaction`, `list_messages`,
 `get_message_context`, `send_message`, `send_file`, `send_audio_message`,
-`download_media`.
+`download_media`, `get_group_members`.

@@ -122,5 +122,15 @@ def download_media(message_id: str, chat_jid: str) -> dict:
     return whatsapp.download_media(message_id, chat_jid)
 
 
+@mcp.tool()
+def get_group_members(chat_jid: str) -> dict:
+    """List the members of a WhatsApp group, with name, phone number, and admin status.
+
+    chat_jid must be a group JID (ends in @g.us) - use list_chats or search_contacts
+    to find it first.
+    """
+    return whatsapp.get_group_members(chat_jid)
+
+
 if __name__ == "__main__":
     mcp.run(transport="stdio")

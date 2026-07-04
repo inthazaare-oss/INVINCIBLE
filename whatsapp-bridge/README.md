@@ -24,6 +24,8 @@ Listens on `127.0.0.1:8080` by default (override with `BRIDGE_PORT`).
 - `POST /api/send/media` — `{"recipient": "...", "media_path": "/abs/path/file.jpg"}`
 - `POST /api/download` — `{"message_id": "...", "chat_jid": "..."}` → downloads
   the media referenced by a stored message and returns its local path.
+- `POST /api/group/members` — `{"chat_jid": "1234-5678@g.us"}` → group name and
+  participant list (JID, phone number, display name, admin status).
 
 `recipient` accepts either a bare phone number (digits, with country code) or
 a full JID (`1555...@s.whatsapp.net` for a person, `...@g.us` for a group).

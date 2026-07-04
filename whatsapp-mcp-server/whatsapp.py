@@ -317,3 +317,7 @@ def send_audio_message(recipient: str, media_path: str) -> dict:
 
 def download_media(message_id: str, chat_jid: str) -> dict:
     return _bridge_post("/api/download", {"message_id": message_id, "chat_jid": chat_jid})
+
+
+def get_group_members(chat_jid: str) -> dict:
+    return _bridge_post("/api/group/members", {"chat_jid": chat_jid})

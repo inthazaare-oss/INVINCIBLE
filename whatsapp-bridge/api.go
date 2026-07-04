@@ -67,6 +67,7 @@ func StartAPI(app *App, port string) {
 	mux.HandleFunc("/api/send", app.handleSendText)
 	mux.HandleFunc("/api/send/media", app.handleSendMedia)
 	mux.HandleFunc("/api/download", app.handleDownload)
+	mux.HandleFunc("/api/group/members", app.handleGroupMembers)
 
 	if err := http.ListenAndServe("127.0.0.1:"+port, mux); err != nil {
 		log.Fatalf("REST API server failed: %v", err)
@@ -246,4 +247,78 @@ func (app *App) handleDownload(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	writeJSON(w, http.StatusOK, apiResponse{Success: true, Message: "media downloaded", Path: path})
+}
+
+type groupMembersRequest struct {
+	ChatJID string `json:"chat_jid"`
+}
+
+type groupParticipant struct {
+	JID          string `json:"jid"`
+	PhoneNumber  string `json:"phone_number,omitempty"`
+	Name         string `json:"name"`
+	IsAdmin      bool   `json:"is_admin"`
+	IsSuperAdmin bool   `json:"is_super_admin"`
+}
+
+type groupMembersResponse struct {
+	Success          bool               `json:"success"`
+	Message          string             `json:"message,omitempty"`
+	GroupJID         string             `json:"group_jid,omitempty"`
+	GroupName        string             `json:"group_name,omitempty"`
+	ParticipantCount int                `json:"participant_count,omitempty"`
+	Participants     []groupParticipant `json:"participants,omitempty"`
+}
+
+func (app *App) handleGroupMembers(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		writeJSON(w, http.StatusMethodNotAllowed, apiResponse{Message: "POST only"})
+		return
+	}
+	var req groupMembersRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		writeJSON(w, http.StatusBadRequest, apiResponse{Message: "invalid JSON body"})
+		return
+	}
+
+	jid, err := types.ParseJID(req.ChatJID)
+	if err != nil {
+		writeJSON(w, http.StatusBadRequest, apiResponse{Message: fmt.Sprintf("invalid chat_jid: %v", err)})
+		return
+	}
+	if jid.Server != types.GroupServer {
+		writeJSON(w, http.StatusBadRequest, apiResponse{Message: "chat_jid must be a group JID (ending in @g.us)"})
+		return
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+	info, err := app.Client.GetGroupInfo(ctx, jid)
+	if err != nil {
+		writeJSON(w, http.StatusInternalServerError, apiResponse{Message: fmt.Sprintf("failed to get group info: %v", err)})
+		return
+	}
+
+	participants := make([]groupParticipant, 0, len(info.Participants))
+	for _, p := range info.Participants {
+		phoneNumber := ""
+		if !p.PhoneNumber.IsEmpty() {
+			phoneNumber = p.PhoneNumber.User
+		}
+		participants = append(participants, groupParticipant{
+			JID:          p.JID.String(),
+			PhoneNumber:  phoneNumber,
+			Name:         chatDisplayName(ctx, app.Client, p.JID, p.DisplayName),
+			IsAdmin:      p.IsAdmin,
+			IsSuperAdmin: p.IsSuperAdmin,
+		})
+	}
+
+	writeJSON(w, http.StatusOK, groupMembersResponse{
+		Success:          true,
+		GroupJID:         jid.String(),
+		GroupName:        info.Name,
+		ParticipantCount: len(participants),
+		Participants:     participants,
+	})
 }
