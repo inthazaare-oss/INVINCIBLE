@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"path/filepath"
 	"syscall"
 
 	"github.com/mdp/qrterminal/v3"
@@ -34,6 +35,19 @@ func main() {
 		dbLog)
 	if err != nil {
 		log.Fatalf("failed to open device store: %v", err)
+	}
+
+	existingDevices, err := container.GetAllDevices(ctx)
+	if err != nil {
+		log.Fatalf("failed to list devices in store: %v", err)
+	}
+	if abs, absErr := filepath.Abs("store/whatsapp.db"); absErr == nil {
+		log.Printf("device store file: %s (%d device(s) found)", abs, len(existingDevices))
+	} else {
+		log.Printf("%d device(s) found in store", len(existingDevices))
+	}
+	for _, d := range existingDevices {
+		log.Printf("  existing device: %s", d.GetJID())
 	}
 
 	deviceStore, err := container.GetFirstDevice(ctx)
