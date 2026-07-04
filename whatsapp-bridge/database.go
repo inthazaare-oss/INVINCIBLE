@@ -17,7 +17,8 @@ type MessageStore struct {
 }
 
 func NewMessageStore(path string) (*MessageStore, error) {
-	db, err := sql.Open("sqlite", fmt.Sprintf("file:%s?_pragma=foreign_keys(1)", path))
+	db, err := sql.Open("sqlite", fmt.Sprintf(
+		"file:%s?_pragma=foreign_keys(1)&_pragma=busy_timeout(10000)&_pragma=journal_mode(WAL)", path))
 	if err != nil {
 		return nil, fmt.Errorf("failed to open message store: %w", err)
 	}

@@ -29,7 +29,9 @@ func main() {
 
 	ctx := context.Background()
 	dbLog := waLog.Stdout("Database", "INFO", true)
-	container, err := sqlstore.New(ctx, "sqlite", "file:store/whatsapp.db?_pragma=foreign_keys(1)", dbLog)
+	container, err := sqlstore.New(ctx, "sqlite",
+		"file:store/whatsapp.db?_pragma=foreign_keys(1)&_pragma=busy_timeout(10000)&_pragma=journal_mode(WAL)",
+		dbLog)
 	if err != nil {
 		log.Fatalf("failed to open device store: %v", err)
 	}
