@@ -132,5 +132,16 @@ def get_group_members(chat_jid: str) -> dict:
     return whatsapp.get_group_members(chat_jid)
 
 
+@mcp.tool()
+def export_chat_to_markdown(chat_jid: str, output_path: Optional[str] = None) -> dict:
+    """Export a chat's full synced message history to a local Markdown (.md) file.
+
+    chat_jid is a group (ends in @g.us) or direct (ends in @s.whatsapp.net) chat -
+    use list_chats or search_contacts to find it first. If output_path is omitted,
+    writes to whatsapp-mcp-server/exports/<chat name>.md and returns that path.
+    """
+    return whatsapp.export_chat_to_markdown(chat_jid, output_path)
+
+
 if __name__ == "__main__":
     mcp.run(transport="stdio")

@@ -321,3 +321,56 @@ def download_media(message_id: str, chat_jid: str) -> dict:
 
 def get_group_members(chat_jid: str) -> dict:
     return _bridge_post("/api/group/members", {"chat_jid": chat_jid})
+
+
+def _all_chat_messages(chat_jid: str) -> list[dict]:
+    conn = _connect()
+    try:
+        rows = conn.execute(
+            """
+            SELECT id, chat_jid, sender, content, timestamp, is_from_me, media_type, filename
+            FROM messages WHERE chat_jid = ?
+            ORDER BY timestamp ASC
+            """,
+            (chat_jid,),
+        ).fetchall()
+        return [Message(*row).to_dict() for row in rows]
+    finally:
+        conn.close()
+
+
+def _sanitize_filename(name: str) -> str:
+    safe = "".join(c if c.isalnum() or c in " -_" else "_" for c in name).strip()
+    return safe or "chat"
+
+
+def export_chat_to_markdown(chat_jid: str, output_path: str | None = None) -> dict:
+    """Write a chat's full synced message history to a local Markdown file."""
+    chat = get_chat(chat_jid, include_last_message=False)
+    if not chat:
+        return {"success": False, "message": f"chat {chat_jid} not found in synced history"}
+
+    messages = _all_chat_messages(chat_jid)
+
+    lines = [f"# {chat['name']}", "", f"_Exported {len(messages)} messages from `{chat_jid}`_", ""]
+    for m in messages:
+        who = "Me" if m["is_from_me"] else (m["sender"] or "Unknown")
+        if m["content"]:
+            body = m["content"]
+        elif m["media_type"]:
+            body = f"<{m['media_type']}>" + (f" ({m['filename']})" if m["filename"] else "")
+        else:
+            body = ""
+        lines.append(f"**{who}** _{m['timestamp']}_")
+        lines.append(body)
+        lines.append("")
+
+    if not output_path:
+        export_dir = os.path.join(os.path.dirname(__file__), "exports")
+        os.makedirs(export_dir, exist_ok=True)
+        output_path = os.path.join(export_dir, f"{_sanitize_filename(chat['name'])}.md")
+
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines))
+
+    return {"success": True, "path": os.path.abspath(output_path), "message_count": len(messages)}
