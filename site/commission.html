@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Commission a painting — brief the artist directly</title>
+  <meta name="description" content="Commission an original portrait, landscape or study. Send the subject, size, budget and date; receive a written quote, a study for approval and a signed original with certificate.">
+  <meta property="og:title" content="Commission a painting — brief the artist directly">
+  <meta property="og:description" content="Commission an original portrait, landscape or study. Send the subject, size, budget and date; receive a written quote, a study for approval and a signed original with certificate.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23faf7f2'/%3E%3Ccircle cx='16' cy='13' r='7' fill='%23a4552f'/%3E%3Cpath d='M4 28 Q16 14 28 28 Z' fill='%23221f1c'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<a class="visually-hidden" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="index.html">
+      <span class="brand__name" data-site="artist.name">Your Name</span>
+      <span class="brand__role">Painter &amp; Draughtsman</span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="gallery.html">Work</a>
+      <a href="gallery.html?theme=india-states">India Series</a>
+      <a href="commission.html">Commissions</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a class="btn btn--sm" href="commission.html">Book a Commission</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="section" style="padding-bottom:0">
+  <div class="wrap hero__grid" style="align-items:start">
+    <div>
+      <span class="eyebrow">Commissions</span>
+      <h1>Have a painting made for you</h1>
+      <p class="lede">A portrait from your photographs. The landscape of a place you return to.
+        A large work sized to a particular wall. A study of your city's river, your family's
+        village, your state's festival dress. Tell me what you have in mind — the form below
+        takes about three minutes and gives me everything I need to quote honestly.</p>
+      <p class="small muted">I take a limited number of commissions each year so that each one gets
+        proper time. If I cannot fit yours in, I will say so straight away rather than keep you waiting.</p>
+    </div>
+    <div class="panel">
+      <span class="eyebrow">What you get</span>
+      <ul class="terms" style="font-size:.9rem;color:var(--ink-2)">
+        <li>A written quote with size, medium and a completion date before anything is charged.</li>
+        <li>A sketch or colour study for your approval before the painting begins.</li>
+        <li>Progress photographs at agreed stages.</li>
+        <li>A signed original with a dated certificate of authenticity.</li>
+        <li>Insured packing and delivery, quoted at cost.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head reveal"><span class="eyebrow">How it works</span><h2>Five steps, no surprises</h2></div>
+    <ol class="steps grid grid--2" id="commission-steps" style="gap:2rem"></ol>
+  </div>
+</section>
+
+<section class="section" id="pricing">
+  <div class="wrap" id="pricing-block">
+    <div class="section-head head-row reveal">
+      <div><span class="eyebrow">Indicative prices</span><h2>What a commission costs</h2></div>
+    </div>
+    <div class="table-scroll"><table class="table" id="pricing-table"></table></div>
+    <p class="small muted" id="pricing-note" style="margin-top:1rem"></p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap-narrow">
+    <div class="section-head reveal">
+      <span class="eyebrow">The brief</span>
+      <h2>Tell me what you want painted</h2>
+      <p class="lede">Every field except the starred ones is optional — send what you know and we
+        can work the rest out together.</p>
+    </div>
+
+    <form class="form" id="commission-form" data-enquiry="Commission request" novalidate>
+      <div style="position:absolute;left:-9999px" aria-hidden="true">
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off">
+      </div>
+
+      <fieldset class="fieldset">
+        <legend class="fieldset__legend">1 · About you</legend>
+        <div class="row">
+          <div class="field"><label for="c-name">Your name *</label>
+            <input class="input" id="c-name" name="name" required autocomplete="name"></div>
+          <div class="field"><label for="c-email">Email *</label>
+            <input class="input" id="c-email" name="email" type="email" required autocomplete="email"></div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="c-phone">Phone or WhatsApp</label>
+            <input class="input" id="c-phone" name="phone" autocomplete="tel"></div>
+          <div class="field"><label for="c-city">City &amp; country</label>
+            <input class="input" id="c-city" name="city" placeholder="Visakhapatnam, India"></div>
+        </div>
+      </fieldset>
+
+      <fieldset class="fieldset">
+        <legend class="fieldset__legend">2 · The painting</legend>
+        <div class="field">
+          <span class="field__label">What kind of work? *</span>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="type" value="Portrait" checked><span>Portrait</span></label>
+            <label class="choice"><input type="radio" name="type" value="Landscape or nature"><span>Landscape or nature</span></label>
+            <label class="choice"><input type="radio" name="type" value="Life study / drawing"><span>Life study / drawing</span></label>
+            <label class="choice"><input type="radio" name="type" value="Traditional or folk idiom"><span>Traditional or folk idiom</span></label>
+            <label class="choice"><input type="radio" name="type" value="Abstract"><span>Abstract</span></label>
+            <label class="choice"><input type="radio" name="type" value="A set for one space"><span>A set for one space</span></label>
+            <label class="choice"><input type="radio" name="type" value="Not sure yet"><span>Not sure yet</span></label>
+          </div>
+        </div>
+        <div class="field">
+          <label for="c-subject">Describe the subject *</label>
+          <textarea class="textarea" id="c-subject" name="subject_matter" required
+            placeholder="For example: my grandmother, from three photographs, seated, in her Kutchi embroidery — or: the Godavari at Bhadrachalam at dawn, wide format, for a hotel lobby."></textarea>
+          <span class="hint">The more you tell me, the more useful my quote will be.</span>
+        </div>
+        <div class="row">
+          <div class="field"><label for="c-theme">Closest to which of my series?</label>
+            <select class="select" id="c-theme" name="theme"><option value="">Not sure / let the artist decide</option></select></div>
+          <div class="field"><label for="c-medium">Preferred medium</label>
+            <select class="select" id="c-medium" name="medium">
+              <option>No preference — advise me</option>
+              <option>Oil on canvas</option>
+              <option>Acrylic on canvas</option>
+              <option>Watercolour on paper</option>
+              <option>Charcoal or pencil drawing</option>
+              <option>Ink and wash</option>
+              <option>Traditional technique (gouache, natural pigment)</option>
+              <option>Mixed media / abstract</option>
+            </select></div>
+        </div>
+        <div class="field">
+          <span class="field__label">Size</span>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="size" value="Small — up to 40 cm"><span>Small — up to 40 cm</span></label>
+            <label class="choice"><input type="radio" name="size" value="Medium — 40 to 70 cm" checked><span>Medium — 40 to 70 cm</span></label>
+            <label class="choice"><input type="radio" name="size" value="Large — 70 to 120 cm"><span>Large — 70 to 120 cm</span></label>
+            <label class="choice"><input type="radio" name="size" value="Very large — over 120 cm"><span>Very large — over 120 cm</span></label>
+            <label class="choice"><input type="radio" name="size" value="I have an exact size"><span>I have an exact size</span></label>
+          </div>
+          <input class="input" id="c-size-exact" name="size_exact" placeholder="Exact size in cm or inches (e.g. 90 × 60 cm)" hidden>
+        </div>
+        <div class="field">
+          <span class="field__label">Framing</span>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="framing" value="Unframed (rolled or stretched)" checked><span>Unframed (rolled or stretched)</span></label>
+            <label class="choice"><input type="radio" name="framing" value="Framed, please quote"><span>Framed, please quote</span></label>
+            <label class="choice"><input type="radio" name="framing" value="Not sure"><span>Not sure</span></label>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="fieldset">
+        <legend class="fieldset__legend">3 · Budget, date and use</legend>
+        <div class="row">
+          <div class="field"><label for="c-budget">Budget range</label>
+            <select class="select" id="c-budget" name="budget">
+              <option value="">Prefer to hear your quote</option>
+              <option>Under ₹25,000</option>
+              <option>₹25,000 – ₹50,000</option>
+              <option>₹50,000 – ₹1,00,000</option>
+              <option>₹1,00,000 – ₹2,50,000</option>
+              <option>Above ₹2,50,000</option>
+            </select></div>
+          <div class="field"><label for="c-deadline">Needed by</label>
+            <input class="input" id="c-deadline" name="deadline" type="date">
+            <span class="hint">Gifts and anniversaries: tell me the date, not the month.</span></div>
+        </div>
+        <div class="field">
+          <span class="field__label">Where will it live / how will it be used?</span>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="usage" value="My home" checked><span>My home</span></label>
+            <label class="choice"><input type="radio" name="usage" value="A gift"><span>A gift</span></label>
+            <label class="choice"><input type="radio" name="usage" value="Office, hotel or public space"><span>Office, hotel or public space</span></label>
+            <label class="choice"><input type="radio" name="usage" value="Publication / commercial reproduction"><span>Publication / commercial reproduction</span></label>
+          </div>
+          <span class="hint">Commercial reproduction is quoted separately from the painting itself.</span>
+        </div>
+        <div class="field">
+          <label for="c-refs">Reference photographs</label>
+          <textarea class="textarea" id="c-refs" name="reference_links" style="min-height:80px"
+            placeholder="Paste links to a Google Drive folder, WhatsApp album or Instagram post — or just say 'will send by email'."></textarea>
+          <span class="hint" id="upload-hint">Links work best. If you would rather email the photographs, send the form first and reply to my answer with the images attached.</span>
+        </div>
+        <div class="field"><label for="c-message">Anything else I should know</label>
+          <textarea class="textarea" id="c-message" name="message" style="min-height:90px"></textarea></div>
+        <div class="field"><label for="c-heard">How did you find me?</label>
+          <input class="input" id="c-heard" name="heard" placeholder="Instagram, a friend, an exhibition…"></div>
+      </fieldset>
+
+      <label class="check"><input type="checkbox" name="consent" required>
+        <span data-site="forms.consentText">I agree to be contacted about this enquiry.</span></label>
+      <div class="form-status" role="status"></div>
+      <div class="hero__actions" style="margin-top:0">
+        <button class="btn btn--accent" type="submit">Send the brief</button>
+        <span class="form__note">I reply to every brief, usually within 2–3 working days.</span>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap-narrow">
+    <div class="section-head reveal"><span class="eyebrow">Questions</span><h2>Before you write</h2></div>
+    <div class="details-list" id="faq-list"></div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div>
+        <p class="brand__name serif" style="font-size:1.6rem" data-site="artist.name">Your Name</p>
+        <p class="small muted" style="max-width:36ch" data-site="artist.shortBio">Painter.</p>
+        <p class="small muted"><span data-site="artist.location">City, India</span> · <span data-site="artist.studioNote">Studio visits by appointment.</span></p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul class="footer__links">
+          <li><a href="gallery.html">All work</a></li>
+          <li><a href="gallery.html?status=available">Available now</a></li>
+          <li><a href="commission.html">Commission a painting</a></li>
+          <li><a href="about.html">About the artist</a></li>
+          <li><a href="contact.html">Contact &amp; studio visits</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Get in touch</h4>
+        <ul class="footer__links">
+          <li><a data-site-attr="href:contact.email|mailto:" data-site-fill href="mailto:you@example.com">you@example.com</a></li>
+          <li><a data-site-attr="href:contact.phone|tel:" data-site-fill href="tel:">Phone</a></li>
+          <li><a data-site-attr="href:contact.whatsapp|https://wa.me/" href="#">WhatsApp</a></li>
+          <li><a data-site-attr="href:contact.instagram|" href="#">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© <span id="year">2026</span> <span data-site="artist.name">Your Name</span>. All images are the artist's copyright and may not be reproduced without permission.</span>
+      <span><a href="admin.html">Studio panel</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="data/site.js"></script>
+<script src="data/artworks.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/commission.js"></script>
+</body>
+</html>

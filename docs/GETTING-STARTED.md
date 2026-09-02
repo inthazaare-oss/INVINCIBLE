@@ -1,0 +1,140 @@
+# Your website — a plain-language guide
+
+No programming needed for anything in this guide.
+
+---
+
+## 1. What the site is made of
+
+```
+site/
+  index.html        the front page
+  gallery.html      all your work, with filters
+  artwork.html      one painting, with its price and an enquiry form
+  commission.html   the booking form clients fill in
+  about.html        your story
+  contact.html      contact details, message form, FAQ
+  admin.html        YOUR panel: add paintings, set prices  ← not for visitors
+  data/site.js      all the words: your name, bio, email, prices, FAQ
+  data/artworks.js  the gallery itself (the admin panel writes this for you)
+  images/works/     photographs of your paintings
+server/             OPTIONAL. Only if you want uploads and publishing automated.
+```
+
+Two files hold everything that is personal to you: **`site/data/site.js`** (words)
+and **`site/data/artworks.js`** (paintings). Nothing else needs touching.
+
+---
+
+## 2. First things to change
+
+Open `site/data/site.js` in any text editor (Notepad, TextEdit, VS Code). Change only
+the text between quote marks. Every line marked `// SAMPLE` is placeholder text
+written for you as an example — replace it with your own.
+
+Change at minimum:
+
+| What | Where |
+|---|---|
+| Your name | `artist.name` |
+| One-line description | `artist.tagline` |
+| Your bio | `artist.shortBio` and `artist.longBio` |
+| **Your email address** | `contact.email` — this is where every enquiry goes |
+| Phone / WhatsApp / Instagram | `contact.*` — leave `""` to hide one |
+| Commission prices | `commissionPricing.tiers` |
+| Commission terms (advance %, revisions) | `commissionSteps` |
+| Exhibitions | `exhibitions` — set to `[]` to hide the section |
+
+Save the file and refresh the page in your browser. That is the whole edit cycle.
+
+---
+
+## 3. Adding your paintings
+
+1. Open **`site/admin.html`** in your browser.
+2. Press **+ Add a work**.
+3. Type the title, then drag the photograph onto the drop area. The panel shrinks
+   it for the web automatically — drop the picture straight from your phone.
+4. Fill in year, size, medium, price and which of your series it belongs to.
+5. Press **Save this work**.
+6. When you have added everything, press **Export gallery file**. Your browser
+   downloads `artworks.js`. Also press **Download image file** for each painting.
+7. Put the downloaded `artworks.js` into your website's `data/` folder (replacing
+   the old one), and the images into `images/works/`. Your site is updated.
+
+*(Step 6–7 disappear if you run the optional server — see section 6 — where a single
+**Publish live** button does all of it.)*
+
+Photographing paintings: flat daylight, no flash, camera square to the canvas, crop
+to the edge of the work. A good photograph sells; a yellow, tilted one does not.
+
+---
+
+## 4. Making enquiries reach your inbox
+
+Out of the box the site uses **`mailto`**: when a visitor presses Send, their own
+email programme opens with the enquiry already written out. It works everywhere with
+no setup, but it depends on the visitor having email configured, and it cannot carry
+attachments.
+
+For a proper form that emails you directly, sign up for a free form service —
+[Web3Forms](https://web3forms.com) and [Formspree](https://formspree.io) are the
+common ones — and put its address into `site/data/site.js`:
+
+```js
+forms: {
+  mode: "endpoint",
+  formEndpoint: "https://api.web3forms.com/submit",
+  accessKey: "paste-your-access-key-here",
+  ...
+}
+```
+
+If a send ever fails, the form falls back to `mailto` automatically and shows your
+email address, so an enquiry is never simply lost.
+
+---
+
+## 5. Putting the site on the internet
+
+The `site/` folder is a complete website. Any of these work, and the first two are free:
+
+- **Netlify / Cloudflare Pages** — drag the `site` folder onto their upload page.
+- **GitHub Pages** — push this repository and point Pages at the `site` folder.
+- **Any ordinary web host (cPanel, Hostinger, etc.)** — upload the contents of
+  `site/` by FTP into `public_html`.
+
+Buy a domain in your own name (`yourname.com` or `.in`) rather than using a free
+subdomain — it costs a few hundred rupees a year and it is your address for decades.
+
+**One caution:** on plain hosting, `admin.html` is a public address. Anyone who
+guesses it can open it and play with their own copy, though they cannot change your
+live gallery (that needs your hosting password). If you would rather it were locked,
+either rename the file to something only you know, delete it from the uploaded copy
+and keep it locally, or run the server below, which puts a password on it.
+
+---
+
+## 6. The optional studio server
+
+Only worth it if you would like: real uploads, one-click publishing, a stored copy of
+every enquiry, and a password on your panel. It needs Node.js installed, and nothing
+else — no `npm install`.
+
+```bash
+STUDIO_PASSWORD="something-only-you-know" node server/server.mjs
+# then open http://localhost:4000
+```
+
+Full options are in `server/README.md`.
+
+---
+
+## 7. Things worth doing in the first month
+
+1. Replace every `// SAMPLE` line in `site/data/site.js` with your own words.
+2. Photograph and add 15–25 works — enough that the filters feel worth using.
+3. Write two or three sentences of story for each painting. This is what makes a
+   stranger write to you, more than the price does.
+4. Set up a real form endpoint (section 4) and send yourself a test enquiry.
+5. Put the site's address in your Instagram bio, and on the back of your business card.

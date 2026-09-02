@@ -1,0 +1,8 @@
+# Enquiries contain other people's personal details — never commit them.
+server/data/*.json
+
+# OS and editor noise
+.DS_Store
+Thumbs.db
+*.swp
+node_modules/

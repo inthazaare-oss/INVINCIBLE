@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact the studio — enquiries, visits and press</title>
+  <meta name="description" content="Write directly to the artist about buying work, commissions, prints, studio visits, exhibitions or licensing.">
+  <meta property="og:title" content="Contact the studio — enquiries, visits and press">
+  <meta property="og:description" content="Write directly to the artist about buying work, commissions, prints, studio visits, exhibitions or licensing.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23faf7f2'/%3E%3Ccircle cx='16' cy='13' r='7' fill='%23a4552f'/%3E%3Cpath d='M4 28 Q16 14 28 28 Z' fill='%23221f1c'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<a class="visually-hidden" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="index.html">
+      <span class="brand__name" data-site="artist.name">Your Name</span>
+      <span class="brand__role">Painter &amp; Draughtsman</span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="gallery.html">Work</a>
+      <a href="gallery.html?theme=india-states">India Series</a>
+      <a href="commission.html">Commissions</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a class="btn btn--sm" href="commission.html">Book a Commission</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="section" style="padding-bottom:0">
+  <div class="wrap-narrow">
+    <span class="eyebrow">Contact</span>
+    <h1>Write to the studio</h1>
+    <p class="lede">For enquiries about buying a painting, commissioning one, arranging a studio
+      visit, exhibitions, press, or licensing an image — this reaches me directly.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap-narrow">
+    <div class="grid grid--3" style="margin-bottom:clamp(2rem,5vw,3rem)">
+      <div><h4 class="eyebrow">Email</h4><p><a data-site-attr="href:contact.email|mailto:" data-site-fill href="mailto:you@example.com">you@example.com</a></p></div>
+      <div><h4 class="eyebrow">Phone / WhatsApp</h4><p><a data-site-attr="href:contact.phone|tel:" data-site-fill href="tel:">—</a></p></div>
+      <div><h4 class="eyebrow">Studio</h4><p><span data-site="artist.location">City, India</span><br><span class="small muted" data-site="artist.studioNote">By appointment.</span></p></div>
+    </div>
+
+    <form class="form panel" data-enquiry="Website message" novalidate>
+      <div style="position:absolute;left:-9999px" aria-hidden="true"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+      <div class="row">
+        <div class="field"><label for="k-name">Your name *</label><input class="input" id="k-name" name="name" required></div>
+        <div class="field"><label for="k-email">Email *</label><input class="input" id="k-email" name="email" type="email" required></div>
+      </div>
+      <div class="field"><span class="field__label">What is this about?</span>
+        <div class="choices">
+          <label class="choice"><input type="radio" name="subject_matter" value="Buying a painting" checked><span>Buying a painting</span></label>
+          <label class="choice"><input type="radio" name="subject_matter" value="A commission"><span>A commission</span></label>
+          <label class="choice"><input type="radio" name="subject_matter" value="Prints"><span>Prints</span></label>
+          <label class="choice"><input type="radio" name="subject_matter" value="Studio visit"><span>Studio visit</span></label>
+          <label class="choice"><input type="radio" name="subject_matter" value="Exhibition or press"><span>Exhibition or press</span></label>
+          <label class="choice"><input type="radio" name="subject_matter" value="Licensing an image"><span>Licensing an image</span></label>
+        </div>
+      </div>
+      <div class="field"><label for="k-msg">Message *</label>
+        <textarea class="textarea" id="k-msg" name="message" required></textarea></div>
+      <label class="check"><input type="checkbox" name="consent" required>
+        <span data-site="forms.consentText">I agree to be contacted about this enquiry.</span></label>
+      <div class="form-status" role="status"></div>
+      <div class="hero__actions" style="margin-top:0">
+        <button class="btn btn--accent" type="submit">Send message</button>
+        <a class="btn btn--ghost" data-site-attr="href:contact.whatsapp|https://wa.me/" href="#">Message on WhatsApp</a>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap-narrow">
+    <div class="section-head reveal"><span class="eyebrow">Questions</span><h2>Frequently asked</h2></div>
+    <div class="details-list" id="faq-list"></div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div>
+        <p class="brand__name serif" style="font-size:1.6rem" data-site="artist.name">Your Name</p>
+        <p class="small muted" style="max-width:36ch" data-site="artist.shortBio">Painter.</p>
+        <p class="small muted"><span data-site="artist.location">City, India</span> · <span data-site="artist.studioNote">Studio visits by appointment.</span></p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul class="footer__links">
+          <li><a href="gallery.html">All work</a></li>
+          <li><a href="gallery.html?status=available">Available now</a></li>
+          <li><a href="commission.html">Commission a painting</a></li>
+          <li><a href="about.html">About the artist</a></li>
+          <li><a href="contact.html">Contact &amp; studio visits</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Get in touch</h4>
+        <ul class="footer__links">
+          <li><a data-site-attr="href:contact.email|mailto:" data-site-fill href="mailto:you@example.com">you@example.com</a></li>
+          <li><a data-site-attr="href:contact.phone|tel:" data-site-fill href="tel:">Phone</a></li>
+          <li><a data-site-attr="href:contact.whatsapp|https://wa.me/" href="#">WhatsApp</a></li>
+          <li><a data-site-attr="href:contact.instagram|" href="#">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© <span id="year">2026</span> <span data-site="artist.name">Your Name</span>. All images are the artist's copyright and may not be reproduced without permission.</span>
+      <span><a href="admin.html">Studio panel</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="data/site.js"></script>
+<script src="data/artworks.js"></script>
+<script src="assets/js/app.js"></script>
+
+<script>
+(function () {
+  var S = window.Studio;
+  document.getElementById("faq-list").innerHTML = (S.site.faq || []).map(function (f) {
+    return "<details><summary>" + S.esc(f.q) + "</summary><p>" + S.esc(f.a) + "</p></details>";
+  }).join("");
+})();
+</script>
+
+</body>
+</html>

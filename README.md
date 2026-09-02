@@ -1,5 +1,47 @@
 # INVINCIBLE
 
+## Artist portfolio & commission-booking website
+
+A complete website for a working painter: a gallery of paintings and drawings, a
+booking form that sends commission briefs straight to the artist's inbox, and a
+private panel where the artist adds new work without touching any code.
+
+```
+site/     the website — plain HTML, CSS and JavaScript. No build step, no npm.
+server/   OPTIONAL Node server for real uploads, one-click publishing and stored enquiries.
+docs/     how to use it, and the market analysis behind the design.
+tools/    the script that made the placeholder images (delete once real photos are in).
+```
+
+**Start here → [`docs/GETTING-STARTED.md`](docs/GETTING-STARTED.md)** (plain language, no code)
+**Why it is designed this way → [`docs/ANALYSIS-INDIAN-ART-WEBSITES.md`](docs/ANALYSIS-INDIAN-ART-WEBSITES.md)**
+
+### See it running
+
+```bash
+# either: any static server, the site is just files
+cd site && python3 -m http.server 8000        # then open http://localhost:8000
+
+# or: with uploads, publishing and stored enquiries
+STUDIO_PASSWORD="choose-one" node server/server.mjs   # then open http://localhost:4000
+```
+
+### What is where
+
+| I want to change… | Edit |
+|---|---|
+| Name, bio, email, prices, FAQ, series | `site/data/site.js` |
+| The paintings themselves | `site/admin.html` in a browser (it writes `site/data/artworks.js`) |
+| Colours and typography | `site/assets/css/style.css` |
+
+The sample paintings, prices, bio and exhibitions shipped in this repository are
+**placeholders**, and the images in `site/images/works/` are generated stand-ins.
+Every line marked `// SAMPLE` in `site/data/site.js` is there to be replaced.
+
+---
+
+# INVINCIBLE
+
 ## NotebookLM setup
 
 This repo is set up to use [notebooklm-py](https://github.com/teng-lin/notebooklm-py) — an unofficial Python API/CLI for Google NotebookLM, with a Claude Code skill for agent-driven use.

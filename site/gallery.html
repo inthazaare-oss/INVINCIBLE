@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The collection — paintings & drawings for sale</title>
+  <meta name="description" content="Browse original paintings and drawings by subject: landscapes, portraits, life studies, traditional and abstract work, India's states, deserts, mountains, rivers and political life.">
+  <meta property="og:title" content="The collection — paintings & drawings for sale">
+  <meta property="og:description" content="Browse original paintings and drawings by subject: landscapes, portraits, life studies, traditional and abstract work, India's states, deserts, mountains, rivers and political life.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23faf7f2'/%3E%3Ccircle cx='16' cy='13' r='7' fill='%23a4552f'/%3E%3Cpath d='M4 28 Q16 14 28 28 Z' fill='%23221f1c'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<a class="visually-hidden" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="index.html">
+      <span class="brand__name" data-site="artist.name">Your Name</span>
+      <span class="brand__role">Painter &amp; Draughtsman</span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="gallery.html">Work</a>
+      <a href="gallery.html?theme=india-states">India Series</a>
+      <a href="commission.html">Commissions</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a class="btn btn--sm" href="commission.html">Book a Commission</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="section" style="padding-bottom:0">
+  <div class="wrap">
+    <span class="eyebrow">The collection</span>
+    <h1 id="gallery-title">The collection</h1>
+    <p class="lede" id="gallery-blurb">Originals, studies and drawings.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="filters">
+      <div class="filters__row" id="theme-chips" role="group" aria-label="Filter by subject"></div>
+      <div class="filters__row" style="margin-top:.8rem">
+        <label class="visually-hidden" for="f-search">Search the collection</label>
+        <input class="input" id="f-search" type="search" placeholder="Search title, place or medium…" style="min-width:min(260px,100%)">
+        <label class="visually-hidden" for="f-style">Style</label>
+        <select class="select" id="f-style"></select>
+        <label class="visually-hidden" for="f-medium">Medium</label>
+        <select class="select" id="f-medium"></select>
+        <label class="visually-hidden" for="f-status">Availability</label>
+        <select class="select" id="f-status">
+          <option value="all">Any availability</option>
+          <option value="forsale">For sale</option>
+          <option value="available">Available</option>
+          <option value="reserved">Reserved</option>
+          <option value="sold">Sold</option>
+          <option value="nfs">Not for sale</option>
+        </select>
+        <label class="visually-hidden" for="f-sort">Sort</label>
+        <select class="select" id="f-sort">
+          <option value="newest">Newest first</option>
+          <option value="priceUp">Price: low to high</option>
+          <option value="priceDown">Price: high to low</option>
+          <option value="largest">Largest first</option>
+          <option value="title">Title A–Z</option>
+        </select>
+        <button class="chip" id="f-clear" type="button">Clear</button>
+        <span class="filters__count" id="result-count"></span>
+      </div>
+    </div>
+
+    <div class="grid grid--3" id="gallery-grid"></div>
+
+    <noscript><p class="lede">This gallery needs JavaScript switched on to filter and display the paintings.
+      If it does not load, please write to the studio and I will send images by email.</p></noscript>
+
+    <div class="panel panel--edge" style="margin-top:clamp(3rem,7vw,5rem)">
+      <div class="head-row">
+        <div style="max-width:50ch">
+          <h2 style="margin-bottom:.3em">Not finding the one?</h2>
+          <p class="muted" style="margin:0">Most of my work is bought before it reaches this page. Tell me the
+            subject, the size and the room, and I will paint it for you — or tell you honestly if someone else should.</p>
+        </div>
+        <a class="btn btn--accent" href="commission.html">Book a commission</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div>
+        <p class="brand__name serif" style="font-size:1.6rem" data-site="artist.name">Your Name</p>
+        <p class="small muted" style="max-width:36ch" data-site="artist.shortBio">Painter.</p>
+        <p class="small muted"><span data-site="artist.location">City, India</span> · <span data-site="artist.studioNote">Studio visits by appointment.</span></p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul class="footer__links">
+          <li><a href="gallery.html">All work</a></li>
+          <li><a href="gallery.html?status=available">Available now</a></li>
+          <li><a href="commission.html">Commission a painting</a></li>
+          <li><a href="about.html">About the artist</a></li>
+          <li><a href="contact.html">Contact &amp; studio visits</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Get in touch</h4>
+        <ul class="footer__links">
+          <li><a data-site-attr="href:contact.email|mailto:" data-site-fill href="mailto:you@example.com">you@example.com</a></li>
+          <li><a data-site-attr="href:contact.phone|tel:" data-site-fill href="tel:">Phone</a></li>
+          <li><a data-site-attr="href:contact.whatsapp|https://wa.me/" href="#">WhatsApp</a></li>
+          <li><a data-site-attr="href:contact.instagram|" href="#">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© <span id="year">2026</span> <span data-site="artist.name">Your Name</span>. All images are the artist's copyright and may not be reproduced without permission.</span>
+      <span><a href="admin.html">Studio panel</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="data/site.js"></script>
+<script src="data/artworks.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/gallery.js"></script>
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Studio panel — manage your gallery</title>
+  <meta name="description" content="Private panel for the artist: add paintings, upload photographs, set prices and availability, and publish the gallery.">
+  <meta property="og:title" content="Studio panel — manage your gallery">
+  <meta property="og:description" content="Private panel for the artist: add paintings, upload photographs, set prices and availability, and publish the gallery.">
+  <meta property="og:type" content="website">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23faf7f2'/%3E%3Ccircle cx='16' cy='13' r='7' fill='%23a4552f'/%3E%3Cpath d='M4 28 Q16 14 28 28 Z' fill='%23221f1c'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<a class="visually-hidden" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="index.html">
+      <span class="brand__name" data-site="artist.name">Your Name</span>
+      <span class="brand__role">Painter &amp; Draughtsman</span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="gallery.html">Work</a>
+      <a href="gallery.html?theme=india-states">India Series</a>
+      <a href="commission.html">Commissions</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a class="btn btn--sm" href="commission.html">Book a Commission</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="section" style="padding-bottom:0">
+  <div class="wrap">
+    <div class="head-row">
+      <div>
+        <span class="eyebrow">Studio panel</span>
+        <h1 style="margin-bottom:.2em">Your gallery</h1>
+        <p class="lede" style="margin-bottom:0">Add a painting, change a price, mark something sold.
+          Nothing here is visible to visitors until you publish or export.</p>
+      </div>
+      <div class="admin-bar">
+        <span class="badge" id="mode-badge">Checking…</span>
+        <span class="badge" id="dirty-badge" hidden>Unsaved changes</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="admin">
+  <div class="wrap admin-shell">
+
+    <aside class="admin-side">
+      <button class="btn btn--sm" id="btn-new" type="button">+ Add a work</button>
+      <label class="visually-hidden" for="admin-search">Search your works</label>
+      <input class="input" id="admin-search" type="search" placeholder="Search your works…">
+      <ul class="admin-list" id="admin-list"></ul>
+      <p class="small muted" id="admin-count"></p>
+      <div class="admin-bar">
+        <button class="chip" id="btn-up" type="button" title="Move earlier in the gallery">↑ Move up</button>
+        <button class="chip" id="btn-down" type="button" title="Move later in the gallery">↓ Move down</button>
+      </div>
+      <hr class="rule">
+      <div class="admin-bar">
+        <button class="btn btn--sm btn--accent" id="btn-publish" type="button" hidden>Publish live</button>
+        <button class="btn btn--sm" id="btn-export" type="button">Export gallery file</button>
+        <button class="chip" id="btn-copy" type="button">Copy to clipboard</button>
+        <button class="chip" id="btn-import" type="button">Import a file</button>
+        <button class="chip" id="btn-discard" type="button">Discard draft</button>
+        <input type="file" id="import-input" accept=".js,.json,text/javascript,application/json" hidden>
+      </div>
+    </aside>
+
+    <div>
+      <div class="form-status is-info" id="admin-status">Loading your gallery…</div>
+
+      <p class="lede" id="empty-note">Choose a work on the left, or add a new one.</p>
+
+      <form class="form" id="work-form" hidden>
+        <fieldset class="fieldset">
+          <legend class="fieldset__legend">The photograph</legend>
+          <div class="dropzone" id="dropzone" role="button" tabindex="0"></div>
+          <input type="file" id="file-input" accept="image/*" hidden>
+          <div class="admin-bar">
+            <button class="chip" id="btn-download-image" type="button">Download image file</button>
+            <button class="chip" id="btn-embed-image" type="button">Embed image in file</button>
+          </div>
+          <div class="field">
+            <label for="a-image">Image path</label>
+            <input class="input" id="a-image" name="image" placeholder="images/works/my-painting.jpg">
+            <span class="hint">Filled in for you when you drop a photograph. Photograph your paintings
+              in flat daylight, square to the canvas, and crop to the edge of the work.</span>
+          </div>
+        </fieldset>
+
+        <fieldset class="fieldset">
+          <legend class="fieldset__legend">The work</legend>
+          <div class="field"><label for="a-title">Title</label>
+            <input class="input" id="a-title" name="title_" required></div>
+          <div class="row--3 row">
+            <div class="field"><label for="a-year">Year</label><input class="input" id="a-year" name="year" type="number" min="1900" max="2100"></div>
+            <div class="field"><label for="a-w">Width (cm)</label><input class="input" id="a-w" name="w_cm" type="number" min="1"></div>
+            <div class="field"><label for="a-h">Height (cm)</label><input class="input" id="a-h" name="h_cm" type="number" min="1"></div>
+          </div>
+          <div class="row">
+            <div class="field"><label for="a-medium">Medium</label>
+              <input class="input" id="a-medium" name="medium" list="media" placeholder="Oil on canvas">
+              <datalist id="media">
+                <option>Oil on canvas</option><option>Oil on canvas board</option>
+                <option>Acrylic on canvas</option><option>Watercolour on paper</option>
+                <option>Charcoal on paper</option><option>Ink and wash on paper</option>
+                <option>Pastel on paper</option><option>Gouache on paper</option>
+                <option>Mixed media on canvas</option>
+              </datalist></div>
+            <div class="field"><label for="a-style">Style</label>
+              <input class="input" id="a-style" name="style_" list="styles" placeholder="Impressionist">
+              <datalist id="styles">
+                <option>Impressionist</option><option>Realist</option><option>Traditional</option>
+                <option>Abstract</option><option>Line drawing</option>
+              </datalist></div>
+          </div>
+          <div class="field"><span class="field__label">Series / subjects</span>
+            <div class="choices" id="theme-boxes"></div></div>
+          <div class="field"><label for="a-place">Place</label>
+            <input class="input" id="a-place" name="place" placeholder="Jaisalmer, Rajasthan"></div>
+          <div class="field"><label for="a-story">The story behind it</label>
+            <textarea class="textarea" id="a-story" name="story" style="min-height:100px"></textarea>
+            <span class="hint">Two or three sentences. This is what makes a visitor write to you.</span></div>
+        </fieldset>
+
+        <fieldset class="fieldset">
+          <legend class="fieldset__legend">Selling</legend>
+          <div class="row">
+            <div class="field"><label for="a-price">Price in rupees</label>
+              <input class="input" id="a-price" name="price" type="number" min="0" step="500" placeholder="Leave empty for “Price on request”"></div>
+            <div class="field"><label for="a-status">Availability</label>
+              <select class="select" id="a-status" name="status">
+                <option value="available">Available</option>
+                <option value="reserved">Reserved</option>
+                <option value="sold">Sold</option>
+                <option value="nfs">Not for sale</option>
+              </select></div>
+          </div>
+          <div class="choices">
+            <label class="check"><input type="checkbox" name="prints"><span>Prints available</span></label>
+            <label class="check"><input type="checkbox" name="framed"><span>Sold framed</span></label>
+            <label class="check"><input type="checkbox" name="featured"><span>Show on the front page</span></label>
+          </div>
+        </fieldset>
+
+        <div class="admin-bar">
+          <button class="btn" type="submit">Save this work</button>
+          <button class="chip" id="btn-duplicate" type="button">Duplicate</button>
+          <button class="chip" id="btn-delete" type="button">Delete</button>
+        </div>
+      </form>
+
+      <div class="section" style="padding-bottom:0">
+        <h2>Enquiries</h2>
+        <div id="enquiries"></div>
+      </div>
+
+      <div class="section" style="padding-bottom:0">
+        <h2>How this page works</h2>
+        <div class="details-list">
+          <details><summary>Where do my changes go?</summary>
+            <p>Everything you type is kept in this browser as a draft, so you can close the page and
+              come back. Nothing reaches your website until you press <strong>Publish live</strong>
+              (when the studio server is running) or <strong>Export gallery file</strong> and upload
+              the downloaded <code>artworks.js</code> into your site's <code>data/</code> folder.</p></details>
+          <details><summary>Do I have to resize my photographs?</summary>
+            <p>No. Drop in the photograph straight from your phone or camera — this page shrinks it to
+              1800 pixels on its longest side, which is plenty for the web and keeps your site fast.</p></details>
+          <details><summary>Is this page private?</summary>
+            <p>Not by itself. On plain web hosting anyone who guesses the address can open it, though
+              they can only change their own copy — your live gallery can only be changed by uploading
+              a file, which needs your hosting password. If you want the panel properly locked, run the
+              optional studio server, which asks for a password before it will publish anything.</p></details>
+          <details><summary>What happens to an enquiry?</summary>
+            <p>It is emailed to the address in <code>data/site.js</code>. If you run the studio server,
+              a copy of every enquiry is also kept and listed above, so nothing is lost to a spam folder.</p></details>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div>
+        <p class="brand__name serif" style="font-size:1.6rem" data-site="artist.name">Your Name</p>
+        <p class="small muted" style="max-width:36ch" data-site="artist.shortBio">Painter.</p>
+        <p class="small muted"><span data-site="artist.location">City, India</span> · <span data-site="artist.studioNote">Studio visits by appointment.</span></p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul class="footer__links">
+          <li><a href="gallery.html">All work</a></li>
+          <li><a href="gallery.html?status=available">Available now</a></li>
+          <li><a href="commission.html">Commission a painting</a></li>
+          <li><a href="about.html">About the artist</a></li>
+          <li><a href="contact.html">Contact &amp; studio visits</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Get in touch</h4>
+        <ul class="footer__links">
+          <li><a data-site-attr="href:contact.email|mailto:" data-site-fill href="mailto:you@example.com">you@example.com</a></li>
+          <li><a data-site-attr="href:contact.phone|tel:" data-site-fill href="tel:">Phone</a></li>
+          <li><a data-site-attr="href:contact.whatsapp|https://wa.me/" href="#">WhatsApp</a></li>
+          <li><a data-site-attr="href:contact.instagram|" href="#">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© <span id="year">2026</span> <span data-site="artist.name">Your Name</span>. All images are the artist's copyright and may not be reproduced without permission.</span>
+      <span><a href="admin.html">Studio panel</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="data/site.js"></script>
+<script src="data/artworks.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/admin.js"></script>
+</body>
+</html>
