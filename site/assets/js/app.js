@@ -271,6 +271,8 @@
           }
           if (res.via !== "mailto") form.reset();
           form.setAttribute("data-sent", "true");
+          /* pages that hold state of their own (the shop basket) listen for this */
+          form.dispatchEvent(new CustomEvent("enquiry:sent", { bubbles: true, detail: { via: res.via } }));
         }).catch(function (err) {
           if (status) {
             status.className = "form-status is-err";

@@ -139,5 +139,75 @@ window.SITE = {
     "Prices are for the unframed work unless the listing says otherwise.",
     "Insured shipping across India and worldwide, quoted at cost.",
     "Once an enquiry is agreed, the work is reserved for 5 days pending payment." // SAMPLE
-  ]
+  ],
+
+  /* --- 10. The studio shop: your hand-made paints and materials ---------- *
+   * The products themselves live in data/products.js and are managed from
+   * the Materials tab of admin.html. This section is the words around them. */
+  shop: {
+    show: true,                                           // false hides the shop entirely
+    heading: "Paints made by hand, in the studio",        // SAMPLE
+    intro:
+      "I grind my own pigments and mull my own paint, because the colour that comes " +
+      "out of a jar you filled yourself behaves differently on the brush. What I make " +
+      "beyond my own use, I sell — in small batches, to people who want to work the " +
+      "same way.",                                        // SAMPLE — rewrite in your own voice
+    categories: [
+      { id: "pigments", name: "Pigments",            blurb: "Hand-ground earths, minerals and lakes, sold loose by weight." },
+      { id: "paints",   name: "Paints & sets",       blurb: "Mulled and poured by hand, ready to paint with." },
+      { id: "mediums",  name: "Mediums & binders",   blurb: "What turns a pigment into paint." },
+      { id: "grounds",  name: "Grounds & surfaces",  blurb: "Panels, papers and the grounds I prepare them with." },
+      { id: "kits",     name: "Kits",                blurb: "Sets put together for someone starting out." }
+    ],
+    /* How an order is taken. There is no card payment on the site: an order
+       becomes an email to you, and you send a payment link or UPI request. */
+    orderNote:
+      "Choose what you need and send the order. I reply within two working days with " +
+      "the total including packing and delivery to your pin code, and a UPI or bank " +
+      "transfer link. Nothing is charged on this website.",   // SAMPLE terms
+    terms: [
+      "Everything is made in small batches, so quantities are limited and colours vary " +
+      "slightly from batch to batch. That variation is the point, not a fault.",
+      "Pigments are sold as dry powder. Wear a mask when grinding, keep them off food " +
+      "surfaces, and away from children.",                    // SAMPLE — keep, it is honest
+      "Made-to-order colours are ground after you order; the lead time is on each item.",
+      "Dispatch is within 3 working days for stocked items, by courier, across India.",  // SAMPLE
+      "Powders and liquids are packed for transport, but some couriers restrict them — " +
+      "confirm your city with me before ordering large quantities."
+    ]
+  },
+
+  /* --- 11. Design work for spaces ---------------------------------------- */
+  spaces: {
+    show: true,
+    heading: "Work made for a particular wall",            // SAMPLE
+    intro:
+      "A mural in a stairwell, a set of paintings that carries one idea across a " +
+      "lobby, artwork chosen and made for a restaurant's rooms. This is design work: " +
+      "it starts from your space, its light and its colours, not from what is already " +
+      "in my studio.",                                     // SAMPLE
+    types: [
+      { name: "Murals, painted on site",  blurb: "Directly on the wall, in acrylic or mineral paint. Homes, cafés, schools, lobbies." },
+      { name: "A set for one room",       blurb: "Three to nine works planned together, sized and coloured for one space." },
+      { name: "Hospitality & offices",    blurb: "Hotels, restaurants and offices — a scheme across several rooms, delivered in phases." },
+      { name: "One large statement work", blurb: "A single painting made to the measurements of a wall you already have in mind." }
+    ],
+    process: [
+      { title: "Send the space",   text: "Photographs of the wall, its measurements, and what the room is for. A floor plan if you have one." },
+      { title: "Site visit or call", text: "For murals and larger schemes I visit, or we walk the space together on a video call. Travel is quoted separately." },
+      { title: "Concept & quote",  text: "You receive a colour concept, a scaled drawing showing the work on your wall, and a fixed quote." },   // SAMPLE
+      { title: "Advance & making", text: "50% confirms the dates. Studio work is photographed as it goes; on-site work is scheduled with your builder or manager." }, // SAMPLE
+      { title: "Install & hand over", text: "Murals are finished and sealed on site; studio works are delivered, hung and photographed for you." }
+    ],
+    pricingNote:
+      "Murals are usually quoted by area and complexity, sets of works by the piece. " +
+      "These are starting points for 2026; travel, scaffolding, materials for on-site " +
+      "work and installation are quoted separately.",       // SAMPLE
+    priced: [
+      { work: "Mural, single colour ground with figures", basis: "per sq ft of wall", from: 900 },   // SAMPLE
+      { work: "Mural, detailed narrative work",           basis: "per sq ft of wall", from: 2200 },  // SAMPLE
+      { work: "Set of works for a room",                  basis: "per painting",      from: 45000 }, // SAMPLE
+      { work: "Concept & colour scheme only",             basis: "per space",         from: 25000 }  // SAMPLE
+    ]
+  }
 };

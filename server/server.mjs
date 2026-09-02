@@ -33,7 +33,11 @@ import vm from "node:vm";
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const SITE = path.join(HERE, "..", "site");
 const WORKS_FILE = path.join(SITE, "data", "artworks.js");
-const IMAGE_DIR = path.join(SITE, "images", "works");
+const PRODUCTS_FILE = path.join(SITE, "data", "products.js");
+const IMAGE_DIRS = {                       // where uploads may land, by ?folder=
+  works: path.join(SITE, "images", "works"),
+  products: path.join(SITE, "images", "products")
+};
 const DATA_DIR = path.join(HERE, "data");
 const ENQUIRY_FILE = path.join(DATA_DIR, "enquiries.json");
 
@@ -92,31 +96,35 @@ function readBody(req, limit) {
 }
 
 /* ------------------------------------------------------------- gallery io */
-async function readWorks() {
-  /* The gallery file is JavaScript, not JSON — it is hand-editable and may use
-     unquoted keys or joined strings — so it is evaluated in an empty sandbox
+async function readDataFile(file, globalName) {
+  /* These data files are JavaScript, not JSON — hand-editable, so they may use
+     unquoted keys or joined strings — and are evaluated in an empty sandbox
      with no access to this process rather than parsed as JSON. */
   try {
-    const text = await fsp.readFile(WORKS_FILE, "utf8");
+    const text = await fsp.readFile(file, "utf8");
     const sandbox = { window: {} };
     vm.createContext(sandbox);
-    new vm.Script(text, { filename: "artworks.js" }).runInContext(sandbox, { timeout: 2000 });
-    return Array.isArray(sandbox.window.ARTWORKS) ? sandbox.window.ARTWORKS : [];
+    new vm.Script(text, { filename: path.basename(file) }).runInContext(sandbox, { timeout: 2000 });
+    return Array.isArray(sandbox.window[globalName]) ? sandbox.window[globalName] : [];
   } catch (e) {
-    console.error("[gallery] could not read", WORKS_FILE, "-", e.message);
+    console.error("[data] could not read", file, "-", e.message);
     return [];
   }
 }
-async function writeWorks(works) {
+const readWorks = () => readDataFile(WORKS_FILE, "ARTWORKS");
+const readProducts = () => readDataFile(PRODUCTS_FILE, "PRODUCTS");
+async function writeDataFile(file, globalName, rows, what) {
   const header =
     "/* =============================================================================\n" +
-    "   artworks.js — the gallery. Written by the Studio Panel on " +
+    `   ${path.basename(file)} — ${what}. Written by the Studio Panel on ` +
     new Date().toISOString() + ".\n" +
     "   ========================================================================== */\n\n";
-  const tmp = WORKS_FILE + ".tmp";
-  await fsp.writeFile(tmp, header + "window.ARTWORKS = " + JSON.stringify(works, null, 2) + ";\n", "utf8");
-  await fsp.rename(tmp, WORKS_FILE);                 // atomic: never a half-written gallery
+  const tmp = file + ".tmp";
+  await fsp.writeFile(tmp, header + `window.${globalName} = ` + JSON.stringify(rows, null, 2) + ";\n", "utf8");
+  await fsp.rename(tmp, file);            // atomic: never a half-written gallery or shop
 }
+const writeWorks = (works) => writeDataFile(WORKS_FILE, "ARTWORKS", works, "the gallery");
+const writeProducts = (items) => writeDataFile(PRODUCTS_FILE, "PRODUCTS", items, "the studio shop");
 
 /* --------------------------------------------------- minimal multipart bit *
  * Parses one file field out of a multipart/form-data body. That is all the
@@ -206,6 +214,18 @@ const server = http.createServer(async (req, res) => {
       return json(res, 200, { ok: true, count: body.works.length });
     }
 
+    if (route === "/api/products" && req.method === "GET") {
+      return json(res, 200, { ok: true, products: await readProducts() });
+    }
+
+    if (route === "/api/products" && req.method === "PUT") {
+      if (!authorised(req)) return demandAuth(res);
+      const body = JSON.parse((await readBody(req, MAX_JSON)).toString("utf8"));
+      if (!Array.isArray(body.products)) return json(res, 400, { ok: false, error: "expected { products: [...] }" });
+      await writeProducts(body.products);
+      return json(res, 200, { ok: true, count: body.products.length });
+    }
+
     if (route === "/api/upload" && req.method === "POST") {
       if (!authorised(req)) return demandAuth(res);
       const buf = await readBody(req, MAX_UPLOAD);
@@ -216,13 +236,15 @@ const server = http.createServer(async (req, res) => {
       if (![".jpg", ".jpeg", ".png", ".webp", ".avif", ".gif"].includes(ext)) {
         return json(res, 415, { ok: false, error: "unsupported image type " + ext });
       }
+      const folder = url.searchParams.get("folder") === "products" ? "products" : "works";
+      const dir = IMAGE_DIRS[folder];
       const base = path.basename(file.filename, path.extname(file.filename))
         .toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 60) || "work";
-      await fsp.mkdir(IMAGE_DIR, { recursive: true });
+      await fsp.mkdir(dir, { recursive: true });
       let name = base + ext, n = 2;
-      while (fs.existsSync(path.join(IMAGE_DIR, name))) name = `${base}-${n++}${ext}`;
-      await fsp.writeFile(path.join(IMAGE_DIR, name), file.data);
-      return json(res, 200, { ok: true, path: "images/works/" + name, bytes: file.data.length });
+      while (fs.existsSync(path.join(dir, name))) name = `${base}-${n++}${ext}`;
+      await fsp.writeFile(path.join(dir, name), file.data);
+      return json(res, 200, { ok: true, path: `images/${folder}/` + name, bytes: file.data.length });
     }
 
     if (route === "/api/enquiry" && req.method === "POST") {

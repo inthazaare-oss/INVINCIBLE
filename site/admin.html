@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Studio panel — manage your gallery</title>
-  <meta name="description" content="Private panel for the artist: add paintings, upload photographs, set prices and availability, and publish the gallery.">
-  <meta property="og:title" content="Studio panel — manage your gallery">
-  <meta property="og:description" content="Private panel for the artist: add paintings, upload photographs, set prices and availability, and publish the gallery.">
+  <title>Studio panel — manage your gallery and shop</title>
+  <meta name="description" content="Private panel for the artist: add paintings and hand-made materials, upload photographs, set prices and availability, and publish.">
+  <meta property="og:title" content="Studio panel — manage your gallery and shop">
+  <meta property="og:description" content="Private panel for the artist: add paintings and hand-made materials, upload photographs, set prices and availability, and publish.">
   <meta property="og:type" content="website">
   <meta name="robots" content="noindex, nofollow">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23faf7f2'/%3E%3Ccircle cx='16' cy='13' r='7' fill='%23a4552f'/%3E%3Cpath d='M4 28 Q16 14 28 28 Z' fill='%23221f1c'/%3E%3C/svg%3E">
@@ -29,8 +29,9 @@
     </button>
     <nav class="nav" id="nav" aria-label="Main">
       <a href="gallery.html">Work</a>
-      <a href="gallery.html?theme=india-states">India Series</a>
       <a href="commission.html">Commissions</a>
+      <a href="spaces.html">For Spaces</a>
+      <a href="shop.html">Materials</a>
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
       <a class="btn btn--sm" href="commission.html">Book a Commission</a>
@@ -45,9 +46,9 @@
     <div class="head-row">
       <div>
         <span class="eyebrow">Studio panel</span>
-        <h1 style="margin-bottom:.2em">Your gallery</h1>
-        <p class="lede" style="margin-bottom:0">Add a painting, change a price, mark something sold.
-          Nothing here is visible to visitors until you publish or export.</p>
+        <h1 style="margin-bottom:.2em">Your gallery &amp; shop</h1>
+        <p class="lede" style="margin-bottom:0">Add a painting, change a price, mark something sold,
+          restock a colour. Nothing here is visible to visitors until you publish or export.</p>
       </div>
       <div class="admin-bar">
         <span class="badge" id="mode-badge">Checking…</span>
@@ -58,8 +59,15 @@
 </section>
 
 <section class="section" id="admin">
-  <div class="wrap admin-shell">
+  <div class="wrap">
+    <div class="admin-tabs" role="tablist" aria-label="What to manage">
+      <button class="chip" type="button" id="tab-btn-works" data-tab="works" aria-pressed="true">Paintings</button>
+      <button class="chip" type="button" id="tab-btn-products" data-tab="products" aria-pressed="false">Materials</button>
+    </div>
+  </div>
 
+  <!-- ------------------------------------------------------------ PAINTINGS -->
+  <div class="wrap admin-shell" id="tab-works">
     <aside class="admin-side">
       <button class="btn btn--sm" id="btn-new" type="button">+ Add a work</button>
       <label class="visually-hidden" for="admin-search">Search your works</label>
@@ -83,7 +91,6 @@
 
     <div>
       <div class="form-status is-info" id="admin-status">Loading your gallery…</div>
-
       <p class="lede" id="empty-note">Choose a work on the left, or add a new one.</p>
 
       <form class="form" id="work-form" hidden>
@@ -164,32 +171,125 @@
           <button class="chip" id="btn-delete" type="button">Delete</button>
         </div>
       </form>
+    </div>
+  </div>
 
-      <div class="section" style="padding-bottom:0">
-        <h2>Enquiries</h2>
-        <div id="enquiries"></div>
+  <!-- ------------------------------------------------------------ MATERIALS -->
+  <div class="wrap admin-shell" id="tab-products" hidden>
+    <aside class="admin-side">
+      <button class="btn btn--sm" id="p-btn-new" type="button">+ Add a material</button>
+      <label class="visually-hidden" for="p-search">Search your materials</label>
+      <input class="input" id="p-search" type="search" placeholder="Search your materials…">
+      <ul class="admin-list" id="p-list"></ul>
+      <p class="small muted" id="p-count"></p>
+      <div class="admin-bar">
+        <button class="chip" id="p-btn-up" type="button">↑ Move up</button>
+        <button class="chip" id="p-btn-down" type="button">↓ Move down</button>
       </div>
+      <hr class="rule">
+      <div class="admin-bar">
+        <button class="btn btn--sm btn--accent" id="p-btn-publish" type="button" hidden>Publish live</button>
+        <button class="btn btn--sm" id="p-btn-export" type="button">Export shop file</button>
+        <button class="chip" id="p-btn-import" type="button">Import a file</button>
+        <button class="chip" id="p-btn-discard" type="button">Discard draft</button>
+        <input type="file" id="p-import-input" accept=".js,.json,text/javascript,application/json" hidden>
+      </div>
+    </aside>
 
-      <div class="section" style="padding-bottom:0">
-        <h2>How this page works</h2>
-        <div class="details-list">
-          <details><summary>Where do my changes go?</summary>
-            <p>Everything you type is kept in this browser as a draft, so you can close the page and
-              come back. Nothing reaches your website until you press <strong>Publish live</strong>
-              (when the studio server is running) or <strong>Export gallery file</strong> and upload
-              the downloaded <code>artworks.js</code> into your site's <code>data/</code> folder.</p></details>
-          <details><summary>Do I have to resize my photographs?</summary>
-            <p>No. Drop in the photograph straight from your phone or camera — this page shrinks it to
-              1800 pixels on its longest side, which is plenty for the web and keeps your site fast.</p></details>
-          <details><summary>Is this page private?</summary>
-            <p>Not by itself. On plain web hosting anyone who guesses the address can open it, though
-              they can only change their own copy — your live gallery can only be changed by uploading
-              a file, which needs your hosting password. If you want the panel properly locked, run the
-              optional studio server, which asks for a password before it will publish anything.</p></details>
-          <details><summary>What happens to an enquiry?</summary>
-            <p>It is emailed to the address in <code>data/site.js</code>. If you run the studio server,
-              a copy of every enquiry is also kept and listed above, so nothing is lost to a spam folder.</p></details>
+    <div>
+      <div class="form-status is-info" id="p-status">Loading your shop…</div>
+      <p class="lede" id="p-empty-note">Choose a material on the left, or add a new one.</p>
+
+      <form class="form" id="product-form" hidden>
+        <fieldset class="fieldset">
+          <legend class="fieldset__legend">The photograph</legend>
+          <div class="dropzone" id="p-dropzone" role="button" tabindex="0"></div>
+          <input type="file" id="p-file-input" accept="image/*" hidden>
+          <div class="admin-bar">
+            <button class="chip" id="p-btn-download-image" type="button">Download image file</button>
+            <button class="chip" id="p-btn-embed-image" type="button">Embed image in file</button>
+          </div>
+          <div class="field"><label for="p-image">Image path</label>
+            <input class="input" id="p-image" name="image" placeholder="images/products/my-pigment.jpg">
+            <span class="hint">A jar against a plain background, with a brushed swatch of the colour
+              beside it, tells a buyer more than the jar alone.</span></div>
+        </fieldset>
+
+        <fieldset class="fieldset">
+          <legend class="fieldset__legend">The material</legend>
+          <div class="field"><label for="p-name">Name</label>
+            <input class="input" id="p-name" name="name_" required placeholder="Kutch Red Ochre"></div>
+          <div class="row">
+            <div class="field"><label for="p-category">Category</label>
+              <select class="select" id="p-category" name="category"></select></div>
+            <div class="field"><label for="p-unit">What one order gets</label>
+              <input class="input" id="p-unit" name="unit" placeholder="50 g jar"></div>
+          </div>
+          <div class="field"><label for="p-madefrom">Made from</label>
+            <input class="input" id="p-madefrom" name="madeFrom" placeholder="Earth collected on painting trips, washed and ground.">
+            <span class="hint">For a hand-made colour this is the whole story. Say where it comes from.</span></div>
+          <div class="field"><label for="p-notes">How to use it</label>
+            <textarea class="textarea" id="p-notes" name="notes" style="min-height:90px"></textarea></div>
+          <div class="field"><label for="p-batch">Batch</label>
+            <input class="input" id="p-batch" name="batch" placeholder="Batch 04 · 2026"></div>
+        </fieldset>
+
+        <fieldset class="fieldset">
+          <legend class="fieldset__legend">Selling</legend>
+          <div class="row--3 row">
+            <div class="field"><label for="p-price">Price in rupees</label>
+              <input class="input" id="p-price" name="price" type="number" min="0" step="10" placeholder="Empty = on request"></div>
+            <div class="field"><label for="p-pstatus">Availability</label>
+              <select class="select" id="p-pstatus" name="status">
+                <option value="instock">In stock</option>
+                <option value="madetoorder">Made to order</option>
+                <option value="soldout">Sold out</option>
+              </select></div>
+            <div class="field"><label for="p-lead">Lead time</label>
+              <input class="input" id="p-lead" name="lead" placeholder="2–3 weeks"></div>
+          </div>
+          <div class="choices">
+            <label class="check"><input type="checkbox" name="featured"><span>Show on the front page</span></label>
+          </div>
+        </fieldset>
+
+        <div class="admin-bar">
+          <button class="btn" type="submit">Save this material</button>
+          <button class="chip" id="p-btn-duplicate" type="button">Duplicate</button>
+          <button class="chip" id="p-btn-delete" type="button">Delete</button>
         </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="section" style="padding-bottom:0">
+      <h2>Enquiries &amp; orders</h2>
+      <div id="enquiries"></div>
+    </div>
+
+    <div class="section" style="padding-bottom:0">
+      <h2>How this page works</h2>
+      <div class="details-list">
+        <details><summary>Where do my changes go?</summary>
+          <p>Everything you type is kept in this browser as a draft, so you can close the page and
+            come back. Nothing reaches your website until you press <strong>Publish live</strong>
+            (when the studio server is running) or export the file and upload it into your site's
+            <code>data/</code> folder — <code>artworks.js</code> for paintings,
+            <code>products.js</code> for materials.</p></details>
+        <details><summary>Do I have to resize my photographs?</summary>
+          <p>No. Drop the photograph straight from your phone or camera — this page shrinks it to
+            1800 pixels on its longest side, which is plenty for the web and keeps your site fast.</p></details>
+        <details><summary>How does someone pay for materials?</summary>
+          <p>They don't, on the website. An order arrives as an itemised email; you reply with the
+            total including packing and postage to their pin code, and a UPI or bank transfer request.
+            That keeps the site free to run and keeps you in control of postage — which for jars of
+            pigment is never a flat rate.</p></details>
+        <details><summary>Is this page private?</summary>
+          <p>Not by itself. On plain web hosting anyone who guesses the address can open it, though
+            they can only change their own copy — your live site can only be changed by uploading a
+            file, which needs your hosting password. If you want the panel properly locked, run the
+            optional studio server, which asks for a password before it will publish anything.</p></details>
       </div>
     </div>
   </div>
@@ -210,6 +310,8 @@
           <li><a href="gallery.html">All work</a></li>
           <li><a href="gallery.html?status=available">Available now</a></li>
           <li><a href="commission.html">Commission a painting</a></li>
+          <li><a href="spaces.html">Design for a space</a></li>
+          <li><a href="shop.html">Hand-made paints</a></li>
           <li><a href="about.html">About the artist</a></li>
           <li><a href="contact.html">Contact &amp; studio visits</a></li>
         </ul>
@@ -234,6 +336,7 @@
 <script src="data/site.js"></script>
 <script src="data/artworks.js"></script>
 <script src="assets/js/app.js"></script>
+<script src="data/products.js"></script>
 <script src="assets/js/admin.js"></script>
 </body>
 </html>

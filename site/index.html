@@ -28,8 +28,9 @@
     </button>
     <nav class="nav" id="nav" aria-label="Main">
       <a href="gallery.html">Work</a>
-      <a href="gallery.html?theme=india-states">India Series</a>
       <a href="commission.html">Commissions</a>
+      <a href="spaces.html">For Spaces</a>
+      <a href="shop.html">Materials</a>
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
       <a class="btn btn--sm" href="commission.html">Book a Commission</a>
@@ -107,6 +108,44 @@
   </div>
 </section>
 
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Working together</span>
+      <h2>Three ways to work with me</h2>
+    </div>
+    <div class="grid grid--3">
+      <a class="theme-card reveal" href="gallery.html?status=available">
+        <div><h3 class="theme-card__name">Buy a finished work</h3>
+        <p class="theme-card__blurb">Originals and studies that already exist, ready to ship. Signed, certified, packed and insured.</p></div>
+        <span class="theme-card__count">See what is available</span></a>
+      <a class="theme-card reveal" href="commission.html">
+        <div><h3 class="theme-card__name">Commission a painting</h3>
+        <p class="theme-card__blurb">A portrait from your photographs, a place that matters to you, a work sized to your wall.</p></div>
+        <span class="theme-card__count">Send a brief</span></a>
+      <a class="theme-card reveal" href="spaces.html">
+        <div><h3 class="theme-card__name">Design for your space</h3>
+        <p class="theme-card__blurb">Murals and painting schemes for homes, offices, hotels and restaurants — designed from your room, not my stock.</p></div>
+        <span class="theme-card__count">For spaces</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="materials-section">
+  <div class="wrap">
+    <div class="section-head head-row reveal">
+      <div style="max-width:56ch">
+        <span class="eyebrow">The studio shop</span>
+        <h2 data-site="shop.heading">Paints made by hand, in the studio</h2>
+        <p class="lede" data-site="shop.intro">Hand-ground pigments and hand-mulled paint, in small batches.</p>
+      </div>
+      <a class="link-arrow" href="shop.html">All materials</a>
+    </div>
+    <div class="grid grid--3" id="materials-strip"></div>
+  </div>
+</section>
+
 <section class="section">
   <div class="wrap">
     <div class="grid grid--2 reveal" style="align-items:center;gap:clamp(2rem,5vw,4rem)">
@@ -148,6 +187,8 @@
           <li><a href="gallery.html">All work</a></li>
           <li><a href="gallery.html?status=available">Available now</a></li>
           <li><a href="commission.html">Commission a painting</a></li>
+          <li><a href="spaces.html">Design for a space</a></li>
+          <li><a href="shop.html">Hand-made paints</a></li>
           <li><a href="about.html">About the artist</a></li>
           <li><a href="contact.html">Contact &amp; studio visits</a></li>
         </ul>
@@ -171,6 +212,7 @@
 
 <script src="data/site.js"></script>
 <script src="data/artworks.js"></script>
+<script src="data/products.js"></script>
 <script src="assets/js/app.js"></script>
 
 <script>
@@ -213,6 +255,24 @@
     (S.site.commissionSteps || []).slice(0, 3).map(function (s) {
       return '<li class="step"><div><h3>' + S.esc(s.title) + "</h3><p>" + S.esc(s.text) + "</p></div></li>";
     }).join("");
+
+  // Featured hand-made materials
+  var shop = S.site.shop || {};
+  var products = (window.PRODUCTS || []).filter(function (p) { return p.featured; });
+  if (!products.length) products = (window.PRODUCTS || []).slice(0, 3);
+  var strip = document.getElementById("materials-strip");
+  if (!shop.show || !products.length) {
+    document.getElementById("materials-section").hidden = true;
+  } else {
+    strip.innerHTML = products.slice(0, 3).map(function (p) {
+      return '<a class="card reveal" href="shop.html#p-' + encodeURIComponent(p.id) + '">' +
+        '<div class="card__frame"><img src="' + S.esc(p.image) + '" alt="' + S.esc(p.name) +
+          '" loading="lazy" style="aspect-ratio:1/1;object-fit:cover"></div>' +
+        '<div class="card__body"><h3 class="card__title">' + S.esc(p.name) + '</h3>' +
+        '<p class="card__meta">' + S.esc(p.unit || "") + '</p>' +
+        '<p class="card__price">' + S.money(p.price) + '</p></div></a>';
+    }).join("");
+  }
 
   S.reveal(document);
 })();

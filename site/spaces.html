@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Murals and painting schemes designed for your space</title>
+  <meta name="description" content="Murals, sets of paintings and colour schemes designed for homes, offices, hotels, restaurants and public buildings — from your photographs and measurements to a finished wall.">
+  <meta property="og:title" content="Murals and painting schemes designed for your space">
+  <meta property="og:description" content="Murals, sets of paintings and colour schemes designed for homes, offices, hotels, restaurants and public buildings — from your photographs and measurements to a finished wall.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23faf7f2'/%3E%3Ccircle cx='16' cy='13' r='7' fill='%23a4552f'/%3E%3Cpath d='M4 28 Q16 14 28 28 Z' fill='%23221f1c'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<a class="visually-hidden" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="index.html">
+      <span class="brand__name" data-site="artist.name">Your Name</span>
+      <span class="brand__role">Painter &amp; Draughtsman</span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="gallery.html">Work</a>
+      <a href="commission.html">Commissions</a>
+      <a href="spaces.html">For Spaces</a>
+      <a href="shop.html">Materials</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a class="btn btn--sm" href="commission.html">Book a Commission</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="section" style="padding-bottom:0">
+  <div class="wrap hero__grid" style="align-items:start">
+    <div>
+      <span class="eyebrow">Design for spaces</span>
+      <h1 id="space-heading">Work made for a particular wall</h1>
+      <p class="lede" id="space-intro"></p>
+      <p class="small muted">Homes, offices, hotels, restaurants, schools and public buildings.
+        Anywhere the space itself — its light, its colours, the way people move through it —
+        should decide what gets painted.</p>
+    </div>
+    <div class="panel">
+      <span class="eyebrow">What I need from you</span>
+      <ul class="terms" style="font-size:.9rem;color:var(--ink-2)">
+        <li>Photographs of the wall or room, taken in daylight.</li>
+        <li>Measurements — width and height of the surface, in feet or metres.</li>
+        <li>What the room is for, and who uses it.</li>
+        <li>Your colour scheme, or a photograph of the furniture and flooring.</li>
+        <li>The date it has to be finished by.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head reveal"><span class="eyebrow">The work</span><h2>Four ways this usually goes</h2></div>
+    <div class="grid grid--2" id="space-types"></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head reveal"><span class="eyebrow">How it works</span><h2>From your photographs to a finished wall</h2></div>
+    <ol class="steps grid grid--2" id="space-steps" style="gap:2rem"></ol>
+  </div>
+</section>
+
+<section class="section" id="space-pricing">
+  <div class="wrap">
+    <div class="section-head reveal"><span class="eyebrow">Indicative prices</span><h2>What space work costs</h2></div>
+    <div class="table-scroll"><table class="table" id="space-price-table"></table></div>
+    <p class="small muted" id="space-price-note" style="margin-top:1rem"></p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap-narrow">
+    <div class="section-head reveal">
+      <span class="eyebrow">The brief</span>
+      <h2>Tell me about the space</h2>
+      <p class="lede">Five minutes here saves a week of emails. Starred fields are the ones
+        I cannot quote without.</p>
+    </div>
+
+    <form class="form" id="space-form" data-enquiry="Design for a space" novalidate>
+      <div style="position:absolute;left:-9999px" aria-hidden="true"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+
+      <fieldset class="fieldset">
+        <legend class="fieldset__legend">1 · You and the place</legend>
+        <div class="row">
+          <div class="field"><label for="s-name">Your name *</label><input class="input" id="s-name" name="name" required></div>
+          <div class="field"><label for="s-email">Email *</label><input class="input" id="s-email" name="email" type="email" required></div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="s-phone">Phone or WhatsApp</label><input class="input" id="s-phone" name="phone"></div>
+          <div class="field"><label for="s-city">Where is the space? *</label><input class="input" id="s-city" name="city" required placeholder="Hyderabad, Telangana"></div>
+        </div>
+        <div class="field"><label for="s-org">Business or project name</label><input class="input" id="s-org" name="organisation" placeholder="If this is for a hotel, café, office or builder"></div>
+      </fieldset>
+
+      <fieldset class="fieldset">
+        <legend class="fieldset__legend">2 · The space</legend>
+        <div class="field"><span class="field__label">What kind of space? *</span>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="space_type" value="Home" checked><span>Home</span></label>
+            <label class="choice"><input type="radio" name="space_type" value="Office"><span>Office</span></label>
+            <label class="choice"><input type="radio" name="space_type" value="Hotel or resort"><span>Hotel or resort</span></label>
+            <label class="choice"><input type="radio" name="space_type" value="Restaurant or café"><span>Restaurant or café</span></label>
+            <label class="choice"><input type="radio" name="space_type" value="School or institution"><span>School or institution</span></label>
+            <label class="choice"><input type="radio" name="space_type" value="Public or civic space"><span>Public or civic space</span></label>
+          </div>
+        </div>
+        <p class="hint" id="space-visit-note" hidden>On-site work usually needs a visit before I can
+          quote. Travel and stay are quoted separately, at cost.</p>
+        <div class="field"><span class="field__label">What do you want made?</span>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="work_type" value="A mural, painted on the wall" checked><span>A mural, painted on the wall</span></label>
+            <label class="choice"><input type="radio" name="work_type" value="A set of paintings for the room"><span>A set of paintings for the room</span></label>
+            <label class="choice"><input type="radio" name="work_type" value="One large statement work"><span>One large statement work</span></label>
+            <label class="choice"><input type="radio" name="work_type" value="A scheme across several rooms"><span>A scheme across several rooms</span></label>
+            <label class="choice"><input type="radio" name="work_type" value="Not sure — advise me"><span>Not sure — advise me</span></label>
+          </div>
+        </div>
+        <div class="row--3 row">
+          <div class="field"><label for="s-width">Wall width</label><input class="input" id="s-width" name="wall_width" placeholder="18 ft"></div>
+          <div class="field"><label for="s-height">Wall height</label><input class="input" id="s-height" name="wall_height" placeholder="10 ft"></div>
+          <div class="field"><label for="s-count">How many pieces?</label><input class="input" id="s-count" name="piece_count" placeholder="1, or 5"></div>
+        </div>
+        <div class="field"><label for="s-surface">Surface</label>
+          <select class="select" id="s-surface" name="surface">
+            <option value="">Not sure</option>
+            <option>Plastered and painted wall</option>
+            <option>Bare brick or stone</option>
+            <option>Concrete</option>
+            <option>Wood panelling</option>
+            <option>Canvas, to be hung</option>
+            <option>Outdoor / exposed to weather</option>
+          </select></div>
+        <div class="field"><label for="s-subject">Subject, mood, or the idea behind the space *</label>
+          <textarea class="textarea" id="s-subject" name="subject_matter" required
+            placeholder="For example: the Godavari and its boats, running the length of the reception wall, quiet enough to sit behind a desk — or: something abstract in the greens of the courtyard planting."></textarea></div>
+        <div class="field"><label for="s-colours">Colours already in the room</label>
+          <input class="input" id="s-colours" name="colours" placeholder="Teak furniture, terracotta floor, white walls"></div>
+      </fieldset>
+
+      <fieldset class="fieldset">
+        <legend class="fieldset__legend">3 · Budget, date and site</legend>
+        <div class="row">
+          <div class="field"><label for="s-budget">Budget range</label>
+            <select class="select" id="s-budget" name="budget">
+              <option value="">Prefer to hear your quote</option>
+              <option>Under ₹50,000</option>
+              <option>₹50,000 – ₹1,50,000</option>
+              <option>₹1,50,000 – ₹5,00,000</option>
+              <option>₹5,00,000 – ₹15,00,000</option>
+              <option>Above ₹15,00,000</option>
+            </select></div>
+          <div class="field"><label for="s-deadline">Finished by</label>
+            <input class="input" id="s-deadline" name="deadline" type="date">
+            <span class="hint">Opening dates and handovers are worth telling me early.</span></div>
+        </div>
+        <div class="field"><span class="field__label">Site conditions</span>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="site_status" value="Ready now" checked><span>Ready now</span></label>
+            <label class="choice"><input type="radio" name="site_status" value="Still under construction"><span>Still under construction</span></label>
+            <label class="choice"><input type="radio" name="site_status" value="In use — work must fit around it"><span>In use — work must fit around it</span></label>
+            <label class="choice"><input type="radio" name="site_status" value="Installation and hanging needed"><span>Installation and hanging needed</span></label>
+          </div>
+        </div>
+        <div class="field"><label for="s-photos">Links to photographs of the space</label>
+          <textarea class="textarea" id="s-photos" name="reference_links" style="min-height:80px"
+            placeholder="A Google Drive or WhatsApp album works best — or say 'will send by email'."></textarea></div>
+        <div class="field"><label for="s-message">Anything else</label>
+          <textarea class="textarea" id="s-message" name="message" style="min-height:80px"></textarea></div>
+      </fieldset>
+
+      <label class="check"><input type="checkbox" name="consent" required>
+        <span data-site="forms.consentText">I agree to be contacted about this enquiry.</span></label>
+      <div class="form-status" role="status"></div>
+      <div class="hero__actions" style="margin-top:0">
+        <button class="btn btn--accent" type="submit">Send the brief</button>
+        <span class="form__note">I reply to every brief, usually within 2–3 working days.</span>
+      </div>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div>
+        <p class="brand__name serif" style="font-size:1.6rem" data-site="artist.name">Your Name</p>
+        <p class="small muted" style="max-width:36ch" data-site="artist.shortBio">Painter.</p>
+        <p class="small muted"><span data-site="artist.location">City, India</span> · <span data-site="artist.studioNote">Studio visits by appointment.</span></p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul class="footer__links">
+          <li><a href="gallery.html">All work</a></li>
+          <li><a href="gallery.html?status=available">Available now</a></li>
+          <li><a href="commission.html">Commission a painting</a></li>
+          <li><a href="spaces.html">Design for a space</a></li>
+          <li><a href="shop.html">Hand-made paints</a></li>
+          <li><a href="about.html">About the artist</a></li>
+          <li><a href="contact.html">Contact &amp; studio visits</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Get in touch</h4>
+        <ul class="footer__links">
+          <li><a data-site-attr="href:contact.email|mailto:" data-site-fill href="mailto:you@example.com">you@example.com</a></li>
+          <li><a data-site-attr="href:contact.phone|tel:" data-site-fill href="tel:">Phone</a></li>
+          <li><a data-site-attr="href:contact.whatsapp|https://wa.me/" href="#">WhatsApp</a></li>
+          <li><a data-site-attr="href:contact.instagram|" href="#">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© <span id="year">2026</span> <span data-site="artist.name">Your Name</span>. All images are the artist's copyright and may not be reproduced without permission.</span>
+      <span><a href="admin.html">Studio panel</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="data/site.js"></script>
+<script src="data/artworks.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/spaces.js"></script>
+</body>
+</html>

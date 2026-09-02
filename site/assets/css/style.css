@@ -381,3 +381,37 @@ p  { margin: 0 0 1.1em; }
   body { background: #fff; color: #000; }
   .print-only { display: block; }
 }
+
+/* =============================================================================
+   Studio shop — hand-made paints and materials
+   ========================================================================== */
+.product { display: flex; flex-direction: column; background: var(--paper); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; transition: border-color var(--t), box-shadow var(--t); }
+.product:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--rule)); box-shadow: var(--shadow); }
+.product__frame { position: relative; background: var(--paper-2); }
+.product__frame img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
+.product__frame .tag { position: absolute; top: .65rem; left: .65rem; background: color-mix(in srgb, var(--paper) 92%, transparent); backdrop-filter: blur(6px); }
+.product__body { padding: 1rem 1.05rem 1.1rem; display: flex; flex-direction: column; gap: .45rem; flex: 1; }
+.product__name { font-family: var(--serif); font-size: 1.3rem; margin: 0; line-height: 1.15; }
+.product__unit { font-size: .8rem; color: var(--ink-2); margin: 0; letter-spacing: .01em; }
+.product__made { font-size: .88rem; color: var(--ink-3); margin: 0; }
+.product__more summary { cursor: pointer; font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); list-style: none; }
+.product__more summary::-webkit-details-marker { display: none; }
+.product__more summary::after { content: " +"; }
+.product__more[open] summary::after { content: " –"; }
+.product__more p { font-size: .87rem; color: var(--ink-2); margin: .5rem 0 0; }
+.product__foot { display: flex; align-items: center; justify-content: space-between; gap: .8rem; margin-top: auto; padding-top: .7rem; border-top: 1px solid var(--rule); flex-wrap: wrap; }
+.product__price { font-family: var(--serif); font-size: 1.25rem; display: flex; flex-direction: column; line-height: 1.2; }
+.product__lead { font-family: var(--sans); font-size: .72rem; color: var(--ink-3); letter-spacing: .04em; }
+
+.stepper { display: inline-flex; align-items: center; border: 1px solid var(--rule); border-radius: 999px; overflow: hidden; }
+.stepper button { background: none; border: 0; padding: .35rem .7rem; cursor: pointer; font-size: 1rem; line-height: 1; color: var(--ink-2); transition: background var(--t), color var(--t); }
+.stepper button:hover { background: var(--accent-soft); color: var(--accent); }
+.stepper b { font-weight: 500; font-size: .9rem; min-width: 1.6rem; text-align: center; font-variant-numeric: tabular-nums; }
+
+.order-bar { position: fixed; left: 50%; bottom: 1.2rem; transform: translateX(-50%); z-index: 70; display: flex; align-items: center; gap: 1rem; background: var(--ink); color: var(--paper); padding: .6rem .7rem .6rem 1.15rem; border-radius: 999px; box-shadow: var(--shadow-lift); font-size: .86rem; max-width: calc(100% - 2rem); }
+.order-bar a { color: var(--paper); background: var(--accent); text-decoration: none; padding: .45rem 1rem; border-radius: 999px; font-size: .78rem; letter-spacing: .07em; text-transform: uppercase; white-space: nowrap; }
+.order-bar a:hover { background: var(--paper); color: var(--ink); }
+.order-bar span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.admin-tabs { display: flex; gap: .5rem; margin-bottom: 1.6rem; border-bottom: 1px solid var(--rule); padding-bottom: 1rem; }
+.admin-tabs .chip { font-size: .82rem; padding: .5rem 1.1rem; }
+.order-bar.is-parked { opacity: 0; pointer-events: none; transform: translate(-50%, 140%); transition: opacity var(--t), transform var(--t); }

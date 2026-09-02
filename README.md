@@ -2,9 +2,10 @@
 
 ## Artist portfolio & commission-booking website
 
-A complete website for a working painter: a gallery of paintings and drawings, a
-booking form that sends commission briefs straight to the artist's inbox, and a
-private panel where the artist adds new work without touching any code.
+A complete website for a working painter who sells three things: **finished paintings**,
+**work made to order** (commissions, and design work for a particular room or wall), and
+**hand-made paints and pigments** from the studio. Every enquiry and order goes straight to
+the artist's inbox, and a private panel lets the artist add work without touching any code.
 
 ```
 site/     the website — plain HTML, CSS and JavaScript. No build step, no npm.
@@ -31,11 +32,13 @@ STUDIO_PASSWORD="choose-one" node server/server.mjs   # then open http://localho
 | I want to change… | Edit |
 |---|---|
 | Name, bio, email, prices, FAQ, series | `site/data/site.js` |
-| The paintings themselves | `site/admin.html` in a browser (it writes `site/data/artworks.js`) |
+| The paintings themselves | `site/admin.html` → Paintings tab (writes `site/data/artworks.js`) |
+| The paints and materials you sell | `site/admin.html` → Materials tab (writes `site/data/products.js`) |
 | Colours and typography | `site/assets/css/style.css` |
 
-The sample paintings, prices, bio and exhibitions shipped in this repository are
-**placeholders**, and the images in `site/images/works/` are generated stand-ins.
+The sample paintings, materials, prices, bio and exhibitions shipped in this repository are
+**placeholders**, and the images in `site/images/works/` and `site/images/products/` are
+generated stand-ins.
 Every line marked `// SAMPLE` in `site/data/site.js` is there to be replaced.
 
 ---

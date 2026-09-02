@@ -2,6 +2,14 @@
 
 No programming needed for anything in this guide.
 
+The site now covers **three** things you sell:
+
+1. **Finished paintings** — the gallery, with prices and enquiry forms.
+2. **Work made to order** — commissions (`commission.html`) and design work for a
+   particular room, wall or building (`spaces.html`).
+3. **Hand-made paints and materials** — the studio shop (`shop.html`), where a visitor
+   picks what they want and sends you an itemised order.
+
 ---
 
 ## 1. What the site is made of
@@ -14,10 +22,14 @@ site/
   commission.html   the booking form clients fill in
   about.html        your story
   contact.html      contact details, message form, FAQ
-  admin.html        YOUR panel: add paintings, set prices  ← not for visitors
-  data/site.js      all the words: your name, bio, email, prices, FAQ
+  spaces.html       design work for rooms, walls and buildings
+  shop.html         your hand-made paints, pigments and materials
+  admin.html        YOUR panel: paintings AND materials  ← not for visitors
+  data/site.js      all the words: your name, bio, email, prices, FAQ, shop and spaces text
   data/artworks.js  the gallery itself (the admin panel writes this for you)
+  data/products.js  the shop itself (the admin panel writes this too)
   images/works/     photographs of your paintings
+  images/products/  photographs of your paints and materials
 server/             OPTIONAL. Only if you want uploads and publishing automated.
 ```
 
@@ -42,6 +54,8 @@ Change at minimum:
 | **Your email address** | `contact.email` — this is where every enquiry goes |
 | Phone / WhatsApp / Instagram | `contact.*` — leave `""` to hide one |
 | Commission prices | `commissionPricing.tiers` |
+| Shop introduction, categories, order terms | `shop` |
+| Space-work types, process and prices | `spaces` |
 | Commission terms (advance %, revisions) | `commissionSteps` |
 | Exhibitions | `exhibitions` — set to `[]` to hide the section |
 
@@ -67,6 +81,43 @@ Save the file and refresh the page in your browser. That is the whole edit cycle
 
 Photographing paintings: flat daylight, no flash, camera square to the canvas, crop
 to the edge of the work. A good photograph sells; a yellow, tilted one does not.
+
+---
+
+## 3b. Adding your paints and materials
+
+Same panel, second tab.
+
+1. Open **`site/admin.html`** and press **Materials** at the top.
+2. Press **+ Add a material**, name it, and drop in a photograph. A jar against a plain
+   background with a brushed swatch of the colour beside it sells better than the jar alone.
+3. Fill in what one order gets (`50 g jar`, `12 half pans`), the price, and whether it is
+   in stock or ground to order.
+4. **Made from** is the field that matters most. "Earth collected on painting trips,
+   washed and ground" is why someone buys your ochre instead of a factory tube.
+5. Save, then **Export shop file** (or **Publish live**) exactly as with paintings — the
+   file is `products.js`, and it goes in your site's `data/` folder.
+
+### How an order actually works
+
+There is no card payment on the site, on purpose. A visitor adds jars to their order and
+sends it; you receive an itemised email — quantities, sizes, and the items total. You
+reply with the real total including packing and postage to their pin code, and a UPI or
+bank transfer request.
+
+That is deliberate: postage for jars of pigment is never a flat rate, and a payment
+gateway costs money and paperwork you do not need for your first hundred orders. When
+orders outgrow it, adding a gateway is a contained job — the shop already knows what is
+in the basket.
+
+Two things to get right before you sell materials:
+
+- **Labelling.** Put the colour name, the batch, the weight and a safety line on the jar.
+  Pigment powders are not food; say so on the label and in the shop terms (there is
+  already a line about this in `site/data/site.js` — keep it).
+- **Postage.** Ask your courier what they will and will not carry. Powders and liquids are
+  sometimes restricted, especially by air. I have written that caution into the shop terms;
+  confirm the specifics for your own courier and city.
 
 ---
 
@@ -136,5 +187,6 @@ Full options are in `server/README.md`.
 2. Photograph and add 15–25 works — enough that the filters feel worth using.
 3. Write two or three sentences of story for each painting. This is what makes a
    stranger write to you, more than the price does.
+3b. Photograph your materials the same way, and give each colour its "made from" line.
 4. Set up a real form endpoint (section 4) and send yourself a test enquiry.
 5. Put the site's address in your Instagram bio, and on the back of your business card.

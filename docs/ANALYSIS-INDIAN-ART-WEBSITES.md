@@ -2,6 +2,18 @@
 
 A working analysis behind the design in `site/`. Written for the artist, not for developers.
 
+The site sells three different things, and they behave differently as businesses:
+
+| Line | What it is | Buyer | Typical value | Frequency |
+|---|---|---|---|---|
+| **Finished paintings** | What already exists in the studio | A collector, one at a time | Mid to high | Occasional |
+| **Made to order** | Commissions, and design work for a space | A person, or a business with a wall | Highest | Few, planned |
+| **Hand-made materials** | Your pigments, paints, binders | Other artists and students | Low | Repeat |
+
+Materials are the smallest ticket and the most repeatable; space work is the largest and
+the least frequent. Read sections 7 and 8 with that in mind — advice that is right for
+one line is often wrong for another.
+
 ---
 
 ## 0. How this was researched — and its limits
@@ -68,6 +80,8 @@ From the search evidence and general practice, the recurring features are:
 | A commission / custom-painting route | Highest-value, highest-margin work | ✅ the whole of `commission.html` |
 | Prints and editions alongside originals | Lets a ₹3,000 admirer buy something | ⚠️ flagged per work; no print shop yet |
 | Workshops, blogs, art-form explainers | Traffic, authority, and a second income line | ⚠️ roadmap |
+| Art materials sold alongside the art | Small, repeatable purchases; brings students back | ✅ the studio shop, with an itemised order flow |
+| A route for architects, hotels and offices | Highest-value work, and it does not come from art buyers | ✅ `spaces.html`, briefed by room rather than by painting |
 | WhatsApp / phone contact | In India this converts better than a form | ✅ WhatsApp and phone in the footer and contact page |
 | EMI / instalments on higher-value work | Widens the buyer pool considerably | ⚠️ roadmap, gateway-dependent |
 
@@ -156,7 +170,11 @@ you first.
 **Phase 2 — selling without a conversation**
 - **Online checkout.** A payment gateway (Razorpay, Cashfree, PayU and Instamojo are
   the usual Indian options; Stripe for international) plus an order confirmation.
-  Worth doing once enquiries exceed roughly one a week.
+  Worth doing once enquiries exceed roughly one a week — and it pays off first on
+  **materials**, where the amounts are small and the buyer expects to pay immediately,
+  not on paintings, where a conversation before payment is normal and welcome.
+- **Stock counts on materials.** The shop marks a colour in stock, made to order or sold
+  out by hand today. Automatic counts are worth it only once you are dispatching weekly.
 - **Prints on demand.** A print of a sold painting is the only way to sell it twice.
   Needs a giclée printer you trust and an editions policy (edition size, signing,
   numbering).
@@ -181,7 +199,70 @@ you first.
 
 ---
 
-## 7. Practical matters in India — verify these, do not take my word
+## 7. Selling hand-made paints and materials
+
+This is a genuinely different business from selling paintings, and the site treats it
+differently: a basket, an itemised order, no card payment.
+
+**What the search evidence shows.** Hand-made and natural pigments do sell online into and
+from India — Etsy carries natural earth pigments from independent makers, and at least one
+Jaipur manufacturer (Hussain Papers) sells handmade natural pigment powders in around 30
+shades with miniature-painting starter kits and free shipping on UPI payment. Abroad, houses
+like Rublev/Natural Pigments have built whole businesses on small-batch artist colours. So
+there is a market, and the "small batch, made by hand" framing is the normal one in it.
+I could not open those shops to study their pricing or packaging — the network here blocked
+them — so treat this as direction, not detail.
+
+**What follows from that for you:**
+
+- **Your story is the product.** A factory tube is cheaper and more consistent than yours.
+  What you sell is a colour that came from earth you collected, ground the old way. The
+  `madeFrom` field on every material exists for exactly this, and it should never be empty.
+- **Sell kits, not just jars.** A "six earths, with a sheet on how to bind them" set is a
+  better first purchase than a single jar: it teaches the buyer to use it, and teaching
+  creates repeat buyers. One kit is already in the sample data.
+- **Batch numbers are a feature.** Natural pigment varies between batches. Saying so — and
+  numbering them — turns an apparent flaw into evidence of authenticity.
+- **Repeat buying is where the money is.** A collector may buy one painting in five years;
+  a student who likes your ochre buys it every term. The site keeps their email; use it.
+- **Materials feed the other two lines.** Someone who buys your pigments already trusts your
+  eye. Some of them will later commission a painting — and everyone who does buy a painting
+  learns that you grind your own colour, which makes the painting more interesting.
+- **Postage is the hard part, not the payment.** Jars are heavy and awkward; powders and
+  liquids face courier restrictions. That is precisely why the shop quotes postage by reply
+  rather than pretending a flat rate works.
+- **Label properly.** Colour name, weight, batch, and a plain safety line. Pigment powders
+  are not food, and some historic pigment names cover genuinely toxic compounds — if you ever
+  sell any of those, say so on the label in words a student will act on.
+
+**Not built, deliberately:** card checkout, live stock counts, and shipping-rate calculation.
+All three are worth adding when order volume justifies the fees and the bookkeeping; none is
+worth it for the first hundred orders.
+
+## 8. Design work for spaces — the business line most artists neglect
+
+`spaces.html` exists because "make designs on customer requirements" for a *room* is a
+different sale from a commission for a *person*.
+
+- **The buyer is often not the user.** An interior designer, an architect, a hotel's project
+  manager or a café owner is buying on behalf of a space. They think in square feet, site
+  dates, handover schedules and purchase orders — so the brief asks for wall dimensions,
+  surface, site status and a finish-by date, not just "what would you like painted".
+- **Quote murals by area and complexity**, works by the piece. The sample table does this.
+  Keep travel, scaffolding, on-site materials and installation as separate lines — if they
+  are folded into one number, every change of scope becomes an argument.
+- **Ask who else is on site.** A mural competes with electricians and painters for access;
+  the "still under construction / in use / ready now" question is there to surface that
+  before you quote a date.
+- **This line finds you through other trades**, not through art buyers. Architects, interior
+  designers, builders and hospitality consultants are worth more to you than any art
+  marketplace listing. A page you can send them — with measurements, process and prices —
+  is the whole point of `spaces.html`.
+- **Get the paperwork right.** For business clients expect a purchase order, an invoice with
+  your GST details if you are registered, and payment terms in writing. Ask a chartered
+  accountant how to invoice this work; it is not the same as selling a painting to a person.
+
+## 9. Practical matters in India — verify these, do not take my word
 
 I am flagging these because getting them wrong is expensive, and because I cannot
 verify current rules from here.
@@ -209,15 +290,18 @@ verify current rules from here.
 
 ---
 
-## 8. What to measure
+## 10. What to measure
 
 Once the site is live, four numbers tell you everything:
 
-1. **Enquiries per month** (the only number that pays).
+1. **Enquiries per month, split by line** — paintings, commissions, space work, materials
+   orders. Each one needs a different fix when it dries up.
 2. **Reply time** — measured in hours, not days.
 3. **Which series people filter to** — tells you what to paint more of.
 4. **Which paintings get opened but not enquired about** — usually a price or a
    photograph problem, and the photograph is easier to fix.
+5. **Repeat material buyers** — the clearest early sign that the shop is working, and the
+   list most worth writing to.
 
 A privacy-respecting analytics tool (Plausible, Fathom, or Cloudflare's free web
 analytics) is enough. You do not need Google Analytics for this.
@@ -237,3 +321,4 @@ open these pages directly from this environment, so please verify anything speci
 - [8 tips for artists accepting commissions — The Abundant Artist](https://theabundantartist.com/8-tips-artists-accepting-commissions/)
 - [Art commissions guide — Art Prof](https://artprof.org/pro-development/business-selling/art-commissions/)
 - [19 artist portfolio websites worth learning from — Pixpa](https://www.pixpa.com/blog/artist-portfolio-websites)
+- On hand-made pigments and materials: [natural earth pigments on Etsy India](https://www.etsy.com/in-en/market/natural_earth_pigments) · [Hussain Papers, Jaipur — handmade natural pigment powders](https://www.hussainpapers.co.in/pigments.htm) · [Natural Pigments / Rublev Colours](https://www.naturalpigments.com/pigments.html)

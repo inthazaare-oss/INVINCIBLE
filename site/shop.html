@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Contact the studio — enquiries, visits and press</title>
-  <meta name="description" content="Write directly to the artist about buying work, commissions, prints, studio visits, exhibitions or licensing.">
-  <meta property="og:title" content="Contact the studio — enquiries, visits and press">
-  <meta property="og:description" content="Write directly to the artist about buying work, commissions, prints, studio visits, exhibitions or licensing.">
+  <title>Hand-made paints, pigments and materials from the studio</title>
+  <meta name="description" content="Hand-ground pigments, hand-mulled watercolours, binders and grounds, made in small batches in the artist's studio and sold direct.">
+  <meta property="og:title" content="Hand-made paints, pigments and materials from the studio">
+  <meta property="og:description" content="Hand-ground pigments, hand-mulled watercolours, binders and grounds, made in small batches in the artist's studio and sold direct.">
   <meta property="og:type" content="website">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23faf7f2'/%3E%3Ccircle cx='16' cy='13' r='7' fill='%23a4552f'/%3E%3Cpath d='M4 28 Q16 14 28 28 Z' fill='%23221f1c'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,48 +41,62 @@
 <main id="main">
 
 <section class="section" style="padding-bottom:0">
-  <div class="wrap-narrow">
-    <span class="eyebrow">Contact</span>
-    <h1>Write to the studio</h1>
-    <p class="lede">For enquiries about buying a painting, commissioning one, arranging a studio
-      visit, exhibitions, press, or licensing an image — this reaches me directly.</p>
+  <div class="wrap">
+    <span class="eyebrow">The studio shop</span>
+    <h1 data-site="shop.heading">Paints made by hand, in the studio</h1>
+    <p class="lede" data-site="shop.intro">Hand-ground pigments and hand-mulled paint, in small batches.</p>
   </div>
 </section>
 
 <section class="section">
+  <div class="wrap">
+    <div class="filters">
+      <div class="filters__row" id="shop-chips" role="group" aria-label="Filter materials"></div>
+    </div>
+    <p class="lede" id="shop-blurb" style="margin-top:-1rem;margin-bottom:2rem"></p>
+    <div class="grid grid--3" id="shop-grid"></div>
+    <noscript><p class="lede">The shop needs JavaScript switched on. Write to the studio and
+      I will send you the current list of colours and prices by email.</p></noscript>
+  </div>
+</section>
+
+<section class="section" id="order">
   <div class="wrap-narrow">
-    <div class="grid grid--3" style="margin-bottom:clamp(2rem,5vw,3rem)">
-      <div><h4 class="eyebrow">Email</h4><p><a data-site-attr="href:contact.email|mailto:" data-site-fill href="mailto:you@example.com">you@example.com</a></p></div>
-      <div><h4 class="eyebrow">Phone / WhatsApp</h4><p><a data-site-attr="href:contact.phone|tel:" data-site-fill href="tel:">—</a></p></div>
-      <div><h4 class="eyebrow">Studio</h4><p><span data-site="artist.location">City, India</span><br><span class="small muted" data-site="artist.studioNote">By appointment.</span></p></div>
+    <div class="section-head">
+      <span class="eyebrow">Your order</span>
+      <h2>Send the order, and I will reply with the total</h2>
+      <p class="lede" id="order-note"></p>
     </div>
 
-    <form class="form panel" data-enquiry="Website message" novalidate>
+    <p class="lede muted" id="order-empty">Nothing chosen yet — add a colour or two above and it
+      will appear here.</p>
+
+    <div id="order-lines" class="table-scroll"></div>
+
+    <form class="form panel" id="order-form" data-enquiry="Materials order" novalidate hidden>
       <div style="position:absolute;left:-9999px" aria-hidden="true"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+      <input type="hidden" name="items" value="">
+      <input type="hidden" name="items_total" value="">
       <div class="row">
-        <div class="field"><label for="k-name">Your name *</label><input class="input" id="k-name" name="name" required></div>
-        <div class="field"><label for="k-email">Email *</label><input class="input" id="k-email" name="email" type="email" required></div>
+        <div class="field"><label for="o-name">Your name *</label><input class="input" id="o-name" name="name" required autocomplete="name"></div>
+        <div class="field"><label for="o-email">Email *</label><input class="input" id="o-email" name="email" type="email" required autocomplete="email"></div>
       </div>
-      <div class="field"><span class="field__label">What is this about?</span>
-        <div class="choices">
-          <label class="choice"><input type="radio" name="subject_matter" value="Buying a painting" checked><span>Buying a painting</span></label>
-          <label class="choice"><input type="radio" name="subject_matter" value="A commission"><span>A commission</span></label>
-          <label class="choice"><input type="radio" name="subject_matter" value="Prints"><span>Prints</span></label>
-          <label class="choice"><input type="radio" name="subject_matter" value="Paints and materials"><span>Paints and materials</span></label>
-          <label class="choice"><input type="radio" name="subject_matter" value="Design for a space"><span>Design for a space</span></label>
-          <label class="choice"><input type="radio" name="subject_matter" value="Studio visit"><span>Studio visit</span></label>
-          <label class="choice"><input type="radio" name="subject_matter" value="Exhibition or press"><span>Exhibition or press</span></label>
-          <label class="choice"><input type="radio" name="subject_matter" value="Licensing an image"><span>Licensing an image</span></label>
-        </div>
+      <div class="row">
+        <div class="field"><label for="o-phone">Phone or WhatsApp *</label><input class="input" id="o-phone" name="phone" required autocomplete="tel">
+          <span class="hint">Couriers ask for a number they can call.</span></div>
+        <div class="field"><label for="o-pin">PIN code</label><input class="input" id="o-pin" name="pincode" inputmode="numeric" autocomplete="postal-code"></div>
       </div>
-      <div class="field"><label for="k-msg">Message *</label>
-        <textarea class="textarea" id="k-msg" name="message" required></textarea></div>
+      <div class="field"><label for="o-address">Delivery address</label>
+        <textarea class="textarea" id="o-address" name="address" style="min-height:90px" autocomplete="street-address"></textarea></div>
+      <div class="field"><label for="o-notes">Notes</label>
+        <textarea class="textarea" id="o-notes" name="message" style="min-height:80px"
+          placeholder="Coarse or fine grind, a colour you are trying to match, a date you need it by."></textarea></div>
       <label class="check"><input type="checkbox" name="consent" required>
-        <span data-site="forms.consentText">I agree to be contacted about this enquiry.</span></label>
+        <span data-site="forms.consentText">I agree to be contacted about this order.</span></label>
       <div class="form-status" role="status"></div>
       <div class="hero__actions" style="margin-top:0">
-        <button class="btn btn--accent" type="submit">Send message</button>
-        <a class="btn btn--ghost" data-site-attr="href:contact.whatsapp|https://wa.me/" href="#">Message on WhatsApp</a>
+        <button class="btn btn--accent" type="submit">Send the order</button>
+        <button class="chip" type="button" id="order-clear">Clear the order</button>
       </div>
     </form>
   </div>
@@ -90,10 +104,15 @@
 
 <section class="section">
   <div class="wrap-narrow">
-    <div class="section-head reveal"><span class="eyebrow">Questions</span><h2>Frequently asked</h2></div>
-    <div class="details-list" id="faq-list"></div>
+    <div class="section-head"><span class="eyebrow">Before you order</span><h2>How the materials work</h2></div>
+    <ul class="terms" id="shop-terms" style="font-size:.95rem;color:var(--ink-2)"></ul>
   </div>
 </section>
+
+<div class="order-bar" id="order-bar" hidden>
+  <span id="order-bar-count"></span>
+  <a href="#order">Review order</a>
+</div>
 </main>
 
 <footer class="site-footer">
@@ -136,15 +155,7 @@
 <script src="data/site.js"></script>
 <script src="data/artworks.js"></script>
 <script src="assets/js/app.js"></script>
-
-<script>
-(function () {
-  var S = window.Studio;
-  document.getElementById("faq-list").innerHTML = (S.site.faq || []).map(function (f) {
-    return "<details><summary>" + S.esc(f.q) + "</summary><p>" + S.esc(f.a) + "</p></details>";
-  }).join("");
-})();
-</script>
-
+<script src="data/products.js"></script>
+<script src="assets/js/shop.js"></script>
 </body>
 </html>

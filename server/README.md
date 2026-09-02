@@ -54,7 +54,9 @@ Point the website at the server by setting `forms.mode` to `"server"` in
 | `/api/health` | GET | How the Studio Panel detects the server |
 | `/api/artworks` | GET | The gallery as JSON |
 | `/api/artworks` | PUT | Publish the gallery (password) — writes `site/data/artworks.js` atomically |
-| `/api/upload` | POST | Save an uploaded image into `site/images/works/` (password) |
+| `/api/products` | GET | The studio shop as JSON |
+| `/api/products` | PUT | Publish the shop (password) — writes `site/data/products.js` atomically |
+| `/api/upload` | POST | Save an uploaded image into `site/images/works/`, or `site/images/products/` with `?folder=products` (password) |
 | `/api/enquiry` | POST | Store an enquiry and email it on |
 | `/api/enquiries` | GET | List stored enquiries (password) |
 | everything else | GET | Serves the `site/` folder |
@@ -69,5 +71,5 @@ and back it up somewhere safe.
 - Put it behind HTTPS (a reverse proxy such as Caddy or nginx, or a host that
   terminates TLS for you). The panel password is sent with HTTP Basic authentication,
   which is only safe over HTTPS.
-- Take a copy of `site/data/artworks.js`, `site/images/` and `server/data/` regularly.
-  They are your gallery and your enquiry history.
+- Take a copy of `site/data/artworks.js`, `site/data/products.js`, `site/images/` and
+  `server/data/` regularly. They are your gallery, your shop and your enquiry history.
