@@ -1,6 +1,6 @@
 # INVINCIBLE
 
-## Artist portfolio & commission-booking website
+## BVK ART Studio — artist portfolio, commissions & studio shop
 
 A complete website for a working painter who sells three things: **finished paintings**,
 **work made to order** (commissions, and design work for a particular room or wall), and
@@ -31,7 +31,7 @@ STUDIO_PASSWORD="choose-one" node server/server.mjs   # then open http://localho
 
 | I want to change… | Edit |
 |---|---|
-| Name, bio, email, prices, FAQ, series | `site/data/site.js` |
+| The studio name (**BVK ART Studio**), bio, email, prices, FAQ, series | `site/data/site.js` |
 | The paintings themselves | `site/admin.html` → Paintings tab (writes `site/data/artworks.js`) |
 | The paints and materials you sell | `site/admin.html` → Materials tab (writes `site/data/products.js`) |
 | Colours and typography | `site/assets/css/style.css` |

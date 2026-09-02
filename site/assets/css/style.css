@@ -125,8 +125,10 @@ p  { margin: 0 0 1.1em; }
 }
 .site-header.is-stuck { border-bottom-color: var(--rule); }
 .site-header__inner { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding: 1.05rem 0; }
-.brand { display: flex; flex-direction: column; text-decoration: none; line-height: 1.05; }
-.brand__name { font-family: var(--serif); font-size: 1.5rem; letter-spacing: .01em; }
+.brand { display: flex; align-items: center; gap: .65rem; text-decoration: none; line-height: 1.05; }
+.brand__mark { flex: none; border-radius: 6px; box-shadow: var(--shadow); }
+.brand__text { display: flex; flex-direction: column; }
+.brand__name { font-family: var(--serif); font-size: 1.42rem; letter-spacing: .005em; }
 .brand__role { font-size: .63rem; letter-spacing: .3em; text-transform: uppercase; color: var(--ink-3); margin-top: .3rem; }
 .nav { display: flex; align-items: center; gap: 1.7rem; }
 .nav a {

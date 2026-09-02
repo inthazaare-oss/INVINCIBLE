@@ -19,7 +19,7 @@
     return;
   }
 
-  document.title = w.title + " — " + S.site.artist.name;
+  document.title = w.title + " — " + (S.site.artist.studio || S.site.artist.name);
   var st = S.statusOf(w);
   var idx = works.map(function (x) { return x.id; }).indexOf(w.id);
   var prev = works[(idx - 1 + works.length) % works.length];

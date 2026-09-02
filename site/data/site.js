@@ -9,7 +9,14 @@ window.SITE = {
 
   /* --- 1. Identity ------------------------------------------------------ */
   artist: {
-    name: "Your Name",                                   // SAMPLE
+    /* The studio name shown in the header, the browser tab and the footer.
+       Change the capitalisation here if you prefer "BVK Art Studio". */
+    studio: "BVK ART Studio",
+    /* Your own name, as it appears in your bio and beside your signature.
+       If the studio is just you, this can be your full name. */
+    name: "Your Name",                                   // SAMPLE — replace with your name
+    /* The small line under the studio name in the header. */
+    role: "Painter & Draughtsman",
     tagline: "Painter of landscapes, people and the many lives of India", // SAMPLE
     shortBio:
       "I paint what I see and what stays with me afterwards — the light on a " +

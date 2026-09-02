@@ -44,11 +44,17 @@ Open `site/data/site.js` in any text editor (Notepad, TextEdit, VS Code). Change
 the text between quote marks. Every line marked `// SAMPLE` is placeholder text
 written for you as an example — replace it with your own.
 
+The site is named **BVK ART Studio**; that name lives in `artist.studio` and appears in
+the header, the footer, every browser tab and every link preview. Change it there and it
+changes everywhere.
+
 Change at minimum:
 
 | What | Where |
 |---|---|
-| Your name | `artist.name` |
+| The studio name in the header and browser tab | `artist.studio` — currently **BVK ART Studio** |
+| The small line under it | `artist.role` |
+| Your own name, for your bio and signature | `artist.name` |
 | One-line description | `artist.tagline` |
 | Your bio | `artist.shortBio` and `artist.longBio` |
 | **Your email address** | `contact.email` — this is where every enquiry goes |
