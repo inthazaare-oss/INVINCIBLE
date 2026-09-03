@@ -14,7 +14,7 @@ window.SITE = {
     studio: "BVK ART Studio",
     /* Your own name, as it appears in your bio and beside your signature.
        If the studio is just you, this can be your full name. */
-    name: "Your Name",                                   // SAMPLE — replace with your name
+    name: "Venkatesham",                                 // write it in full if you prefer
     /* The small line under the studio name in the header. */
     role: "Painter & Draughtsman",
     tagline: "Painter of landscapes, people and the many lives of India", // SAMPLE
@@ -132,6 +132,13 @@ window.SITE = {
     { q: "Can I visit the studio?",
       a: "Yes, by appointment. Write to me with the dates you are in town." }
   ],
+
+  /* --- 7b. What clients have said ---------------------------------------- *
+   * EMPTY ON PURPOSE. The landing page hides this section until you add real
+   * quotes. Never invent one: a collector can always be asked, and a made-up
+   * testimonial is the fastest way to lose the trust the rest of the site builds.
+   * Format:  { quote: "…", who: "Name", where: "City · commissioned portrait" }  */
+  testimonials: [],
 
   /* --- 8. Exhibitions / recognition (leave empty [] to hide the section) - */
   exhibitions: [

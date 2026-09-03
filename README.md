@@ -11,13 +11,24 @@ the artist's inbox, and a private panel lets the artist add work without touchin
 site/     the website — plain HTML, CSS and JavaScript. No build step, no npm.
 server/   OPTIONAL Node server for real uploads, one-click publishing and stored enquiries.
 docs/     how to use it, and the market analysis behind the design.
-tools/    the script that made the placeholder images (delete once real photos are in).
+preview/  the landing page as a single self-contained file, for showing people.
+tools/    scripts: placeholder images, and the preview builder.
 ```
 
 **Start here → [`docs/GETTING-STARTED.md`](docs/GETTING-STARTED.md)** (plain language, no code)
 **Why it is designed this way → [`docs/ANALYSIS-INDIAN-ART-WEBSITES.md`](docs/ANALYSIS-INDIAN-ART-WEBSITES.md)**
 
-### See it running
+### See the landing page without installing anything
+
+`preview/bvk-art-studio-landing.html` is the landing page as **one self-contained file** —
+stylesheet, scripts, data and every image folded in. Double-click it, email it, or open it on
+a phone; it needs no web server and no internet. Rebuild it after any change with:
+
+```bash
+python3 tools/build-preview.py
+```
+
+### See the whole site running
 
 ```bash
 # either: any static server, the site is just files

@@ -14,6 +14,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ArtGallery",
+  "name": "BVK ART Studio",
+  "description": "Original paintings and drawings by Venkatesham — landscapes, portraits, human life studies, India's regional cultures, deserts, mountains, rivers and public life. Commissions, design work for spaces, and hand-made paints.",
+  "founder": { "@type": "Person", "name": "Venkatesham", "jobTitle": "Painter" },
+  "makesOffer": [
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Original paintings and drawings" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Commissioned paintings and portraits" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Murals and painting schemes for spaces" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Hand-made pigments and paints" } }
+  ]
+}
+</script>
 </head>
 <body>
 <a class="visually-hidden" href="#main">Skip to content</a>
@@ -51,25 +66,28 @@
 <section class="hero">
   <div class="wrap hero__grid">
     <div>
-      <span class="eyebrow">Original paintings &amp; drawings</span>
+      <span class="eyebrow">BVK ART Studio · <span data-site="artist.location">City, India</span></span>
       <h1>Landscapes, portraits and the <em>many lives</em> of a country.</h1>
       <p class="lede" data-site="artist.shortBio">
         I paint what I see and what stays with me afterwards.
       </p>
       <div class="hero__actions">
         <a class="btn" href="gallery.html">View the work</a>
-        <a class="btn btn--ghost" href="commission.html">Book a commission</a>
+        <a class="btn btn--ghost" href="commission.html">Commission a painting</a>
       </div>
+      <ul class="facts" id="hero-facts"></ul>
       <div class="hero__marquee" id="hero-themes"></div>
     </div>
-    <figure class="hero__figure" id="hero-figure">
-      <img src="images/works/ghats-at-first-light.svg" alt="Featured painting">
+
+    <figure class="hero__figure hero__stack" id="hero-figure">
+      <img class="hero__stack-main" src="images/works/ghats-at-first-light.svg" alt="Featured painting">
+      <img class="hero__stack-inset" src="images/works/grandmother-kutch.svg" alt="" aria-hidden="true">
       <figcaption class="hero__caption"></figcaption>
     </figure>
   </div>
 </section>
 
-<section class="section">
+<section class="section" id="work">
   <div class="wrap">
     <div class="section-head head-row reveal">
       <div>
@@ -78,33 +96,57 @@
       </div>
       <a class="link-arrow" href="gallery.html">See the full gallery</a>
     </div>
-    <div class="grid grid--3" id="featured-grid"></div>
+    <div class="grid grid--3 grid--feature" id="featured-grid"></div>
   </div>
 </section>
 
-<section class="section">
+<section class="section" id="ways">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Working together</span>
+      <h2>Three ways to work with the studio</h2>
+      <p class="lede">Buy something that already exists, have something made for you, or paint
+        with the colours I grind myself.</p>
+    </div>
+    <div class="grid grid--3">
+      <a class="theme-card reveal" href="gallery.html?status=available">
+        <div><h3 class="theme-card__name">Buy a finished work</h3>
+        <p class="theme-card__blurb">Originals and studies ready to ship — signed, certified, packed and insured.</p></div>
+        <span class="theme-card__count">See what is available</span></a>
+      <a class="theme-card reveal" href="commission.html">
+        <div><h3 class="theme-card__name">Commission a painting</h3>
+        <p class="theme-card__blurb">A portrait from your photographs, a place that matters to you, a work sized to your wall.</p></div>
+        <span class="theme-card__count">Send a brief</span></a>
+      <a class="theme-card reveal" href="shop.html">
+        <div><h3 class="theme-card__name">Paint with my colours</h3>
+        <p class="theme-card__blurb">Hand-ground pigments, hand-mulled paints and grounds, made in small batches.</p></div>
+        <span class="theme-card__count">The studio shop</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="subjects">
   <div class="wrap">
     <div class="section-head reveal">
       <span class="eyebrow">Subjects</span>
-      <h2>What I paint</h2>
-      <p class="lede">Eleven running series, worked in both traditional and abstract registers.
-        Every one of them is open to commission.</p>
+      <h2>Eleven running series</h2>
+      <p class="lede">Worked in both traditional and abstract registers — and every one of them
+        is open to commission.</p>
     </div>
     <div class="grid grid--3" id="theme-grid"></div>
   </div>
 </section>
 
-<section class="section">
+<section class="section" id="commission">
   <div class="wrap">
     <div class="panel panel--edge reveal">
       <div class="head-row" style="align-items:flex-start">
         <div style="max-width:52ch">
           <span class="eyebrow">Commissions</span>
           <h2 style="margin-bottom:.4em">Have something painted</h2>
-          <p class="lede">A portrait from your photographs, the landscape of a place that matters
-            to you, or a large work made to the measurements of a particular wall. Tell me the
-            subject, the size and the date you need it by — I reply to every brief with an honest
-            quote and timeline.</p>
+          <p class="lede">Tell me the subject, the size and the date you need it by. You get a written
+            quote and a completion date before anything is charged, a study to approve before the
+            painting starts, and progress photographs as it goes.</p>
           <div class="hero__actions" style="margin-top:1.5rem">
             <a class="btn btn--accent" href="commission.html">Start a commission brief</a>
             <a class="btn btn--ghost" href="commission.html#pricing">See indicative prices</a>
@@ -116,31 +158,23 @@
   </div>
 </section>
 
-
-<section class="section">
+<section class="section" id="spaces">
   <div class="wrap">
-    <div class="section-head reveal">
-      <span class="eyebrow">Working together</span>
-      <h2>Three ways to work with me</h2>
-    </div>
-    <div class="grid grid--3">
-      <a class="theme-card reveal" href="gallery.html?status=available">
-        <div><h3 class="theme-card__name">Buy a finished work</h3>
-        <p class="theme-card__blurb">Originals and studies that already exist, ready to ship. Signed, certified, packed and insured.</p></div>
-        <span class="theme-card__count">See what is available</span></a>
-      <a class="theme-card reveal" href="commission.html">
-        <div><h3 class="theme-card__name">Commission a painting</h3>
-        <p class="theme-card__blurb">A portrait from your photographs, a place that matters to you, a work sized to your wall.</p></div>
-        <span class="theme-card__count">Send a brief</span></a>
-      <a class="theme-card reveal" href="spaces.html">
-        <div><h3 class="theme-card__name">Design for your space</h3>
-        <p class="theme-card__blurb">Murals and painting schemes for homes, offices, hotels and restaurants — designed from your room, not my stock.</p></div>
-        <span class="theme-card__count">For spaces</span></a>
+    <div class="grid grid--2 reveal" style="gap:clamp(2rem,5vw,4rem);align-items:center">
+      <div>
+        <span class="eyebrow">For spaces</span>
+        <h2>A wall, a lobby, a whole floor</h2>
+        <p class="lede" id="spaces-intro">Murals and painting schemes designed from your room —
+          its light, its colours, the way people move through it — rather than from what is
+          already in my studio.</p>
+        <a class="link-arrow" href="spaces.html">How space work is briefed and priced</a>
+      </div>
+      <ul class="ticks" id="space-list"></ul>
     </div>
   </div>
 </section>
 
-<section class="section" id="materials-section">
+<section class="section" id="materials">
   <div class="wrap">
     <div class="section-head head-row reveal">
       <div style="max-width:56ch">
@@ -154,7 +188,14 @@
   </div>
 </section>
 
-<section class="section">
+<section class="section" id="voices" hidden>
+  <div class="wrap">
+    <div class="section-head reveal"><span class="eyebrow">In their words</span><h2>What clients say</h2></div>
+    <div class="grid grid--2" id="testimonials"></div>
+  </div>
+</section>
+
+<section class="section" id="about">
   <div class="wrap">
     <div class="grid grid--2 reveal" style="align-items:center;gap:clamp(2rem,5vw,4rem)">
       <img src="images/ui/artist.svg" alt="The artist in the studio"
@@ -164,18 +205,32 @@
         <span class="eyebrow">The studio</span>
         <h2>Painted from life, and from memory</h2>
         <div data-site-html="artist.longBio"><p>Bio.</p></div>
+        <p class="signature" data-site="artist.name">Venkatesham</p>
         <a class="link-arrow" href="about.html">More about the practice</a>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section">
+<section class="section" id="contact">
   <div class="wrap">
-    <div class="grid grid--3 reveal">
-      <div><h3 style="font-size:1.1rem">Signed &amp; certified</h3><p class="small muted">Every original leaves the studio signed, with a dated certificate of authenticity.</p></div>
-      <div><h3 style="font-size:1.1rem">Shipped insured</h3><p class="small muted">Crated or rolled, insured, across India and worldwide, quoted at cost.</p></div>
-      <div><h3 style="font-size:1.1rem">Direct from the artist</h3><p class="small muted">No gallery commission in between. You deal with me, and I answer every enquiry myself.</p></div>
+    <div class="closing reveal">
+      <div>
+        <span class="eyebrow">Get in touch</span>
+        <h2 style="margin-bottom:.35em">Tell me what you would like painted</h2>
+        <p class="lede" style="margin-bottom:1.6rem">Every enquiry reaches me directly — there is no
+          gallery in between, and I answer each one myself, usually within two to three working days.</p>
+        <div class="hero__actions" style="margin-top:0">
+          <a class="btn btn--accent" href="commission.html">Book a commission</a>
+          <a class="btn btn--ghost" data-site-attr="href:contact.email|mailto:" href="mailto:">Email the studio</a>
+          <a class="btn btn--ghost" data-site-attr="href:contact.whatsapp|https://wa.me/" href="#">WhatsApp</a>
+        </div>
+      </div>
+      <ul class="assurances">
+        <li><strong>Signed &amp; certified</strong><span>Every original leaves the studio signed, with a dated certificate of authenticity.</span></li>
+        <li><strong>Shipped insured</strong><span>Crated or rolled, insured, across India and worldwide, quoted at cost.</span></li>
+        <li><strong>Direct from the artist</strong><span>No gallery commission in between, and no one else answering your email.</span></li>
+      </ul>
     </div>
   </div>
 </section>
@@ -212,7 +267,7 @@
       </div>
     </div>
     <div class="footer__bottom">
-      <span>© <span id="year">2026</span> <span data-site="artist.studio">BVK ART Studio</span>. All images are the artist's copyright and may not be reproduced without permission.</span>
+      <span>© <span id="year">2026</span> <span data-site="artist.name">Venkatesham</span> · <span data-site="artist.studio">BVK ART Studio</span>. All paintings, drawings and photographs on this site are the artist's copyright and may not be reproduced without permission.</span>
       <span><a href="admin.html">Studio panel</a></span>
     </div>
   </div>
@@ -227,29 +282,41 @@
 (function () {
   var S = window.Studio, works = S.works();
 
-  // Hero: the newest featured work
+  /* ---- hero: the newest featured work, with a second work stacked behind -- */
   var featured = works.filter(function (w) { return w.featured; });
   var hero = featured[0] || works[0];
+  var second = featured.filter(function (w) { return w !== hero; })[0] || works[1];
   if (hero) {
     var fig = document.getElementById("hero-figure");
-    fig.querySelector("img").src = hero.image;
-    fig.querySelector("img").alt = hero.title + " — " + hero.medium;
+    var main = fig.querySelector(".hero__stack-main");
+    main.src = hero.image;
+    main.alt = hero.title + " — " + hero.medium;
+    if (second) fig.querySelector(".hero__stack-inset").src = second.image;
     fig.querySelector("figcaption").innerHTML =
       "<strong>" + S.esc(hero.title) + "</strong>, " + S.esc(hero.year) + "<br>" +
       '<span class="muted">' + S.esc(hero.medium) + "</span>";
-    fig.style.cursor = "zoom-in";
-    fig.addEventListener("click", function () { S.lightbox(hero.image, hero.title + " — " + hero.medium); });
+    main.style.cursor = "zoom-in";
+    main.addEventListener("click", function () { S.lightbox(hero.image, hero.title + " — " + hero.medium); });
   }
 
-  // Hero theme list
+  /* ---- three facts, taken from the real data rather than written by hand -- */
+  var forSale = works.filter(function (w) { return w.status === "available" && w.price; });
+  var cheapest = forSale.length ? Math.min.apply(null, forSale.map(function (w) { return w.price; })) : null;
+  var facts = [];
+  if (cheapest) facts.push("Originals from " + S.money(cheapest));
+  facts.push(forSale.length + " works available now");
+  facts.push("Commissions open");
+  document.getElementById("hero-facts").innerHTML =
+    facts.map(function (f) { return "<li>" + S.esc(f) + "</li>"; }).join("");
+
   document.getElementById("hero-themes").innerHTML =
     (S.site.themes || []).slice(0, 6).map(function (t) { return "<span>" + S.esc(t.name) + "</span>"; }).join("");
 
-  // Featured grid
-  var pick = (featured.length ? featured : works).slice(0, 6);
+  /* ---- selected work: the first card runs wide ---------------------------- */
+  var pick = (featured.length ? featured : works).slice(0, 5);
   S.renderCards(document.getElementById("featured-grid"), pick);
 
-  // Theme grid with live counts
+  /* ---- the eleven series, with live counts -------------------------------- */
   document.getElementById("theme-grid").innerHTML = (S.site.themes || []).map(function (t) {
     var n = S.countByTheme(t.id);
     return '<a class="theme-card reveal" href="gallery.html?theme=' + encodeURIComponent(t.id) + '">' +
@@ -258,27 +325,47 @@
       '<span class="theme-card__count">' + (n ? n + (n === 1 ? " work" : " works") : "Open to commission") + "</span></a>";
   }).join("");
 
-  // Commission steps preview
   document.getElementById("home-steps").innerHTML =
     (S.site.commissionSteps || []).slice(0, 3).map(function (s) {
       return '<li class="step"><div><h3>' + S.esc(s.title) + "</h3><p>" + S.esc(s.text) + "</p></div></li>";
     }).join("");
 
-  // Featured hand-made materials
+  /* ---- for spaces --------------------------------------------------------- */
+  var sp = S.site.spaces || {};
+  if (sp.show === false) {
+    document.getElementById("spaces").hidden = true;
+  } else {
+    if (sp.intro) document.getElementById("spaces-intro").textContent = sp.intro;
+    document.getElementById("space-list").innerHTML = (sp.types || []).map(function (t) {
+      return "<li><strong>" + S.esc(t.name) + "</strong><span>" + S.esc(t.blurb) + "</span></li>";
+    }).join("");
+  }
+
+  /* ---- the studio shop ---------------------------------------------------- */
   var shop = S.site.shop || {};
   var products = (window.PRODUCTS || []).filter(function (p) { return p.featured; });
   if (!products.length) products = (window.PRODUCTS || []).slice(0, 3);
-  var strip = document.getElementById("materials-strip");
-  if (!shop.show || !products.length) {
-    document.getElementById("materials-section").hidden = true;
+  if (shop.show === false || !products.length) {
+    document.getElementById("materials").hidden = true;
   } else {
-    strip.innerHTML = products.slice(0, 3).map(function (p) {
+    document.getElementById("materials-strip").innerHTML = products.slice(0, 3).map(function (p) {
       return '<a class="card reveal" href="shop.html#p-' + encodeURIComponent(p.id) + '">' +
         '<div class="card__frame"><img src="' + S.esc(p.image) + '" alt="' + S.esc(p.name) +
           '" loading="lazy" style="aspect-ratio:1/1;object-fit:cover"></div>' +
-        '<div class="card__body"><h3 class="card__title">' + S.esc(p.name) + '</h3>' +
-        '<p class="card__meta">' + S.esc(p.unit || "") + '</p>' +
-        '<p class="card__price">' + S.money(p.price) + '</p></div></a>';
+        '<div class="card__body"><h3 class="card__title">' + S.esc(p.name) + "</h3>" +
+        '<p class="card__meta">' + S.esc(p.unit || "") + "</p>" +
+        '<p class="card__price">' + S.money(p.price) + "</p></div></a>";
+    }).join("");
+  }
+
+  /* ---- testimonials appear only once real ones are added to site.js ------- */
+  var voices = S.site.testimonials || [];
+  if (voices.length) {
+    document.getElementById("voices").hidden = false;
+    document.getElementById("testimonials").innerHTML = voices.map(function (v) {
+      return '<figure class="voice reveal"><blockquote>' + S.esc(v.quote) + "</blockquote>" +
+        "<figcaption>" + S.esc(v.who) + (v.where ? ' <span class="muted">· ' + S.esc(v.where) + "</span>" : "") +
+        "</figcaption></figure>";
     }).join("");
   }
 

@@ -1,0 +1,1893 @@
+<title>BVK ART Studio — original paintings, commissions and hand-made colours</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* =============================================================================
+   Studio site — design system
+   A quiet gallery aesthetic: warm paper, ink text, one earth accent.
+   The paintings supply the colour; the interface stays out of their way.
+   ========================================================================== */
+
+/* --- Tokens ------------------------------------------------------------- */
+:root {
+  --paper:        #faf7f2;
+  --paper-2:      #f2ece2;
+  --paper-3:      #e8e0d3;
+  --ink:          #221f1c;
+  --ink-2:        #4b453d;
+  --ink-3:        #7d756a;
+  --rule:         #ddd4c5;
+  --accent:       #a4552f;   /* terracotta */
+  --accent-soft:  #f0dfd3;
+  --gold:         #9a7b3f;
+  --ok:           #2f6b4f;
+  --warn:         #9a6a1f;
+  --shadow:       0 1px 2px rgba(34,31,28,.06), 0 12px 32px -12px rgba(34,31,28,.18);
+  --shadow-lift:  0 2px 6px rgba(34,31,28,.08), 0 28px 60px -20px rgba(34,31,28,.28);
+
+  --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --sans:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --wrap: 1200px;
+  --gutter: clamp(1.15rem, 4vw, 3rem);
+  --radius: 3px;
+  --t: 240ms cubic-bezier(.4, 0, .2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #16140f; --paper-2: #1e1b16; --paper-3: #262119;
+    --ink: #f0ebe2; --ink-2: #c9c1b4; --ink-3: #948b7d;
+    --rule: #332d24; --accent: #d9834f; --accent-soft: #3a2a1e;
+    --gold: #c4a464; --ok: #6bbf94; --warn: #d9a441;
+    --shadow: 0 1px 2px rgba(0,0,0,.5), 0 12px 32px -12px rgba(0,0,0,.7);
+    --shadow-lift: 0 2px 6px rgba(0,0,0,.5), 0 28px 60px -20px rgba(0,0,0,.8);
+  }
+}
+
+/* --- Reset -------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+/* class rules like .btn set display, which would otherwise beat the browser's
+   own [hidden] rule and leave "hidden" elements on screen. */
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font-family: var(--sans); font-size: 16px; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; overflow-x: hidden;
+}
+img, svg, video { max-width: 100%; height: auto; display: block; }
+a { color: inherit; text-decoration-color: var(--rule); text-underline-offset: .22em; }
+a:hover { text-decoration-color: var(--accent); }
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+/* --- Typography --------------------------------------------------------- */
+h1, h2, h3, h4 { font-family: var(--serif); font-weight: 500; line-height: 1.12; margin: 0 0 .5em; letter-spacing: -.01em; }
+h1 { font-size: clamp(2.4rem, 6.5vw, 4.6rem); }
+h2 { font-size: clamp(1.85rem, 4vw, 2.9rem); }
+h3 { font-size: clamp(1.25rem, 2.2vw, 1.6rem); }
+p  { margin: 0 0 1.1em; }
+.lede { font-size: clamp(1.05rem, 1.7vw, 1.25rem); color: var(--ink-2); max-width: 62ch; }
+.eyebrow {
+  font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--accent); font-weight: 600; margin: 0 0 .9rem; display: block;
+}
+.muted { color: var(--ink-3); }
+.small { font-size: .86rem; }
+.serif { font-family: var(--serif); }
+.center { text-align: center; }
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* --- Layout ------------------------------------------------------------- */
+.wrap { width: min(var(--wrap), 100% - var(--gutter) * 2); margin-inline: auto; }
+.wrap-narrow { width: min(760px, 100% - var(--gutter) * 2); margin-inline: auto; }
+.section { padding: clamp(3.5rem, 9vw, 7rem) 0; }
+.section + .section { padding-top: 0; }
+.section-head { margin-bottom: clamp(1.8rem, 4vw, 3rem); }
+.section-head .lede { margin-bottom: 0; }
+.head-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+.rule { border: 0; border-top: 1px solid var(--rule); margin: 0; }
+.stack > * + * { margin-top: 1.1rem; }
+
+/* --- Buttons ------------------------------------------------------------ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .55rem;
+  padding: .85rem 1.6rem; border: 1px solid var(--ink); border-radius: var(--radius);
+  background: var(--ink); color: var(--paper); cursor: pointer;
+  font-size: .87rem; letter-spacing: .07em; text-transform: uppercase; font-weight: 500;
+  text-decoration: none; transition: background var(--t), color var(--t), border-color var(--t), transform var(--t);
+}
+.btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; transform: translateY(-1px); }
+.btn--ghost { background: transparent; color: var(--ink); border-color: var(--rule); }
+.btn--ghost:hover { background: transparent; border-color: var(--accent); color: var(--accent); }
+.btn--accent { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn--accent:hover { background: var(--ink); border-color: var(--ink); }
+.btn--sm { padding: .55rem 1rem; font-size: .74rem; }
+.btn[disabled], .btn[aria-disabled="true"] { opacity: .5; pointer-events: none; }
+.link-arrow {
+  font-size: .82rem; letter-spacing: .12em; text-transform: uppercase;
+  text-decoration: none; border-bottom: 1px solid var(--rule); padding-bottom: .28rem;
+  white-space: nowrap; transition: border-color var(--t), color var(--t);
+}
+.link-arrow:hover { color: var(--accent); border-color: var(--accent); }
+.link-arrow::after { content: " →"; }
+
+/* --- Header ------------------------------------------------------------- */
+.site-header {
+  position: sticky; top: 0; z-index: 60;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(12px); border-bottom: 1px solid transparent;
+  transition: border-color var(--t), background var(--t);
+}
+.site-header.is-stuck { border-bottom-color: var(--rule); }
+.site-header__inner { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding: 1.05rem 0; }
+.brand { display: flex; align-items: center; gap: .65rem; text-decoration: none; line-height: 1.05; }
+.brand__mark { flex: none; border-radius: 6px; box-shadow: var(--shadow); }
+.brand__text { display: flex; flex-direction: column; }
+.brand__name { font-family: var(--serif); font-size: 1.42rem; letter-spacing: .005em; }
+.brand__role { font-size: .63rem; letter-spacing: .3em; text-transform: uppercase; color: var(--ink-3); margin-top: .3rem; }
+.nav { display: flex; align-items: center; gap: 1.7rem; }
+.nav a {
+  text-decoration: none; font-size: .82rem; letter-spacing: .09em; text-transform: uppercase;
+  color: var(--ink-2); padding-bottom: .2rem; border-bottom: 1px solid transparent; transition: color var(--t), border-color var(--t);
+}
+.nav a:hover, .nav a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--accent); }
+/* the call-to-action in the header is a button first and a nav link second */
+.nav a.btn { color: var(--paper); border-bottom-color: var(--ink); }
+.nav a.btn:hover, .nav a.btn[aria-current="page"] { color: #fff; border-bottom-color: var(--accent); }
+.nav-toggle { display: none; background: none; border: 1px solid var(--rule); border-radius: var(--radius); padding: .5rem .7rem; cursor: pointer; }
+.nav-toggle span { display: block; width: 18px; height: 1.5px; background: var(--ink); }
+.nav-toggle span + span { margin-top: 4px; }
+@media (max-width: 900px) {
+  .nav-toggle { display: block; }
+  .nav {
+    position: fixed; inset: 64px 0 auto; flex-direction: column; align-items: flex-start;
+    gap: 0; background: var(--paper); border-bottom: 1px solid var(--rule);
+    padding: .5rem var(--gutter) 1.5rem; transform: translateY(-120%); transition: transform var(--t);
+    max-height: calc(100vh - 64px); overflow-y: auto;
+  }
+  .nav.is-open { transform: translateY(0); }
+  .nav a { width: 100%; padding: .95rem 0; border-bottom: 1px solid var(--rule); font-size: .95rem; }
+  .nav .btn { margin-top: 1rem; width: 100%; }
+}
+
+/* --- Hero --------------------------------------------------------------- */
+.hero { position: relative; padding: clamp(3rem, 8vw, 6rem) 0 clamp(2.5rem, 6vw, 5rem); }
+.hero__grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
+@media (max-width: 900px) { .hero__grid { grid-template-columns: 1fr; } }
+.hero h1 { margin-bottom: .35em; }
+.hero h1 em { font-style: italic; color: var(--accent); }
+.hero__actions { display: flex; gap: .9rem; flex-wrap: wrap; margin-top: 2rem; }
+.hero__figure { position: relative; }
+.hero__figure img {
+  width: 100%; aspect-ratio: 4 / 5; object-fit: cover;
+  box-shadow: var(--shadow-lift); border-radius: var(--radius);
+}
+.hero__caption {
+  position: absolute; left: -1.5rem; bottom: 1.5rem; background: var(--paper);
+  border-left: 2px solid var(--accent); padding: .7rem 1rem; box-shadow: var(--shadow);
+  font-size: .8rem; max-width: 62%;
+}
+@media (max-width: 560px) { .hero__caption { left: 0; max-width: 88%; } }
+.hero__marquee {
+  display: flex; flex-wrap: wrap; gap: .5rem 1.4rem; margin-top: 2.5rem;
+  font-size: .74rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-3);
+}
+.hero__marquee span::after { content: " ·"; margin-left: 1.4rem; color: var(--rule); }
+.hero__marquee span:last-child::after { content: ""; }
+
+/* --- Gallery grid ------------------------------------------------------- */
+.grid { display: grid; gap: clamp(1.2rem, 2.6vw, 2.2rem); grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr)); }
+.grid--3 { grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr)); }
+.grid--2 { grid-template-columns: repeat(auto-fill, minmax(min(420px, 100%), 1fr)); }
+
+.card { display: flex; flex-direction: column; text-decoration: none; }
+.card__frame {
+  position: relative; overflow: hidden; background: var(--paper-2);
+  border-radius: var(--radius); box-shadow: var(--shadow);
+}
+.card__frame img { width: 100%; transition: transform 700ms cubic-bezier(.2,.8,.2,1); }
+.card:hover .card__frame img { transform: scale(1.035); }
+.card__frame::after {
+  content: ""; position: absolute; inset: 0; box-shadow: inset 0 0 0 1px rgba(0,0,0,.06);
+  border-radius: var(--radius); pointer-events: none;
+}
+.card__body { padding: .95rem .1rem 0; }
+.card__title { font-family: var(--serif); font-size: 1.28rem; line-height: 1.2; margin: 0 0 .2rem; }
+.card__meta { font-size: .82rem; color: var(--ink-3); margin: 0; }
+.card__price { font-size: .88rem; margin-top: .45rem; letter-spacing: .02em; }
+.card__price .sold { color: var(--ink-3); }
+
+.tag {
+  display: inline-flex; align-items: center; gap: .35rem; font-size: .68rem;
+  letter-spacing: .13em; text-transform: uppercase; padding: .28rem .55rem;
+  border: 1px solid var(--rule); border-radius: 999px; color: var(--ink-3); background: var(--paper);
+}
+.tag--available { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 35%, var(--rule)); }
+.tag--sold { color: var(--ink-3); }
+.tag--reserved { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 35%, var(--rule)); }
+.tag--nfs { color: var(--ink-3); }
+.card__frame .tag { position: absolute; top: .7rem; left: .7rem; background: color-mix(in srgb, var(--paper) 92%, transparent); backdrop-filter: blur(6px); }
+
+/* --- Theme grid --------------------------------------------------------- */
+.theme-card {
+  display: flex; flex-direction: column; justify-content: space-between; gap: 1.4rem;
+  padding: 1.5rem; border: 1px solid var(--rule); border-radius: var(--radius);
+  text-decoration: none; background: var(--paper); transition: border-color var(--t), transform var(--t), box-shadow var(--t);
+  min-height: 165px;
+}
+.theme-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow); }
+.theme-card__name { font-family: var(--serif); font-size: 1.35rem; margin: 0 0 .35rem; }
+.theme-card__blurb { font-size: .87rem; color: var(--ink-3); margin: 0; }
+.theme-card__count { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+
+/* --- Filter bar --------------------------------------------------------- */
+.filters { border-block: 1px solid var(--rule); padding: 1.1rem 0; margin-bottom: 2.2rem; position: sticky; top: 66px; background: color-mix(in srgb, var(--paper) 94%, transparent); backdrop-filter: blur(10px); z-index: 40; }
+.filters__row { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+.chip {
+  border: 1px solid var(--rule); background: transparent; border-radius: 999px;
+  padding: .45rem .95rem; font-size: .78rem; cursor: pointer; color: var(--ink-2);
+  transition: all var(--t); white-space: nowrap;
+}
+.chip:hover { border-color: var(--accent); color: var(--accent); }
+.chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.select, .input, .textarea {
+  border: 1px solid var(--rule); background: var(--paper); border-radius: var(--radius);
+  padding: .6rem .8rem; font-size: .87rem; transition: border-color var(--t), box-shadow var(--t);
+}
+.select:focus, .input:focus, .textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); outline: none; }
+.filters__count { margin-left: auto; font-size: .8rem; color: var(--ink-3); }
+@media (max-width: 700px) { .filters { position: static; } .filters__count { margin-left: 0; width: 100%; } }
+
+/* --- Artwork detail ----------------------------------------------------- */
+.work { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: start; }
+@media (max-width: 900px) { .work { grid-template-columns: 1fr; } }
+.work__image { position: relative; background: var(--paper-2); border-radius: var(--radius); box-shadow: var(--shadow-lift); overflow: hidden; cursor: zoom-in; }
+.work__aside { position: sticky; top: 100px; }
+@media (max-width: 900px) { .work__aside { position: static; } }
+.spec { width: 100%; border-collapse: collapse; margin: 1.4rem 0; font-size: .9rem; }
+.spec th, .spec td { text-align: left; padding: .62rem 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.spec th { font-weight: 500; color: var(--ink-3); width: 40%; font-size: .8rem; letter-spacing: .06em; text-transform: uppercase; }
+.price-line { font-family: var(--serif); font-size: 2rem; margin: .3rem 0 .1rem; }
+.terms { font-size: .82rem; color: var(--ink-3); padding-left: 1.1rem; margin: 1.2rem 0 0; }
+.terms li { margin-bottom: .35rem; }
+
+/* --- Forms -------------------------------------------------------------- */
+.form { display: grid; gap: 1.6rem; }
+.fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: 1rem; }
+.fieldset__legend {
+  font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--accent);
+  font-weight: 600; padding: 0; margin-bottom: .2rem;
+}
+.field { display: grid; gap: .4rem; }
+.field > label, .field > .field__label { font-size: .84rem; color: var(--ink-2); font-weight: 500; }
+.field .hint { font-size: .78rem; color: var(--ink-3); }
+.field .input, .field .select, .field .textarea { width: 100%; }
+.textarea { min-height: 130px; resize: vertical; font-family: inherit; }
+.row { display: grid; gap: 1rem; grid-template-columns: 1fr 1fr; }
+.row--3 { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 640px) { .row, .row--3 { grid-template-columns: 1fr; } }
+.choices { display: flex; flex-wrap: wrap; gap: .5rem; }
+.choice { position: relative; }
+.choice input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+.choice span {
+  display: block; border: 1px solid var(--rule); border-radius: 999px; padding: .5rem 1rem;
+  font-size: .82rem; cursor: pointer; transition: all var(--t);
+}
+.choice input:checked + span { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.choice input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+.check { display: flex; gap: .65rem; align-items: flex-start; font-size: .85rem; color: var(--ink-2); }
+.check input { margin-top: .28rem; accent-color: var(--accent); }
+.form__note { font-size: .82rem; color: var(--ink-3); }
+.form-status { padding: 1rem 1.15rem; border-radius: var(--radius); font-size: .9rem; display: none; }
+.form-status.is-ok { display: block; background: var(--accent-soft); border-left: 3px solid var(--ok); }
+.form-status.is-err { display: block; background: var(--accent-soft); border-left: 3px solid var(--accent); }
+.form-status.is-info { display: block; background: var(--paper-2); border-left: 3px solid var(--ink-3); }
+.error-text { color: var(--accent); font-size: .78rem; }
+.input[aria-invalid="true"], .textarea[aria-invalid="true"], .select[aria-invalid="true"] { border-color: var(--accent); }
+
+/* --- Process / steps ---------------------------------------------------- */
+.steps { counter-reset: step; display: grid; gap: 1.6rem; }
+.step { display: grid; grid-template-columns: auto 1fr; gap: 1.1rem; align-items: start; }
+.step::before {
+  counter-increment: step; content: counter(step, decimal-leading-zero);
+  font-family: var(--serif); font-size: 1.5rem; color: var(--accent); line-height: 1;
+  border-right: 1px solid var(--rule); padding-right: 1.1rem; min-width: 2.6rem;
+}
+.step h3 { font-size: 1.15rem; margin-bottom: .25rem; }
+.step p { margin: 0; font-size: .92rem; color: var(--ink-2); }
+
+/* --- Tables ------------------------------------------------------------- */
+.table-scroll { overflow-x: auto; }
+.table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 460px; }
+.table th, .table td { text-align: left; padding: .8rem .9rem; border-bottom: 1px solid var(--rule); }
+.table thead th { font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; }
+.table tbody tr:hover { background: var(--paper-2); }
+.table td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* --- Panels / quotes ---------------------------------------------------- */
+.panel { background: var(--paper-2); border-radius: var(--radius); padding: clamp(1.5rem, 3.5vw, 2.5rem); }
+.panel--edge { border-left: 2px solid var(--accent); }
+.quote { font-family: var(--serif); font-size: clamp(1.4rem, 3vw, 2rem); line-height: 1.35; margin: 0; }
+.details-list { border-top: 1px solid var(--rule); }
+.details-list details { border-bottom: 1px solid var(--rule); }
+.details-list summary { cursor: pointer; padding: 1.1rem 0; font-family: var(--serif); font-size: 1.2rem; list-style: none; display: flex; justify-content: space-between; gap: 1rem; align-items: center; }
+.details-list summary::-webkit-details-marker { display: none; }
+.details-list summary::after { content: "+"; color: var(--accent); font-size: 1.3rem; }
+.details-list details[open] summary::after { content: "–"; }
+.details-list p { padding-bottom: 1.1rem; margin: 0; color: var(--ink-2); font-size: .95rem; max-width: 68ch; }
+.timeline { list-style: none; padding: 0; margin: 0; }
+.timeline li { display: grid; grid-template-columns: 5rem 1fr; gap: 1rem; padding: .85rem 0; border-bottom: 1px solid var(--rule); font-size: .92rem; }
+.timeline span { color: var(--accent); font-variant-numeric: tabular-nums; }
+
+/* --- Footer ------------------------------------------------------------- */
+.site-footer { border-top: 1px solid var(--rule); margin-top: clamp(3rem, 8vw, 6rem); padding: clamp(2.5rem, 6vw, 4rem) 0 2rem; background: var(--paper-2); }
+.footer__grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 2.5rem; }
+@media (max-width: 780px) { .footer__grid { grid-template-columns: 1fr; } }
+.footer__grid h4 { font-family: var(--sans); font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-3); margin-bottom: .9rem; }
+.footer__links { list-style: none; padding: 0; margin: 0; display: grid; gap: .5rem; font-size: .9rem; }
+.footer__links a { text-decoration: none; color: var(--ink-2); }
+.footer__links a:hover { color: var(--accent); }
+.footer__bottom { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-top: 2.5rem; padding-top: 1.3rem; border-top: 1px solid var(--rule); font-size: .78rem; color: var(--ink-3); }
+
+/* --- Lightbox ----------------------------------------------------------- */
+.lightbox { position: fixed; inset: 0; z-index: 100; background: rgba(18,16,14,.94); display: none; align-items: center; justify-content: center; padding: clamp(1rem, 4vw, 3rem); }
+.lightbox.is-open { display: flex; }
+.lightbox img { max-height: 90vh; width: auto; object-fit: contain; box-shadow: 0 30px 80px rgba(0,0,0,.6); }
+.lightbox__close { position: absolute; top: 1.2rem; right: 1.4rem; background: none; border: 1px solid rgba(255,255,255,.35); color: #fff; border-radius: 50%; width: 42px; height: 42px; cursor: pointer; font-size: 1.1rem; }
+.lightbox__close:hover { border-color: #fff; }
+.lightbox__caption { position: absolute; bottom: 1.4rem; left: 0; right: 0; text-align: center; color: rgba(255,255,255,.75); font-size: .85rem; }
+
+/* --- Reveal on scroll --------------------------------------------------- */
+.reveal { opacity: 0; transform: translateY(14px); transition: opacity 700ms ease, transform 700ms cubic-bezier(.2,.8,.2,1); }
+.reveal.is-in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } }
+
+/* --- Toast -------------------------------------------------------------- */
+.toast { position: fixed; left: 50%; bottom: 1.5rem; transform: translate(-50%, 200%); background: var(--ink); color: var(--paper); padding: .8rem 1.3rem; border-radius: var(--radius); font-size: .87rem; z-index: 120; transition: transform var(--t); box-shadow: var(--shadow-lift); }
+.toast.is-open { transform: translate(-50%, 0); }
+
+/* --- Admin -------------------------------------------------------------- */
+.admin-shell { display: grid; grid-template-columns: 320px 1fr; gap: clamp(1.5rem, 3vw, 2.5rem); align-items: start; }
+@media (max-width: 1000px) { .admin-shell { grid-template-columns: 1fr; } }
+.admin-side { position: sticky; top: 90px; display: grid; gap: 1rem; }
+@media (max-width: 1000px) { .admin-side { position: static; } }
+.admin-list { list-style: none; margin: 0; padding: 0; max-height: 55vh; overflow-y: auto; border: 1px solid var(--rule); border-radius: var(--radius); }
+.admin-list li + li { border-top: 1px solid var(--rule); }
+.admin-list button { width: 100%; display: flex; gap: .75rem; align-items: center; background: none; border: 0; padding: .6rem .7rem; cursor: pointer; text-align: left; }
+.admin-list button:hover, .admin-list button.is-active { background: var(--paper-2); }
+.admin-list img { width: 42px; height: 42px; object-fit: cover; border-radius: 2px; flex: none; }
+.admin-list .t { font-size: .87rem; line-height: 1.25; }
+.admin-list .s { font-size: .72rem; color: var(--ink-3); }
+.dropzone {
+  border: 1.5px dashed var(--rule); border-radius: var(--radius); padding: 1.6rem 1rem;
+  text-align: center; color: var(--ink-3); font-size: .87rem; cursor: pointer; transition: all var(--t); background: var(--paper-2);
+}
+.dropzone:hover, .dropzone.is-over { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+.dropzone img { max-height: 190px; margin: 0 auto .7rem; border-radius: 2px; box-shadow: var(--shadow); }
+.admin-bar { display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; }
+.badge { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; padding: .22rem .5rem; border-radius: 999px; background: var(--paper-3); color: var(--ink-2); }
+.badge--live { background: color-mix(in srgb, var(--ok) 18%, var(--paper-3)); color: var(--ok); }
+.code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .8rem;
+  background: var(--paper-2); border: 1px solid var(--rule); border-radius: var(--radius);
+  padding: .9rem 1rem; overflow-x: auto; white-space: pre; margin: 0;
+}
+.print-only { display: none; }
+@media print {
+  .site-header, .site-footer, .filters, .no-print { display: none !important; }
+  body { background: #fff; color: #000; }
+  .print-only { display: block; }
+}
+
+/* =============================================================================
+   Studio shop — hand-made paints and materials
+   ========================================================================== */
+.product { display: flex; flex-direction: column; background: var(--paper); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; transition: border-color var(--t), box-shadow var(--t); }
+.product:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--rule)); box-shadow: var(--shadow); }
+.product__frame { position: relative; background: var(--paper-2); }
+.product__frame img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
+.product__frame .tag { position: absolute; top: .65rem; left: .65rem; background: color-mix(in srgb, var(--paper) 92%, transparent); backdrop-filter: blur(6px); }
+.product__body { padding: 1rem 1.05rem 1.1rem; display: flex; flex-direction: column; gap: .45rem; flex: 1; }
+.product__name { font-family: var(--serif); font-size: 1.3rem; margin: 0; line-height: 1.15; }
+.product__unit { font-size: .8rem; color: var(--ink-2); margin: 0; letter-spacing: .01em; }
+.product__made { font-size: .88rem; color: var(--ink-3); margin: 0; }
+.product__more summary { cursor: pointer; font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); list-style: none; }
+.product__more summary::-webkit-details-marker { display: none; }
+.product__more summary::after { content: " +"; }
+.product__more[open] summary::after { content: " –"; }
+.product__more p { font-size: .87rem; color: var(--ink-2); margin: .5rem 0 0; }
+.product__foot { display: flex; align-items: center; justify-content: space-between; gap: .8rem; margin-top: auto; padding-top: .7rem; border-top: 1px solid var(--rule); flex-wrap: wrap; }
+.product__price { font-family: var(--serif); font-size: 1.25rem; display: flex; flex-direction: column; line-height: 1.2; }
+.product__lead { font-family: var(--sans); font-size: .72rem; color: var(--ink-3); letter-spacing: .04em; }
+
+.stepper { display: inline-flex; align-items: center; border: 1px solid var(--rule); border-radius: 999px; overflow: hidden; }
+.stepper button { background: none; border: 0; padding: .35rem .7rem; cursor: pointer; font-size: 1rem; line-height: 1; color: var(--ink-2); transition: background var(--t), color var(--t); }
+.stepper button:hover { background: var(--accent-soft); color: var(--accent); }
+.stepper b { font-weight: 500; font-size: .9rem; min-width: 1.6rem; text-align: center; font-variant-numeric: tabular-nums; }
+
+.order-bar { position: fixed; left: 50%; bottom: 1.2rem; transform: translateX(-50%); z-index: 70; display: flex; align-items: center; gap: 1rem; background: var(--ink); color: var(--paper); padding: .6rem .7rem .6rem 1.15rem; border-radius: 999px; box-shadow: var(--shadow-lift); font-size: .86rem; max-width: calc(100% - 2rem); }
+.order-bar a { color: var(--paper); background: var(--accent); text-decoration: none; padding: .45rem 1rem; border-radius: 999px; font-size: .78rem; letter-spacing: .07em; text-transform: uppercase; white-space: nowrap; }
+.order-bar a:hover { background: var(--paper); color: var(--ink); }
+.order-bar span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.admin-tabs { display: flex; gap: .5rem; margin-bottom: 1.6rem; border-bottom: 1px solid var(--rule); padding-bottom: 1rem; }
+.admin-tabs .chip { font-size: .82rem; padding: .5rem 1.1rem; }
+.order-bar.is-parked { opacity: 0; pointer-events: none; transform: translate(-50%, 140%); transition: opacity var(--t), transform var(--t); }
+
+/* =============================================================================
+   Landing page
+   ========================================================================== */
+.facts { list-style: none; display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; padding: 0; margin: 1.8rem 0 0; }
+.facts li { font-size: .82rem; letter-spacing: .04em; color: var(--ink-2); display: flex; align-items: center; gap: .5rem; }
+.facts li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex: none; }
+
+/* two works, one behind the other — the studio wall, not a stock photo */
+.hero__stack { position: relative; }
+/* these need .hero__stack in front of them to beat the plain `.hero__figure img` rule */
+.hero__stack .hero__stack-main { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); box-shadow: var(--shadow-lift); }
+.hero__stack .hero__stack-inset {
+  position: absolute; right: -1.7rem; bottom: -2.4rem; width: 36%; height: auto; aspect-ratio: 3 / 4;
+  object-fit: cover; border-radius: var(--radius); box-shadow: var(--shadow-lift);
+  border: 6px solid var(--paper); z-index: 2;
+}
+.hero__stack .hero__caption { z-index: 3; }
+@media (max-width: 900px) { .hero__stack-inset { display: none; } }
+
+/* the first work in the selected row is given the space it deserves */
+@media (min-width: 900px) {
+  .grid--feature > .card:first-child { grid-column: span 2; }
+  .grid--feature > .card:first-child .card__frame img { aspect-ratio: 16 / 11; object-fit: cover; }
+  .grid--feature > .card:first-child .card__title { font-size: 1.6rem; }
+}
+
+.ticks { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--rule); }
+.ticks li { display: grid; gap: .2rem; padding: 1rem 0; border-bottom: 1px solid var(--rule); }
+.ticks strong { font-family: var(--serif); font-size: 1.15rem; font-weight: 500; }
+.ticks span { font-size: .89rem; color: var(--ink-3); }
+
+.signature {
+  font-family: var(--serif); font-style: italic; font-size: 1.75rem; color: var(--accent);
+  margin: 1.4rem 0 .6rem; line-height: 1;
+}
+
+.closing {
+  display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(2rem, 5vw, 4rem);
+  background: var(--paper-2); border-radius: var(--radius); padding: clamp(1.8rem, 4.5vw, 3.2rem);
+  border-top: 2px solid var(--accent);
+}
+@media (max-width: 860px) { .closing { grid-template-columns: 1fr; } }
+.assurances { list-style: none; padding: 0; margin: 0; display: grid; align-content: start; }
+.assurances li { display: grid; gap: .2rem; padding: .9rem 0; border-top: 1px solid var(--rule); }
+.assurances li:first-child { border-top: 0; padding-top: 0; }
+.assurances strong { font-size: .82rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; }
+.assurances span { font-size: .88rem; color: var(--ink-3); }
+
+.voice { margin: 0; background: var(--paper-2); border-left: 2px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0; padding: 1.4rem 1.6rem; }
+.voice blockquote { font-family: var(--serif); font-size: 1.25rem; line-height: 1.4; margin: 0 0 .8rem; }
+.voice figcaption { font-size: .84rem; color: var(--ink-2); }
+
+</style>
+<div id="top"></div>
+<a class="visually-hidden" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="#top" aria-label="BVK ART Studio — home">
+      <svg class="brand__mark" viewBox="0 0 40 40" width="38" height="38" aria-hidden="true" focusable="false">
+        <rect width="40" height="40" rx="6" fill="var(--accent)"></rect>
+        <text x="20" y="26" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif"
+              font-size="16" font-weight="600" fill="var(--paper)">BVK</text>
+      </svg>
+      <span class="brand__text">
+        <span class="brand__name" data-site="artist.studio">BVK ART Studio</span>
+        <span class="brand__role" data-site="artist.role">Painter &amp; Draughtsman</span>
+      </span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="#work">Work</a>
+      <a href="#commission">Commissions</a>
+      <a href="#spaces">For Spaces</a>
+      <a href="#materials">Materials</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <a class="btn btn--sm" href="#commission">Book a Commission</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="hero">
+  <div class="wrap hero__grid">
+    <div>
+      <span class="eyebrow">BVK ART Studio · <span data-site="artist.location">City, India</span></span>
+      <h1>Landscapes, portraits and the <em>many lives</em> of a country.</h1>
+      <p class="lede" data-site="artist.shortBio">
+        I paint what I see and what stays with me afterwards.
+      </p>
+      <div class="hero__actions">
+        <a class="btn" href="#work">View the work</a>
+        <a class="btn btn--ghost" href="#commission">Commission a painting</a>
+      </div>
+      <ul class="facts" id="hero-facts"></ul>
+      <div class="hero__marquee" id="hero-themes"></div>
+    </div>
+
+    <figure class="hero__figure hero__stack" id="hero-figure">
+      <img class="hero__stack-main" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDgwMCIgd2lkdGg9IjEyMDAiIGhlaWdodD0iODAwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlBsYWNlaG9sZGVyIGltYWdlIGZvciBnaGF0cy1hdC1maXJzdC1saWdodCI+PGRlZnM+PGZpbHRlciBpZD0iZyI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuOSIgbnVtT2N0YXZlcz0iMyIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjxmZUNvbG9yTWF0cml4IHR5cGU9InNhdHVyYXRlIiB2YWx1ZXM9IjAiLz48ZmVDb21wb25lbnRUcmFuc2Zlcj48ZmVGdW5jQSB0eXBlPSJsaW5lYXIiIHNsb3BlPSIwLjEwIi8+PC9mZUNvbXBvbmVudFRyYW5zZmVyPjwvZmlsdGVyPjxsaW5lYXJHcmFkaWVudCBpZD0ic2t5IiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZmJlM2M2Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZjBiYjhjIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iODAwIiBmaWxsPSJ1cmwoI3NreSkiLz48Y2lyY2xlIGN4PSIzODMiIGN5PSIxMjgiIHI9IjU2IiBmaWxsPSIjZmJlM2M2IiBvcGFjaXR5PSIwLjg1Ii8+PHBhdGggZD0iTTAsODAwIEwwLDI0My40IFE3NS4wLDI0My40IDE1MC4wLDI0Ni4xIFEyMjUuMCwyNDYuMSAzMDAuMCwyNzIuMCBRMzc1LjAsMjcyLjAgNDUwLjAsMjcxLjggUTUyNS4wLDI3MS44IDYwMC4wLDI1OS4wIFE2NzUuMCwyNTkuMCA3NTAuMCwyMzMuOCBRODI1LjAsMjMzLjggOTAwLjAsMjQzLjUgUTk3NS4wLDI0My41IDEwNTAuMCwyNjQuNiBRMTEyNS4wLDI2NC42IDEyMDAuMCwyNzEuOSBMMTIwMCw4MDAgWiIgZmlsbD0iI2YwYmI4YyIgb3BhY2l0eT0iMC45MiIvPjxwYXRoIGQ9Ik0wLDgwMCBMMCw0NDIuMSBRNzUuMCw0NDIuMSAxNTAuMCw0MzUuNCBRMjI1LjAsNDM1LjQgMzAwLjAsNDA5LjggUTM3NS4wLDQwOS44IDQ1MC4wLDQwMC41IFE1MjUuMCw0MDAuNSA2MDAuMCw0MDkuOSBRNjc1LjAsNDA5LjkgNzUwLjAsNDQ1LjMgUTgyNS4wLDQ0NS4zIDkwMC4wLDQ0MC43IFE5NzUuMCw0NDAuNyAxMDUwLjAsNDAyLjkgUTExMjUuMCw0MDIuOSAxMjAwLjAsNDAyLjUgTDEyMDAsODAwIFoiIGZpbGw9IiNjOThhNjMiIG9wYWNpdHk9IjAuOTIiLz48cGF0aCBkPSJNMCw4MDAgTDAsNTcyLjUgUTc1LjAsNTcyLjUgMTUwLjAsNTY0LjIgUTIyNS4wLDU2NC4yIDMwMC4wLDU5NS45IFEzNzUuMCw1OTUuOSA0NTAuMCw2MDUuOCBRNTI1LjAsNjA1LjggNjAwLjAsNTk0LjcgUTY3NS4wLDU5NC43IDc1MC4wLDU2Ni4yIFE4MjUuMCw1NjYuMiA5MDAuMCw1NjcuOSBROTc1LjAsNTY3LjkgMTA1MC4wLDYwMi41IFExMTI1LjAsNjAyLjUgMTIwMC4wLDYwMy4wIEwxMjAwLDgwMCBaIiBmaWxsPSIjN2Q1MzQ2IiBvcGFjaXR5PSIwLjkyIi8+PHBhdGggZD0iTTAsODAwIEwwLDc1OC4wIFE3NS4wLDc1OC4wIDE1MC4wLDc2OS4wIFEyMjUuMCw3NjkuMCAzMDAuMCw3NDguMSBRMzc1LjAsNzQ4LjEgNDUwLjAsNzM2LjIgUTUyNS4wLDczNi4yIDYwMC4wLDc0MS4yIFE2NzUuMCw3NDEuMiA3NTAuMCw3NzEuNCBRODI1LjAsNzcxLjQgOTAwLjAsNzY1LjQgUTk3NS4wLDc2NS40IDEwNTAuMCw3NDYuNCBRMTEyNS4wLDc0Ni40IDEyMDAuMCw3MzQuNyBMMTIwMCw4MDAgWiIgZmlsbD0iIzNmMmMyYSIgb3BhY2l0eT0iMSIvPjxyZWN0IHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjgwMCIgZmlsdGVyPSJ1cmwoI2cpIiBvcGFjaXR5PSIwLjUiLz48cmVjdCB4PSIwLjUiIHk9IjAuNSIgd2lkdGg9IjExOTkiIGhlaWdodD0iNzk5IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAwMDAyMiIvPjx0ZXh0IHg9IjExOTAiIHk9Ijc5MCIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMjIiIGZpbGw9IiMwMDAwMDA1NSI+c2FtcGxlIGltYWdlIOKAlCByZXBsYWNlPC90ZXh0Pjwvc3ZnPg==" alt="Featured painting">
+      <img class="hero__stack-inset" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgMTIwMCIgd2lkdGg9IjkwMCIgaGVpZ2h0PSIxMjAwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlBsYWNlaG9sZGVyIGltYWdlIGZvciBncmFuZG1vdGhlci1rdXRjaCI+PGRlZnM+PGZpbHRlciBpZD0iZyI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuOSIgbnVtT2N0YXZlcz0iMyIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjxmZUNvbG9yTWF0cml4IHR5cGU9InNhdHVyYXRlIiB2YWx1ZXM9IjAiLz48ZmVDb21wb25lbnRUcmFuc2Zlcj48ZmVGdW5jQSB0eXBlPSJsaW5lYXIiIHNsb3BlPSIwLjEwIi8+PC9mZUNvbXBvbmVudFRyYW5zZmVyPjwvZmlsdGVyPjxsaW5lYXJHcmFkaWVudCBpZD0ic2t5IiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZjJkZWQwIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZDlhZTk1Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSIxMjAwIiBmaWxsPSJ1cmwoI3NreSkiLz48Y2lyY2xlIGN4PSI1NjkiIGN5PSIzNDgiIHI9IjYzIiBmaWxsPSIjZjJkZWQwIiBvcGFjaXR5PSIwLjg1Ii8+PHBhdGggZD0iTTAsMTIwMCBMMCw0MjMuOCBRNTYuMiw0MjMuOCAxMTIuNSw0MDkuNiBRMTY4LjgsNDA5LjYgMjI1LjAsMzcwLjggUTI4MS4yLDM3MC44IDMzNy41LDM2MS40IFEzOTMuOCwzNjEuNCA0NTAuMCwzODAuOSBRNTA2LjIsMzgwLjkgNTYyLjUsNDE5LjkgUTYxOC44LDQxOS45IDY3NS4wLDQwOC40IFE3MzEuMiw0MDguNCA3ODcuNSwzNjcuNiBRODQzLjgsMzY3LjYgOTAwLjAsMzU3LjEgTDkwMCwxMjAwIFoiIGZpbGw9IiNkOWFlOTUiIG9wYWNpdHk9IjAuOTIiLz48cGF0aCBkPSJNMCwxMjAwIEwwLDczNy4xIFE1Ni4yLDczNy4xIDExMi41LDc0MS4yIFExNjguOCw3NDEuMiAyMjUuMCw3NzkuOSBRMjgxLjIsNzc5LjkgMzM3LjUsNzc5LjYgUTM5My44LDc3OS42IDQ1MC4wLDc2MC42IFE1MDYuMiw3NjAuNiA1NjIuNSw3MjIuNyBRNjE4LjgsNzIyLjcgNjc1LjAsNzM3LjMgUTczMS4yLDczNy4zIDc4Ny41LDc2OS4wIFE4NDMuOCw3NjkuMCA5MDAuMCw3NzkuOSBMOTAwLDEyMDAgWiIgZmlsbD0iI2IyNzU1YyIgb3BhY2l0eT0iMC45MiIvPjxwYXRoIGQ9Ik0wLDEyMDAgTDAsMTE1OS4yIFE1Ni4yLDExNTkuMiAxMTIuNSwxMTQ5LjEgUTE2OC44LDExNDkuMSAyMjUuMCwxMTEwLjYgUTI4MS4yLDExMTAuNiAzMzcuNSwxMDk2LjcgUTM5My44LDEwOTYuNyA0NTAuMCwxMTEwLjkgUTUwNi4yLDExMTAuOSA1NjIuNSwxMTYzLjkgUTYxOC44LDExNjMuOSA2NzUuMCwxMTU3LjAgUTczMS4yLDExNTcuMCA3ODcuNSwxMTAwLjQgUTg0My44LDExMDAuNCA5MDAuMCwxMDk5LjcgTDkwMCwxMjAwIFoiIGZpbGw9IiM2ZjNmMzAiIG9wYWNpdHk9IjEiLz48ZyBmaWxsPSIjNmYzZjMwIiBvcGFjaXR5PSIwLjY2Ij48ZWxsaXBzZSBjeD0iNDUwIiBjeT0iNTMyIiByeD0iMzgiIHJ5PSI0NCIvPjxwYXRoIGQ9Ik00MDgsODU1IFE0NTAsNTM4IDQ5Miw4NTUgWiIvPjwvZz48cmVjdCB3aWR0aD0iOTAwIiBoZWlnaHQ9IjEyMDAiIGZpbHRlcj0idXJsKCNnKSIgb3BhY2l0eT0iMC41Ii8+PHJlY3QgeD0iMC41IiB5PSIwLjUiIHdpZHRoPSI4OTkiIGhlaWdodD0iMTE5OSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwMDAwMjIiLz48dGV4dCB4PSI4OTAiIHk9IjExOTAiIHRleHQtYW5jaG9yPSJlbmQiIGZvbnQtZmFtaWx5PSJHZW9yZ2lhLHNlcmlmIiBmb250LXNpemU9IjI1IiBmaWxsPSIjMDAwMDAwNTUiPnNhbXBsZSBpbWFnZSDigJQgcmVwbGFjZTwvdGV4dD48L3N2Zz4=" alt="" aria-hidden="true">
+      <figcaption class="hero__caption"></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="section" id="work">
+  <div class="wrap">
+    <div class="section-head head-row reveal">
+      <div>
+        <span class="eyebrow">Selected work</span>
+        <h2>Recent paintings</h2>
+      </div>
+      <a class="link-arrow" href="#work">See the full gallery</a>
+    </div>
+    <div class="grid grid--3 grid--feature" id="featured-grid"></div>
+  </div>
+</section>
+
+<section class="section" id="ways">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Working together</span>
+      <h2>Three ways to work with the studio</h2>
+      <p class="lede">Buy something that already exists, have something made for you, or paint
+        with the colours I grind myself.</p>
+    </div>
+    <div class="grid grid--3">
+      <a class="theme-card reveal" href="#work">
+        <div><h3 class="theme-card__name">Buy a finished work</h3>
+        <p class="theme-card__blurb">Originals and studies ready to ship — signed, certified, packed and insured.</p></div>
+        <span class="theme-card__count">See what is available</span></a>
+      <a class="theme-card reveal" href="#commission">
+        <div><h3 class="theme-card__name">Commission a painting</h3>
+        <p class="theme-card__blurb">A portrait from your photographs, a place that matters to you, a work sized to your wall.</p></div>
+        <span class="theme-card__count">Send a brief</span></a>
+      <a class="theme-card reveal" href="#materials">
+        <div><h3 class="theme-card__name">Paint with my colours</h3>
+        <p class="theme-card__blurb">Hand-ground pigments, hand-mulled paints and grounds, made in small batches.</p></div>
+        <span class="theme-card__count">The studio shop</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="subjects">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Subjects</span>
+      <h2>Eleven running series</h2>
+      <p class="lede">Worked in both traditional and abstract registers — and every one of them
+        is open to commission.</p>
+    </div>
+    <div class="grid grid--3" id="theme-grid"></div>
+  </div>
+</section>
+
+<section class="section" id="commission">
+  <div class="wrap">
+    <div class="panel panel--edge reveal">
+      <div class="head-row" style="align-items:flex-start">
+        <div style="max-width:52ch">
+          <span class="eyebrow">Commissions</span>
+          <h2 style="margin-bottom:.4em">Have something painted</h2>
+          <p class="lede">Tell me the subject, the size and the date you need it by. You get a written
+            quote and a completion date before anything is charged, a study to approve before the
+            painting starts, and progress photographs as it goes.</p>
+          <div class="hero__actions" style="margin-top:1.5rem">
+            <a class="btn btn--accent" href="#commission">Start a commission brief</a>
+            <a class="btn btn--ghost" href="#commission">See indicative prices</a>
+          </div>
+        </div>
+        <ol class="steps" style="flex:1;min-width:min(340px,100%)" id="home-steps"></ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="spaces">
+  <div class="wrap">
+    <div class="grid grid--2 reveal" style="gap:clamp(2rem,5vw,4rem);align-items:center">
+      <div>
+        <span class="eyebrow">For spaces</span>
+        <h2>A wall, a lobby, a whole floor</h2>
+        <p class="lede" id="spaces-intro">Murals and painting schemes designed from your room —
+          its light, its colours, the way people move through it — rather than from what is
+          already in my studio.</p>
+        <a class="link-arrow" href="#spaces">How space work is briefed and priced</a>
+      </div>
+      <ul class="ticks" id="space-list"></ul>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="materials">
+  <div class="wrap">
+    <div class="section-head head-row reveal">
+      <div style="max-width:56ch">
+        <span class="eyebrow">The studio shop</span>
+        <h2 data-site="shop.heading">Paints made by hand, in the studio</h2>
+        <p class="lede" data-site="shop.intro">Hand-ground pigments and hand-mulled paint, in small batches.</p>
+      </div>
+      <a class="link-arrow" href="#materials">All materials</a>
+    </div>
+    <div class="grid grid--3" id="materials-strip"></div>
+  </div>
+</section>
+
+<section class="section" id="voices" hidden>
+  <div class="wrap">
+    <div class="section-head reveal"><span class="eyebrow">In their words</span><h2>What clients say</h2></div>
+    <div class="grid grid--2" id="testimonials"></div>
+  </div>
+</section>
+
+<section class="section" id="about">
+  <div class="wrap">
+    <div class="grid grid--2 reveal" style="align-items:center;gap:clamp(2rem,5vw,4rem)">
+      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MDAgMTAwMCIgd2lkdGg9IjgwMCIgaGVpZ2h0PSIxMDAwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlBsYWNlaG9sZGVyIHBvcnRyYWl0IG9mIHRoZSBhcnRpc3QiPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iYiIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2VmZTZkOCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2Q4YzdhZSIvPjwvbGluZWFyR3JhZGllbnQ+PGZpbHRlciBpZD0iZyI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuOSIgbnVtT2N0YXZlcz0iMyIvPjxmZUNvbG9yTWF0cml4IHR5cGU9InNhdHVyYXRlIiB2YWx1ZXM9IjAiLz48ZmVDb21wb25lbnRUcmFuc2Zlcj48ZmVGdW5jQSB0eXBlPSJsaW5lYXIiIHNsb3BlPSIwLjA5Ii8+PC9mZUNvbXBvbmVudFRyYW5zZmVyPjwvZmlsdGVyPjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjEwMDAiIGZpbGw9InVybCgjYikiLz48ZWxsaXBzZSBjeD0iNDAwIiBjeT0iMzgwIiByeD0iMTQwIiByeT0iMTcwIiBmaWxsPSIjNmY1YTQ1IiBvcGFjaXR5PSIwLjc1Ii8+PHBhdGggZD0iTTE3MCwxMDAwIFE0MDAsNTIwIDYzMCwxMDAwIFoiIGZpbGw9IiM0YTNkMmYiIG9wYWNpdHk9IjAuOCIvPjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iMTAwMCIgZmlsdGVyPSJ1cmwoI2cpIiBvcGFjaXR5PSIwLjUiLz48dGV4dCB4PSI3ODAiIHk9Ijk4MCIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMjIiIGZpbGw9IiMwMDAwMDA1NSI+c2FtcGxlIGltYWdlIOKAlCByZXBsYWNlIHdpdGggeW91ciBwaG90b2dyYXBoPC90ZXh0Pjwvc3ZnPgo=" alt="The artist in the studio"
+           style="border-radius:3px;box-shadow:var(--shadow-lift);aspect-ratio:4/5;object-fit:cover;width:100%"
+           data-site-attr="src:artist.portrait|">
+      <div>
+        <span class="eyebrow">The studio</span>
+        <h2>Painted from life, and from memory</h2>
+        <div data-site-html="artist.longBio"><p>Bio.</p></div>
+        <p class="signature" data-site="artist.name">Venkatesham</p>
+        <a class="link-arrow" href="#about">More about the practice</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contact">
+  <div class="wrap">
+    <div class="closing reveal">
+      <div>
+        <span class="eyebrow">Get in touch</span>
+        <h2 style="margin-bottom:.35em">Tell me what you would like painted</h2>
+        <p class="lede" style="margin-bottom:1.6rem">Every enquiry reaches me directly — there is no
+          gallery in between, and I answer each one myself, usually within two to three working days.</p>
+        <div class="hero__actions" style="margin-top:0">
+          <a class="btn btn--accent" href="#commission">Book a commission</a>
+          <a class="btn btn--ghost" data-site-attr="href:contact.email|mailto:" href="mailto:">Email the studio</a>
+          <a class="btn btn--ghost" data-site-attr="href:contact.whatsapp|https://wa.me/" href="#">WhatsApp</a>
+        </div>
+      </div>
+      <ul class="assurances">
+        <li><strong>Signed &amp; certified</strong><span>Every original leaves the studio signed, with a dated certificate of authenticity.</span></li>
+        <li><strong>Shipped insured</strong><span>Crated or rolled, insured, across India and worldwide, quoted at cost.</span></li>
+        <li><strong>Direct from the artist</strong><span>No gallery commission in between, and no one else answering your email.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div>
+        <p class="brand__name serif" style="font-size:1.6rem" data-site="artist.studio">BVK ART Studio</p>
+        <p class="small muted" style="max-width:36ch" data-site="artist.shortBio">Painter.</p>
+        <p class="small muted"><span data-site="artist.location">City, India</span> · <span data-site="artist.studioNote">Studio visits by appointment.</span></p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul class="footer__links">
+          <li><a href="#work">All work</a></li>
+          <li><a href="#work">Available now</a></li>
+          <li><a href="#commission">Commission a painting</a></li>
+          <li><a href="#spaces">Design for a space</a></li>
+          <li><a href="#materials">Hand-made paints</a></li>
+          <li><a href="#about">About the artist</a></li>
+          <li><a href="#contact">Contact &amp; studio visits</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Get in touch</h4>
+        <ul class="footer__links">
+          <li><a data-site-attr="href:contact.email|mailto:" data-site-fill href="mailto:you@example.com">you@example.com</a></li>
+          <li><a data-site-attr="href:contact.phone|tel:" data-site-fill href="tel:">Phone</a></li>
+          <li><a data-site-attr="href:contact.whatsapp|https://wa.me/" href="#">WhatsApp</a></li>
+          <li><a data-site-attr="href:contact.instagram|" href="#">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="small muted" style="margin-top:1rem">This is the landing page as a single self-contained file. In the real site, the links above open separate pages for the gallery, commissions, space work and the studio shop.</p>
+    <div class="footer__bottom">
+      <span>© <span id="year">2026</span> <span data-site="artist.name">Venkatesham</span> · <span data-site="artist.studio">BVK ART Studio</span>. All paintings, drawings and photographs on this site are the artist's copyright and may not be reproduced without permission.</span>
+      <span>Preview</span>
+    </div>
+  </div>
+</footer>
+
+
+
+<script>
+/* =============================================================================
+   site.js — ALL THE TEXT ON THIS WEBSITE LIVES HERE.
+   Edit this one file to change the artist name, bio, email, prices and themes.
+   No coding knowledge needed: change only the text between the quote marks.
+   NOTE: every value marked  // SAMPLE  is placeholder text — replace it.
+   ========================================================================== */
+
+window.SITE = {
+
+  /* --- 1. Identity ------------------------------------------------------ */
+  artist: {
+    /* The studio name shown in the header, the browser tab and the footer.
+       Change the capitalisation here if you prefer "BVK Art Studio". */
+    studio: "BVK ART Studio",
+    /* Your own name, as it appears in your bio and beside your signature.
+       If the studio is just you, this can be your full name. */
+    name: "Venkatesham",                                 // write it in full if you prefer
+    /* The small line under the studio name in the header. */
+    role: "Painter & Draughtsman",
+    tagline: "Painter of landscapes, people and the many lives of India", // SAMPLE
+    shortBio:
+      "I paint what I see and what stays with me afterwards — the light on a " +
+      "desert edge, a face in a market, a river town waking up. My work moves " +
+      "between traditional representation and abstraction, depending on what " +
+      "the subject asks for.",                           // SAMPLE
+    longBio: [
+      "I have been painting for over two decades, working chiefly in oils, " +
+      "watercolour and charcoal. My subjects are drawn from travel and from " +
+      "everyday observation: landscapes and nature studies, portraits, and " +
+      "drawings of people at work and at rest.",
+      "A large part of my practice is a continuing record of India — the " +
+      "culture and traditions of its states, its climatic extremes from desert " +
+      "to high mountain, the life of its rivers, and the public and political " +
+      "life that shapes it. Alongside these I keep an abstract practice, where " +
+      "the same subjects return as colour, mass and gesture rather than form.",
+      "Original works are available for sale, and I accept a limited number of " +
+      "commissions each year."                            // SAMPLE (rewrite in your own voice)
+    ],
+    location: "City, State, India",                       // SAMPLE
+    studioNote: "Studio visits by appointment.",          // SAMPLE
+    portrait: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MDAgMTAwMCIgd2lkdGg9IjgwMCIgaGVpZ2h0PSIxMDAwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlBsYWNlaG9sZGVyIHBvcnRyYWl0IG9mIHRoZSBhcnRpc3QiPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iYiIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2VmZTZkOCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2Q4YzdhZSIvPjwvbGluZWFyR3JhZGllbnQ+PGZpbHRlciBpZD0iZyI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuOSIgbnVtT2N0YXZlcz0iMyIvPjxmZUNvbG9yTWF0cml4IHR5cGU9InNhdHVyYXRlIiB2YWx1ZXM9IjAiLz48ZmVDb21wb25lbnRUcmFuc2Zlcj48ZmVGdW5jQSB0eXBlPSJsaW5lYXIiIHNsb3BlPSIwLjA5Ii8+PC9mZUNvbXBvbmVudFRyYW5zZmVyPjwvZmlsdGVyPjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjEwMDAiIGZpbGw9InVybCgjYikiLz48ZWxsaXBzZSBjeD0iNDAwIiBjeT0iMzgwIiByeD0iMTQwIiByeT0iMTcwIiBmaWxsPSIjNmY1YTQ1IiBvcGFjaXR5PSIwLjc1Ii8+PHBhdGggZD0iTTE3MCwxMDAwIFE0MDAsNTIwIDYzMCwxMDAwIFoiIGZpbGw9IiM0YTNkMmYiIG9wYWNpdHk9IjAuOCIvPjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iMTAwMCIgZmlsdGVyPSJ1cmwoI2cpIiBvcGFjaXR5PSIwLjUiLz48dGV4dCB4PSI3ODAiIHk9Ijk4MCIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMjIiIGZpbGw9IiMwMDAwMDA1NSI+c2FtcGxlIGltYWdlIOKAlCByZXBsYWNlIHdpdGggeW91ciBwaG90b2dyYXBoPC90ZXh0Pjwvc3ZnPgo="                      // replace with a photo of you
+  },
+
+  /* --- 2. Contact — where enquiries reach you --------------------------- */
+  contact: {
+    email: "you@example.com",                             // SAMPLE — your real email
+    phone: "+91 00000 00000",                             // SAMPLE — or leave "" to hide
+    whatsapp: "910000000000",                             // digits only, or "" to hide
+    instagram: "https://instagram.com/yourhandle",         // or "" to hide
+    facebook: "",
+    youtube: ""
+  },
+
+  /* --- 3. How enquiry forms are delivered ------------------------------- *
+   * "mailto"   : opens the visitor's email app with the brief filled in.
+   *              Works instantly, needs no signup, but cannot carry file
+   *              attachments and depends on the visitor having email set up.
+   * "endpoint" : posts the form to a form service (Web3Forms, Formspree,
+   *              Getform, Basin ...) which emails it to you. Recommended.
+   *              Paste the service's POST URL into formEndpoint below.
+   * "server"   : posts to the optional Node server in /server (see its README).
+   * If an endpoint fails at send time the form falls back to mailto so an
+   * enquiry is never simply lost.                                          */
+  forms: {
+    mode: "mailto",                                       // "mailto" | "endpoint" | "server"
+    formEndpoint: "",                                     // e.g. https://api.web3forms.com/submit
+    accessKey: "",                                        // Web3Forms access key, if used
+    successMessage:
+      "Thank you — your enquiry is on its way. I reply to every message, " +
+      "usually within 2–3 working days.",
+    consentText:
+      "I agree that my details may be used to reply to this enquiry."
+  },
+
+  /* --- 4. Themes: the subjects you paint -------------------------------- *
+   * "id" is used in the artworks file and in links. Keep ids lowercase.    */
+  themes: [
+    { id: "landscapes",   name: "Landscapes & Nature",       blurb: "Impressionist studies of light, weather and open country." },
+    { id: "portraits",    name: "Portraits",                 blurb: "Commissioned and observed portraits in oil, charcoal and watercolour." },
+    { id: "life-studies", name: "Human Life Studies",        blurb: "Drawings of people at work, at rest and in movement." },
+    { id: "traditional",  name: "Traditional & Folk",        blurb: "Work in the idiom of India's classical and folk painting traditions." },
+    { id: "abstract",     name: "Abstract",                  blurb: "The same subjects returned to as colour, mass and gesture." },
+    { id: "india-states", name: "India: States & Traditions",blurb: "A continuing record of regional culture, dress, festival and craft." },
+    { id: "world",        name: "World Cultures",            blurb: "Lifestyles and faces from beyond India." },
+    { id: "deserts",      name: "Desert Life",               blurb: "Heat, distance and the people who live in it." },
+    { id: "mountains",    name: "Mountain Life",             blurb: "High villages, herders and the weather of altitude." },
+    { id: "rivers",       name: "Riverscapes",               blurb: "Ghats, boats, floods and river towns." },
+    { id: "political",    name: "Political Life",            blurb: "Public life, protest, assembly and the crowd." }
+  ],
+
+  /* --- 5. Commission pricing guide -------------------------------------- *
+   * Shown on the Commission page. These are STARTING prices, so a visitor
+   * can self-qualify before writing to you. Edit freely, or set
+   * commissionPricing.show = false to hide the whole table.                */
+  commissionPricing: {
+    show: true,
+    note:
+      "Indicative starting prices for 2026. Final price depends on size, " +
+      "medium, number of figures and detail. Framing, delivery and taxes are " +
+      "quoted separately.",                                // SAMPLE
+    currency: "₹",
+    tiers: [
+      { work: "Portrait — head & shoulders, charcoal", size: "A3 / 30×42 cm", from: 12000 },  // SAMPLE
+      { work: "Portrait — half figure, oil on canvas",  size: "45×60 cm",      from: 35000 },  // SAMPLE
+      { work: "Landscape / riverscape, oil",            size: "60×90 cm",      from: 55000 },  // SAMPLE
+      { work: "Large statement work, oil",              size: "90×120 cm+",    from: 110000 }, // SAMPLE
+      { work: "Watercolour study",                      size: "28×38 cm",      from: 9000 }    // SAMPLE
+    ]
+  },
+
+  /* --- 6. Commission process shown to the client ------------------------ */
+  commissionSteps: [
+    { title: "You send the brief",  text: "Use the form on this page. Tell me the subject, the wall or room it is for, your size range and your timeline." },
+    { title: "We agree the scope",  text: "I reply with a quote, a size and medium recommendation, and a completion date. Nothing is charged at this stage." },
+    { title: "Advance & start",     text: "A 50% advance confirms the commission and covers materials. I then send you a sketch or colour study for approval." },  // SAMPLE terms
+    { title: "Work in progress",    text: "You receive progress photographs at agreed stages. One round of revisions is included at the study stage." },          // SAMPLE terms
+    { title: "Completion & delivery", text: "On approval the balance is due. The work is varnished, documented, packed and shipped — insured, across India and worldwide." } // SAMPLE terms
+  ],
+
+  /* --- 7. Frequently asked questions ------------------------------------ */
+  faq: [
+    { q: "Do you ship outside India?",
+      a: "Yes. Works are packed in a rigid crate or rolled in a tube for large canvases, and shipped insured. Shipping is quoted at cost." }, // SAMPLE
+    { q: "Can I commission a painting from my own photograph?",
+      a: "Yes — most portrait and house commissions begin from photographs. Clear, high-resolution images in natural light work best, and you must own or have permission to use them." },
+    { q: "How long does a commission take?",
+      a: "Typically four to ten weeks from approval of the study, depending on size and medium. Tell me your deadline in the form and I will say honestly whether it is possible." }, // SAMPLE
+    { q: "Do you sell prints?",
+      a: "Limited-edition giclée prints are available for selected works. Ask about a specific painting and I will tell you whether an edition exists." },       // SAMPLE
+    { q: "Is the work certified?",
+      a: "Every original leaves the studio signed, with a dated certificate of authenticity carrying the title, year, medium, dimensions and an image of the work." }, // SAMPLE
+    { q: "Can I visit the studio?",
+      a: "Yes, by appointment. Write to me with the dates you are in town." }
+  ],
+
+  /* --- 7b. What clients have said ---------------------------------------- *
+   * EMPTY ON PURPOSE. The landing page hides this section until you add real
+   * quotes. Never invent one: a collector can always be asked, and a made-up
+   * testimonial is the fastest way to lose the trust the rest of the site builds.
+   * Format:  { quote: "…", who: "Name", where: "City · commissioned portrait" }  */
+  testimonials: [],
+
+  /* --- 8. Exhibitions / recognition (leave empty [] to hide the section) - */
+  exhibitions: [
+    { year: "2025", text: "Solo — 'Rivers and Their Towns', State Gallery of Art (SAMPLE, replace)" },
+    { year: "2024", text: "Group — Annual Fine Art Exhibition, Lalit Kala Akademi (SAMPLE, replace)" },
+    { year: "2023", text: "Artist residency, desert districts of Rajasthan (SAMPLE, replace)" }
+  ],
+
+  /* --- 9. Sale terms shown on artwork pages ----------------------------- */
+  saleTerms: [
+    "Every original is signed and supplied with a certificate of authenticity.",
+    "Prices are for the unframed work unless the listing says otherwise.",
+    "Insured shipping across India and worldwide, quoted at cost.",
+    "Once an enquiry is agreed, the work is reserved for 5 days pending payment." // SAMPLE
+  ],
+
+  /* --- 10. The studio shop: your hand-made paints and materials ---------- *
+   * The products themselves live in data/products.js and are managed from
+   * the Materials tab of admin.html. This section is the words around them. */
+  shop: {
+    show: true,                                           // false hides the shop entirely
+    heading: "Paints made by hand, in the studio",        // SAMPLE
+    intro:
+      "I grind my own pigments and mull my own paint, because the colour that comes " +
+      "out of a jar you filled yourself behaves differently on the brush. What I make " +
+      "beyond my own use, I sell — in small batches, to people who want to work the " +
+      "same way.",                                        // SAMPLE — rewrite in your own voice
+    categories: [
+      { id: "pigments", name: "Pigments",            blurb: "Hand-ground earths, minerals and lakes, sold loose by weight." },
+      { id: "paints",   name: "Paints & sets",       blurb: "Mulled and poured by hand, ready to paint with." },
+      { id: "mediums",  name: "Mediums & binders",   blurb: "What turns a pigment into paint." },
+      { id: "grounds",  name: "Grounds & surfaces",  blurb: "Panels, papers and the grounds I prepare them with." },
+      { id: "kits",     name: "Kits",                blurb: "Sets put together for someone starting out." }
+    ],
+    /* How an order is taken. There is no card payment on the site: an order
+       becomes an email to you, and you send a payment link or UPI request. */
+    orderNote:
+      "Choose what you need and send the order. I reply within two working days with " +
+      "the total including packing and delivery to your pin code, and a UPI or bank " +
+      "transfer link. Nothing is charged on this website.",   // SAMPLE terms
+    terms: [
+      "Everything is made in small batches, so quantities are limited and colours vary " +
+      "slightly from batch to batch. That variation is the point, not a fault.",
+      "Pigments are sold as dry powder. Wear a mask when grinding, keep them off food " +
+      "surfaces, and away from children.",                    // SAMPLE — keep, it is honest
+      "Made-to-order colours are ground after you order; the lead time is on each item.",
+      "Dispatch is within 3 working days for stocked items, by courier, across India.",  // SAMPLE
+      "Powders and liquids are packed for transport, but some couriers restrict them — " +
+      "confirm your city with me before ordering large quantities."
+    ]
+  },
+
+  /* --- 11. Design work for spaces ---------------------------------------- */
+  spaces: {
+    show: true,
+    heading: "Work made for a particular wall",            // SAMPLE
+    intro:
+      "A mural in a stairwell, a set of paintings that carries one idea across a " +
+      "lobby, artwork chosen and made for a restaurant's rooms. This is design work: " +
+      "it starts from your space, its light and its colours, not from what is already " +
+      "in my studio.",                                     // SAMPLE
+    types: [
+      { name: "Murals, painted on site",  blurb: "Directly on the wall, in acrylic or mineral paint. Homes, cafés, schools, lobbies." },
+      { name: "A set for one room",       blurb: "Three to nine works planned together, sized and coloured for one space." },
+      { name: "Hospitality & offices",    blurb: "Hotels, restaurants and offices — a scheme across several rooms, delivered in phases." },
+      { name: "One large statement work", blurb: "A single painting made to the measurements of a wall you already have in mind." }
+    ],
+    process: [
+      { title: "Send the space",   text: "Photographs of the wall, its measurements, and what the room is for. A floor plan if you have one." },
+      { title: "Site visit or call", text: "For murals and larger schemes I visit, or we walk the space together on a video call. Travel is quoted separately." },
+      { title: "Concept & quote",  text: "You receive a colour concept, a scaled drawing showing the work on your wall, and a fixed quote." },   // SAMPLE
+      { title: "Advance & making", text: "50% confirms the dates. Studio work is photographed as it goes; on-site work is scheduled with your builder or manager." }, // SAMPLE
+      { title: "Install & hand over", text: "Murals are finished and sealed on site; studio works are delivered, hung and photographed for you." }
+    ],
+    pricingNote:
+      "Murals are usually quoted by area and complexity, sets of works by the piece. " +
+      "These are starting points for 2026; travel, scaffolding, materials for on-site " +
+      "work and installation are quoted separately.",       // SAMPLE
+    priced: [
+      { work: "Mural, single colour ground with figures", basis: "per sq ft of wall", from: 900 },   // SAMPLE
+      { work: "Mural, detailed narrative work",           basis: "per sq ft of wall", from: 2200 },  // SAMPLE
+      { work: "Set of works for a room",                  basis: "per painting",      from: 45000 }, // SAMPLE
+      { work: "Concept & colour scheme only",             basis: "per space",         from: 25000 }  // SAMPLE
+    ]
+  }
+};
+
+</script>
+<script>
+/* =============================================================================
+   artworks.js — THE GALLERY. One entry per painting or drawing.
+   You do not need to edit this by hand: open admin.html in your browser,
+   add your works there, and it writes a replacement copy of this file for you.
+   -----------------------------------------------------------------------------
+   status:  "available" | "reserved" | "sold" | "nfs"   (nfs = not for sale)
+   price:   a number in rupees, or null to show "Price on request"
+   themes:  ids taken from the themes list in site.js
+   image:   a path like "images/works/my-painting.jpg"
+   featured:true puts the work on the front page
+   -----------------------------------------------------------------------------
+   Every entry below is SAMPLE DATA using placeholder images. Delete them all
+   once your own paintings are in.
+   ========================================================================== */
+
+window.ARTWORKS = [
+  {
+    "id": "dawn-over-the-dunes",
+    "title": "Dawn over the Dunes",
+    "year": 2025,
+    "themes": [
+      "deserts",
+      "landscapes"
+    ],
+    "style": "Impressionist",
+    "medium": "Oil on canvas",
+    "w_cm": 90,
+    "h_cm": 60,
+    "price": 68000,
+    "status": "available",
+    "prints": true,
+    "framed": false,
+    "place": "Jaisalmer, Rajasthan",
+    "story": "Painted over four mornings from the same ridge. The dunes change colour twice before the heat arrives, and I wanted the second change — the moment the sand stops being pink and becomes ochre.",
+    "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDgwMCIgd2lkdGg9IjEyMDAiIGhlaWdodD0iODAwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlBsYWNlaG9sZGVyIGltYWdlIGZvciBkYXduLW92ZXItdGhlLWR1bmVzIj48ZGVmcz48ZmlsdGVyIGlkPSJnIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC45IiBudW1PY3RhdmVzPSIzIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjxmZUNvbXBvbmVudFRyYW5zZmVyPjxmZUZ1bmNBIHR5cGU9ImxpbmVhciIgc2xvcGU9IjAuMTAiLz48L2ZlQ29tcG9uZW50VHJhbnNmZXI+PC9maWx0ZXI+PGxpbmVhckdyYWRpZW50IGlkPSJza3kiIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmNmQ5YTgiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNlYWI4NzMiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI4MDAiIGZpbGw9InVybCgjc2t5KSIvPjxjaXJjbGUgY3g9IjgwMCIgY3k9IjE5MSIgcj0iNTYiIGZpbGw9IiNmNmQ5YTgiIG9wYWNpdHk9IjAuODUiLz48cGF0aCBkPSJNMCw4MDAgTDAsMjY3LjkgUTc1LjAsMjY3LjkgMTUwLjAsMjA3LjggUTIyNS4wLDIwNy44IDMwMC4wLDIyMy4wIFEzNzUuMCwyMjMuMCA0NTAuMCwyOTcuMSBRNTI1LjAsMjk3LjEgNjAwLjAsMjgyLjggUTY3NS4wLDI4Mi44IDc1MC4wLDIzNi45IFE4MjUuMCwyMzYuOSA5MDAuMCwyMjAuMSBROTc1LjAsMjIwLjEgMTA1MC4wLDIzOS41IFExMTI1LjAsMjM5LjUgMTIwMC4wLDI5OS43IEwxMjAwLDgwMCBaIiBmaWxsPSIjZWFiODczIiBvcGFjaXR5PSIwLjkyIi8+PHBhdGggZD0iTTAsODAwIEwwLDQxMi44IFE3NS4wLDQxMi44IDE1MC4wLDQ2OS41IFEyMjUuMCw0NjkuNSAzMDAuMCw0NTUuNSBRMzc1LjAsNDU1LjUgNDUwLjAsMzkwLjMgUTUyNS4wLDM5MC4zIDYwMC4wLDM5My43IFE2NzUuMCwzOTMuNyA3NTAuMCw0MjguMyBRODI1LjAsNDI4LjMgOTAwLjAsNDQ4LjQgUTk3NS4wLDQ0OC40IDEwNTAuMCw0NTEuMSBRMTEyNS4wLDQ1MS4xIDEyMDAuMCwzODUuMCBMMTIwMCw4MDAgWiIgZmlsbD0iI2Q5OGY0ZSIgb3BhY2l0eT0iMC45MiIvPjxwYXRoIGQ9Ik0wLDgwMCBMMCw1ODcuMiBRNzUuMCw1ODcuMiAxNTAuMCw1NDIuNiBRMjI1LjAsNTQyLjYgMzAwLjAsNTYwLjEgUTM3NS4wLDU2MC4xIDQ1MC4wLDU5Ni43IFE1MjUuMCw1OTYuNyA2MDAuMCw2MTYuMCBRNjc1LjAsNjE2LjAgNzUwLjAsNTg4LjAgUTgyNS4wLDU4OC4wIDkwMC4wLDU0Ni42IFE5NzUuMCw1NDYuNiAxMDUwLjAsNTU2LjUgUTExMjUuMCw1NTYuNSAxMjAwLjAsNjA5LjYgTDEyMDAsODAwIFoiIGZpbGw9IiNhODVmMzciIG9wYWNpdHk9IjAuOTIiLz48cGF0aCBkPSJNMCw4MDAgTDAsNzIyLjggUTc1LjAsNzIyLjggMTUwLjAsNzcyLjYgUTIyNS4wLDc3Mi42IDMwMC4wLDc4MS45IFEzNzUuMCw3ODEuOSA0NTAuMCw3NDMuNSBRNTI1LjAsNzQzLjUgNjAwLjAsNzAyLjUgUTY3NS4wLDcwMi41IDc1MC4wLDczMy44IFE4MjUuMCw3MzMuOCA5MDAuMCw3ODAuNSBROTc1LjAsNzgwLjUgMTA1MC4wLDc4NS45IFExMTI1LjAsNzg1LjkgMTIwMC4wLDcyMS40IEwxMjAwLDgwMCBaIiBmaWxsPSIjNmQzYTI0IiBvcGFjaXR5PSIxIi8+PHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iODAwIiBmaWx0ZXI9InVybCgjZykiIG9wYWNpdHk9IjAuNSIvPjxyZWN0IHg9IjAuNSIgeT0iMC41IiB3aWR0aD0iMTE5OSIgaGVpZ2h0PSI3OTkiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMDIyIi8+PHRleHQgeD0iMTE5MCIgeT0iNzkwIiB0ZXh0LWFuY2hvcj0iZW5kIiBmb250LWZhbWlseT0iR2VvcmdpYSxzZXJpZiIgZm9udC1zaXplPSIyMiIgZmlsbD0iIzAwMDAwMDU1Ij5zYW1wbGUgaW1hZ2Ug4oCUIHJlcGxhY2U8L3RleHQ+PC9zdmc+",
+    "featured": true
+  },
+  {
+    "id": "the-water-carrier",
+    "title": "The Water Carrier",
+    "year": 2024,
+    "themes": [
+      "deserts",
+      "life-studies"
+    ],
+    "style": "Realist",
+    "medium": "Watercolour on paper",
+    "w_cm": 28,
+    "h_cm": 38,
+    "price": 14000,
+    "status": "sold",
+    "prints": true,
+    "framed": true,
+    "place": "Barmer district, Rajasthan",
+    "story": "A study made in an afternoon, of a walk that is made twice a day.",
+    "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA3NjAgMTA0MCIgd2lkdGg9Ijc2MCIgaGVpZ2h0PSIxMDQwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlBsYWNlaG9sZGVyIGltYWdlIGZvciB0aGUtd2F0ZXItY2FycmllciI+PGRlZnM+PGZpbHRlciBpZD0iZyI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuOSIgbnVtT2N0YXZlcz0iMyIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjxmZUNvbG9yTWF0cml4IHR5cGU9InNhdHVyYXRlIiB2YWx1ZXM9IjAiLz48ZmVDb21wb25lbnRUcmFuc2Zlcj48ZmVGdW5jQSB0eXBlPSJsaW5lYXIiIHNsb3BlPSIwLjEwIi8+PC9mZUNvbXBvbmVudFRyYW5zZmVyPjwvZmlsdGVyPjxsaW5lYXJHcmFkaWVudCBpZD0ic2t5IiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZjNlNGNkIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZTZjNzlhIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9Ijc2MCIgaGVpZ2h0PSIxMDQwIiBmaWxsPSJ1cmwoI3NreSkiLz48Y2lyY2xlIGN4PSIzNDMiIGN5PSIyMDAiIHI9IjUzIiBmaWxsPSIjZjNlNGNkIiBvcGFjaXR5PSIwLjg1Ii8+PHBhdGggZD0iTTAsMTA0MCBMMCwzNjcuMyBRNDcuNSwzNjcuMyA5NS4wLDM1NS4wIFExNDIuNSwzNTUuMCAxOTAuMCwzMjEuMyBRMjM3LjUsMzIxLjMgMjg1LjAsMzEzLjIgUTMzMi41LDMxMy4yIDM4MC4wLDMzMC4xIFE0MjcuNSwzMzAuMSA0NzUuMCwzNjQuMCBRNTIyLjUsMzY0LjAgNTcwLjAsMzU0LjAgUTYxNy41LDM1NC4wIDY2NS4wLDMxOC42IFE3MTIuNSwzMTguNiA3NjAuMCwzMDkuNSBMNzYwLDEwNDAgWiIgZmlsbD0iI2U2Yzc5YSIgb3BhY2l0eT0iMC45MiIvPjxwYXRoIGQ9Ik0wLDEwNDAgTDAsNjM4LjggUTQ3LjUsNjM4LjggOTUuMCw2NDIuNCBRMTQyLjUsNjQyLjQgMTkwLjAsNjc1LjkgUTIzNy41LDY3NS45IDI4NS4wLDY3NS43IFEzMzIuNSw2NzUuNyAzODAuMCw2NTkuMSBRNDI3LjUsNjU5LjEgNDc1LjAsNjI2LjMgUTUyMi41LDYyNi4zIDU3MC4wLDYzOS4wIFE2MTcuNSw2MzkuMCA2NjUuMCw2NjYuNCBRNzEyLjUsNjY2LjQgNzYwLjAsNjc1LjkgTDc2MCwxMDQwIFoiIGZpbGw9IiNjZjlhNjgiIG9wYWNpdHk9IjAuOTIiLz48cGF0aCBkPSJNMCwxMDQwIEwwLDEwMDQuNiBRNDcuNSwxMDA0LjYgOTUuMCw5OTUuOSBRMTQyLjUsOTk1LjkgMTkwLjAsOTYyLjYgUTIzNy41LDk2Mi42IDI4NS4wLDk1MC41IFEzMzIuNSw5NTAuNSAzODAuMCw5NjIuOCBRNDI3LjUsOTYyLjggNDc1LjAsMTAwOC43IFE1MjIuNSwxMDA4LjcgNTcwLjAsMTAwMi43IFE2MTcuNSwxMDAyLjcgNjY1LjAsOTUzLjcgUTcxMi41LDk1My43IDc2MC4wLDk1My4xIEw3NjAsMTA0MCBaIiBmaWxsPSIjOWM1ZjNlIiBvcGFjaXR5PSIxIi8+PGcgZmlsbD0iIzljNWYzZSIgb3BhY2l0eT0iMC42NyI+PGVsbGlwc2UgY3g9IjM4MCIgY3k9IjI4OSIgcng9IjQwIiByeT0iNDciLz48cGF0aCBkPSJNMzM1LDYzNiBRMzgwLDI5NiA0MjUsNjM2IFoiLz48L2c+PHJlY3Qgd2lkdGg9Ijc2MCIgaGVpZ2h0PSIxMDQwIiBmaWx0ZXI9InVybCgjZykiIG9wYWNpdHk9IjAuNSIvPjxyZWN0IHg9IjAuNSIgeT0iMC41IiB3aWR0aD0iNzU5IiBoZWlnaHQ9IjEwMzkiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMDIyIi8+PHRleHQgeD0iNzUwIiB5PSIxMDMwIiB0ZXh0LWFuY2hvcj0iZW5kIiBmb250LWZhbWlseT0iR2VvcmdpYSxzZXJpZiIgZm9udC1zaXplPSIyMSIgZmlsbD0iIzAwMDAwMDU1Ij5zYW1wbGUgaW1hZ2Ug4oCUIHJlcGxhY2U8L3RleHQ+PC9zdmc+",
+    "featured": false
+  },
+  {
+    "id": "spiti-crossing",
+    "title": "Spiti Crossing",
+    "year": 2025,
+    "themes": [
+      "mountains",
+      "landscapes"
+    ],
+    "style": "Impressionist",
+    "medium": "Oil on canvas",
+    "w_cm": 76,
+    "h_cm": 101,
+    "price": 92000,
+    "status": "available",
+    "prints": false,
+    "framed": false,
+    "place": "Spiti Valley, Himachal Pradesh",
+    "story": "Cold light, thin air, and a bridge that has been rebuilt four times.",
+    "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgMTIwMCIgd2lkdGg9IjkwMCIgaGVpZ2h0PSIxMjAwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlBsYWNlaG9sZGVyIGltYWdlIGZvciBzcGl0aS1jcm9zc2luZyI+PGRlZnM+PGZpbHRlciBpZD0iZyI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuOSIgbnVtT2N0YXZlcz0iMyIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjxmZUNvbG9yTWF0cml4IHR5cGU9InNhdHVyYXRlIiB2YWx1ZXM9IjAiLz48ZmVDb21wb25lbnRUcmFuc2Zlcj48ZmVGdW5jQSB0eXBlPSJsaW5lYXIiIHNsb3BlPSIwLjEwIi8+PC9mZUNvbXBvbmVudFRyYW5zZmVyPjwvZmlsdGVyPjxsaW5lYXJHcmFkaWVudCBpZD0ic2t5IiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjY2ZlMmVmIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjOWRjMGQ4Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSIxMjAwIiBmaWxsPSJ1cmwoI3NreSkiLz48Y2lyY2xlIGN4PSI3MTYiIGN5PSIzNTgiIHI9IjYzIiBmaWxsPSIjY2ZlMmVmIiBvcGFjaXR5PSIwLjg1Ii8+PHBhdGggZD0iTTAsMTIwMCBMMCwzMjcuMiBRNTYuMiwzMjcuMiAxMTIuNSwzNjQuOSBRMTY4LjgsMzY0LjkgMjI1LjAsNDQzLjMgUTI4MS4yLDQ0My4zIDMzNy41LDQyOC44IFEzOTMuOCw0MjguOCA0NTAuMCwzODIuMiBRNTA2LjIsMzgyLjIgNTYyLjUsMzMyLjMgUTYxOC44LDMzMi4zIDY3NS4wLDM3MC45IFE3MzEuMiwzNzAuOSA3ODcuNSw0MTcuOCBRODQzLjgsNDE3LjggOTAwLjAsNDExLjEgTDkwMCwxMjAwIFoiIGZpbGw9IiM5ZGMwZDgiIG9wYWNpdHk9IjAuOTIiLz48cGF0aCBkPSJNMCwxMjAwIEwwLDcwMy4wIFE1Ni4yLDcwMy4wIDExMi41LDY3Ny43IFExNjguOCw2NzcuNyAyMjUuMCw2MDguMyBRMjgxLjIsNjA4LjMgMzM3LjUsNTkxLjYgUTM5My44LDU5MS42IDQ1MC4wLDYyNi40IFE1MDYuMiw2MjYuNCA1NjIuNSw2OTYuMiBRNjE4LjgsNjk2LjIgNjc1LjAsNjc1LjYgUTczMS4yLDY3NS42IDc4Ny41LDYwMi44IFE4NDMuOCw2MDIuOCA5MDAuMCw1ODMuOSBMOTAwLDEyMDAgWiIgZmlsbD0iIzZmOGZhZSIgb3BhY2l0eT0iMC45MiIvPjxwYXRoIGQ9Ik0wLDEyMDAgTDAsODQ2LjIgUTU2LjIsODQ2LjIgMTEyLjUsODUzLjYgUTE2OC44LDg1My42IDIyNS4wLDkyMi43IFEyODEuMiw5MjIuNyAzMzcuNSw5MjIuMiBRMzkzLjgsOTIyLjIgNDUwLjAsODg4LjEgUTUwNi4yLDg4OC4xIDU2Mi41LDgyMC41IFE2MTguOCw4MjAuNSA2NzUuMCw4NDYuNSBRNzMxLjIsODQ2LjUgNzg3LjUsOTAzLjEgUTg0My44LDkwMy4xIDkwMC4wLDkyMi42IEw5MDAsMTIwMCBaIiBmaWxsPSIjM2Y1ODcxIiBvcGFjaXR5PSIwLjkyIi8+PHBhdGggZD0iTTAsMTIwMCBMMCwxMTgzLjYgUTU2LjIsMTE4My42IDExMi41LDExNjUuNyBRMTY4LjgsMTE2NS43IDIyNS4wLDEwOTcuMCBRMjgxLjIsMTA5Ny4wIDMzNy41LDEwNzIuMSBRMzkzLjgsMTA3Mi4xIDQ1MC4wLDEwOTcuNCBRNTA2LjIsMTA5Ny40IDU2Mi41LDExOTIuMSBRNjE4LjgsMTE5Mi4xIDY3NS4wLDExNzkuOCBRNzMxLjIsMTE3OS44IDc4Ny41LDEwNzguNyBRODQzLjgsMTA3OC43IDkwMC4wLDEwNzcuNSBMOTAwLDEyMDAgWiIgZmlsbD0iIzI2MzY0YSIgb3BhY2l0eT0iMSIvPjxyZWN0IHdpZHRoPSI5MDAiIGhlaWdodD0iMTIwMCIgZmlsdGVyPSJ1cmwoI2cpIiBvcGFjaXR5PSIwLjUiLz48cmVjdCB4PSIwLjUiIHk9IjAuNSIgd2lkdGg9Ijg5OSIgaGVpZ2h0PSIxMTk5IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAwMDAyMiIvPjx0ZXh0IHg9Ijg5MCIgeT0iMTE5MCIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMjUiIGZpbGw9IiMwMDAwMDA1NSI+c2FtcGxlIGltYWdlIOKAlCByZXBsYWNlPC90ZXh0Pjwvc3ZnPg==",
+    "featured": true
+  },
+  {
+    "id": "herder-at-the-pass",
+    "title": "Herder at the Pass",
+    "year": 2024,
+    "themes": [
+      "mountains",
+      "portraits",
+      "life-studies"
+    ],
+    "style": "Line drawing",
+    "medium": "Charcoal on paper",
+    "w_cm": 30,
+    "h_cm": 42,
+    "price": 18000,
+    "status": "available",
+    "prints": true,
+    "framed": false,
+    "place": "Zanskar range",
+    "story": "Twenty minutes of sitting still, which is a long time when it is that cold.",
+    "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4NDAgMTE4MCIgd2lkdGg9Ijg0MCIgaGVpZ2h0PSIxMTgwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlBsYWNlaG9sZGVyIGltYWdlIGZvciBoZXJkZXItYXQtdGhlLXBhc3MiPjxkZWZzPjxmaWx0ZXIgaWQ9ImciPjxmZVR1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIwLjkiIG51bU9jdGF2ZXM9IjMiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz48ZmVDb2xvck1hdHJpeCB0eXBlPSJzYXR1cmF0ZSIgdmFsdWVzPSIwIi8+PGZlQ29tcG9uZW50VHJhbnNmZXI+PGZlRnVuY0EgdHlwZT0ibGluZWFyIiBzbG9wZT0iMC4xMCIvPjwvZmVDb21wb25lbnRUcmFuc2Zlcj48L2ZpbHRlcj48bGluZWFyR3JhZGllbnQgaWQ9InNreSIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2U4ZTRkYyIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2M4YzJiNiIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI4NDAiIGhlaWdodD0iMTE4MCIgZmlsbD0idXJsKCNza3kpIi8+PGNpcmNsZSBjeD0iMTg1IiBjeT0iMzI2IiByPSI1OSIgZmlsbD0iI2U4ZTRkYyIgb3BhY2l0eT0iMC44NSIvPjxwYXRoIGQ9Ik0wLDExODAgTDAsMzk3LjkgUTUyLjUsMzk3LjkgMTA1LjAsMzcxLjcgUTE1Ny41LDM3MS43IDIxMC4wLDM0Ny42IFEyNjIuNSwzNDcuNiAzMTUuMCwzNjkuNSBRMzY3LjUsMzY5LjUgNDIwLjAsNDAwLjMgUTQ3Mi41LDQwMC4zIDUyNS4wLDQwNy4xIFE1NzcuNSw0MDcuMSA2MzAuMCwzNjcuOCBRNjgyLjUsMzY3LjggNzM1LjAsMzQ1LjkgUTc4Ny41LDM0NS45IDg0MC4wLDM3Ny4yIEw4NDAsMTE4MCBaIiBmaWxsPSIjYzhjMmI2IiBvcGFjaXR5PSIwLjkyIi8+PHBhdGggZD0iTTAsMTE4MCBMMCw3MTguMiBRNTIuNSw3MTguMiAxMDUuMCw3NTYuNCBRMTU3LjUsNzU2LjQgMjEwLjAsNzY5LjMgUTI2Mi41LDc2OS4zIDMxNS4wLDc2Ni41IFEzNjcuNSw3NjYuNSA0MjAuMCw3MTAuMyBRNDcyLjUsNzEwLjMgNTI1LjAsNzIxLjAgUTU3Ny41LDcyMS4wIDYzMC4wLDc0Ni44IFE2ODIuNSw3NDYuOCA3MzUuMCw3ODEuOSBRNzg3LjUsNzgxLjkgODQwLjAsNzQwLjkgTDg0MCwxMTgwIFoiIGZpbGw9IiM4Zjg3NzkiIG9wYWNpdHk9IjAuOTIiLz48cGF0aCBkPSJNMCwxMTgwIEwwLDExNDQuMSBRNTIuNSwxMTQ0LjEgMTA1LjAsMTExMi44IFExNTcuNSwxMTEyLjggMjEwLjAsMTA4Ny4yIFEyNjIuNSwxMDg3LjIgMzE1LjAsMTA4Ni4yIFEzNjcuNSwxMDg2LjIgNDIwLjAsMTEyMy4wIFE0NzIuNSwxMTIzLjAgNTI1LjAsMTE0NS4xIFE1NzcuNSwxMTQ1LjEgNjMwLjAsMTA5Ny42IFE2ODIuNSwxMDk3LjYgNzM1LjAsMTA3My40IFE3ODcuNSwxMDczLjQgODQwLjAsMTEwNi40IEw4NDAsMTE4MCBaIiBmaWxsPSIjNGE0NTNkIiBvcGFjaXR5PSIxIi8+PGcgZmlsbD0iIzRhNDUzZCIgb3BhY2l0eT0iMC43MyI+PGVsbGlwc2UgY3g9IjQyMCIgY3k9IjQ0NyIgcng9IjM0IiByeT0iMzkiLz48cGF0aCBkPSJNMzgzLDczNCBRNDIwLDQ1MyA0NTcsNzM0IFoiLz48L2c+PHJlY3Qgd2lkdGg9Ijg0MCIgaGVpZ2h0PSIxMTgwIiBmaWx0ZXI9InVybCgjZykiIG9wYWNpdHk9IjAuNSIvPjxyZWN0IHg9IjAuNSIgeT0iMC41IiB3aWR0aD0iODM5IiBoZWlnaHQ9IjExNzkiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMDIyIi8+PHRleHQgeD0iODMwIiB5PSIxMTcwIiB0ZXh0LWFuY2hvcj0iZW5kIiBmb250LWZhbWlseT0iR2VvcmdpYSxzZXJpZiIgZm9udC1zaXplPSIyMyIgZmlsbD0iIzAwMDAwMDU1Ij5zYW1wbGUgaW1hZ2Ug4oCUIHJlcGxhY2U8L3RleHQ+PC9zdmc+",
+    "featured": false
+  },
+  {
+    "id": "ghats-at-first-light",
+    "title": "Ghats at First Light",
+    "year": 2025,
+    "themes": [
+      "rivers",
+      "landscapes",
+      "india-states"
+    ],
+    "style": "Impressionist",
+    "medium": "Oil on canvas",
+    "w_cm": 90,
+    "h_cm": 60,
+    "price": 74000,
+    "status": "reserved",
+    "prints": true,
+    "framed": false,
+    "place": "Varanasi, Uttar Pradesh",
+    "story": "The river gives back more light than the sky does at that hour.",
+    "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDgwMCIgd2lkdGg9IjEyMDAiIGhlaWdodD0iODAwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlBsYWNlaG9sZGVyIGltYWdlIGZvciBnaGF0cy1hdC1maXJzdC1saWdodCI+PGRlZnM+PGZpbHRlciBpZD0iZyI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuOSIgbnVtT2N0YXZlcz0iMyIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjxmZUNvbG9yTWF0cml4IHR5cGU9InNhdHVyYXRlIiB2YWx1ZXM9IjAiLz48ZmVDb21wb25lbnRUcmFuc2Zlcj48ZmVGdW5jQSB0eXBlPSJsaW5lYXIiIHNsb3BlPSIwLjEwIi8+PC9mZUNvbXBvbmVudFRyYW5zZmVyPjwvZmlsdGVyPjxsaW5lYXJHcmFkaWVudCBpZD0ic2t5IiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZmJlM2M2Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZjBiYjhjIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iODAwIiBmaWxsPSJ1cmwoI3NreSkiLz48Y2lyY2xlIGN4PSIzODMiIGN5PSIxMjgiIHI9IjU2IiBmaWxsPSIjZmJlM2M2IiBvcGFjaXR5PSIwLjg1Ii8+PHBhdGggZD0iTTAsODAwIEwwLDI0My40IFE3NS4wLDI0My40IDE1MC4wLDI0Ni4xIFEyMjUuMCwyNDYuMSAzMDAuMCwyNzIuMCBRMzc1LjAsMjcyLjAgNDUwLjAsMjcxLjggUTUyNS4wLDI3MS44IDYwMC4wLDI1OS4wIFE2NzUuMCwyNTkuMCA3NTAuMCwyMzMuOCBRODI1LjAsMjMzLjggOTAwLjAsMjQzLjUgUTk3NS4wLDI0My41IDEwNTAuMCwyNjQuNiBRMTEyNS4wLDI2NC42IDEyMDAuMCwyNzEuOSBMMTIwMCw4MDAgWiIgZmlsbD0iI2YwYmI4YyIgb3BhY2l0eT0iMC45MiIvPjxwYXRoIGQ9Ik0wLDgwMCBMMCw0NDIuMSBRNzUuMCw0NDIuMSAxNTAuMCw0MzUuNCBRMjI1LjAsNDM1LjQgMzAwLjAsNDA5LjggUTM3NS4wLDQwOS44IDQ1MC4wLDQwMC41IFE1MjUuMCw0MDAuNSA2MDAuMCw0MDkuOSBRNjc1LjAsNDA5LjkgNzUwLjAsNDQ1LjMgUTgyNS4wLDQ0NS4zIDkwMC4wLDQ0MC43IFE5NzUuMCw0NDAuNyAxMDUwLjAsNDAyLjkgUTExMjUuMCw0MDIuOSAxMjAwLjAsNDAyLjUgTDEyMDAsODAwIFoiIGZpbGw9IiNjOThhNjMiIG9wYWNpdHk9IjAuOTIiLz48cGF0aCBkPSJNMCw4MDAgTDAsNTcyLjUgUTc1LjAsNTcyLjUgMTUwLjAsNTY0LjIgUTIyNS4wLDU2NC4yIDMwMC4wLDU5NS45IFEzNzUuMCw1OTUuOSA0NTAuMCw2MDUuOCBRNTI1LjAsNjA1LjggNjAwLjAsNTk0LjcgUTY3NS4wLDU5NC43IDc1MC4wLDU2Ni4yIFE4MjUuMCw1NjYuMiA5MDAuMCw1NjcuOSBROTc1LjAsNTY3LjkgMTA1MC4wLDYwMi41IFExMTI1LjAsNjAyLjUgMTIwMC4wLDYwMy4wIEwxMjAwLDgwMCBaIiBmaWxsPSIjN2Q1MzQ2IiBvcGFjaXR5PSIwLjkyIi8+PHBhdGggZD0iTTAsODAwIEwwLDc1OC4wIFE3NS4wLDc1OC4wIDE1MC4wLDc2OS4wIFEyMjUuMCw3NjkuMCAzMDAuMCw3NDguMSBRMzc1LjAsNzQ4LjEgNDUwLjAsNzM2LjIgUTUyNS4wLDczNi4yIDYwMC4wLDc0MS4yIFE2NzUuMCw3NDEuMiA3NTAuMCw3NzEuNCBRODI1LjAsNzcxLjQgOTAwLjAsNzY1LjQgUTk3NS4wLDc2NS40IDEwNTAuMCw3NDYuNCBRMTEyNS4wLDc0Ni40IDEyMDAuMCw3MzQuNyBMMTIwMCw4MDAgWiIgZmlsbD0iIzNmMmMyYSIgb3BhY2l0eT0iMSIvPjxyZWN0IHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjgwMCIgZmlsdGVyPSJ1cmwoI2cpIiBvcGFjaXR5PSIwLjUiLz48cmVjdCB4PSIwLjUiIHk9IjAuNSIgd2lkdGg9IjExOTkiIGhlaWdodD0iNzk5IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAwMDAyMiIvPjx0ZXh0IHg9IjExOTAiIHk9Ijc5MCIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMjIiIGZpbGw9IiMwMDAwMDA1NSI+c2FtcGxlIGltYWdlIOKAlCByZXBsYWNlPC90ZXh0Pjwvc3ZnPg==",
+    "featured": true
+  },
+  {
+    "id": "boatman-varanasi",
+    "title": "Boatman",
+    "year": 2023,
+    "themes": [
+      "rivers",
+      "life-studies",
+      "portraits"
+    ],
+    "style": "Realist",
+    "medium": "Ink and wash on paper",
+    "w_cm": 30,
+    "h_cm": 42,
+    "price": 16000,
+    "status": "available",
+    "prints": false,
+    "framed": false,
+    "place": "Varanasi, Uttar Pradesh",
+    "story": "Drawn from the boat, which is why the horizon is not straight.",
+    "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA3NjAgMTA2MCIgd2lkdGg9Ijc2MCIgaGVpZ2h0PSIxMDYwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlBsYWNlaG9sZGVyIGltYWdlIGZvciBib2F0bWFuLXZhcmFuYXNpIj48ZGVmcz48ZmlsdGVyIGlkPSJnIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC45IiBudW1PY3RhdmVzPSIzIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjxmZUNvbXBvbmVudFRyYW5zZmVyPjxmZUZ1bmNBIHR5cGU9ImxpbmVhciIgc2xvcGU9IjAuMTAiLz48L2ZlQ29tcG9uZW50VHJhbnNmZXI+PC9maWx0ZXI+PGxpbmVhckdyYWRpZW50IGlkPSJza3kiIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNlZmU3ZDgiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNjZGJmYTYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNzYwIiBoZWlnaHQ9IjEwNjAiIGZpbGw9InVybCgjc2t5KSIvPjxjaXJjbGUgY3g9IjU1NCIgY3k9IjIzNCIgcj0iNTMiIGZpbGw9IiNlZmU3ZDgiIG9wYWNpdHk9IjAuODUiLz48cGF0aCBkPSJNMCwxMDYwIEwwLDM0Ny4yIFE0Ny41LDM0Ny4yIDk1LjAsMzc0LjMgUTE0Mi41LDM3NC4zIDE5MC4wLDM1MC45IFEyMzcuNSwzNTAuOSAyODUuMCwzMTYuMCBRMzMyLjUsMzE2LjAgMzgwLjAsMzEzLjMgUTQyNy41LDMxMy4zIDQ3NS4wLDM1OS43IFE1MjIuNSwzNTkuNyA1NzAuMCwzNjQuNiBRNjE3LjUsMzY0LjYgNjY1LjAsMzM3LjQgUTcxMi41LDMzNy40IDc2MC4wLDMwNy43IEw3NjAsMTA2MCBaIiBmaWxsPSIjY2RiZmE2IiBvcGFjaXR5PSIwLjkyIi8+PHBhdGggZD0iTTAsMTA2MCBMMCw2NzYuNiBRNDcuNSw2NzYuNiA5NS4wLDYzMi4wIFExNDIuNSw2MzIuMCAxOTAuMCw2NDMuMyBRMjM3LjUsNjQzLjMgMjg1LjAsNjk4LjMgUTMzMi41LDY5OC4zIDM4MC4wLDY4Ny42IFE0MjcuNSw2ODcuNiA0NzUuMCw2NTMuNyBRNTIyLjUsNjUzLjcgNTcwLjAsNjQxLjEgUTYxNy41LDY0MS4xIDY2NS4wLDY1NS41IFE3MTIuNSw2NTUuNSA3NjAuMCw3MDAuMiBMNzYwLDEwNjAgWiIgZmlsbD0iIzhjN2Q2MyIgb3BhY2l0eT0iMC45MiIvPjxwYXRoIGQ9Ik0wLDEwNjAgTDAsOTkwLjAgUTQ3LjUsOTkwLjAgOTUuMCwxMDMyLjEgUTE0Mi41LDEwMzIuMSAxOTAuMCwxMDIxLjcgUTIzNy41LDEwMjEuNyAyODUuMCw5NzMuNCBRMzMyLjUsOTczLjQgMzgwLjAsOTc1LjkgUTQyNy41LDk3NS45IDQ3NS4wLDEwMDEuNiBRNTIyLjUsMTAwMS42IDU3MC4wLDEwMTYuNSBRNjE3LjUsMTAxNi41IDY2NS4wLDEwMTguNSBRNzEyLjUsMTAxOC41IDc2MC4wLDk2OS40IEw3NjAsMTA2MCBaIiBmaWxsPSIjM2QzNzJjIiBvcGFjaXR5PSIxIi8+PGcgZmlsbD0iIzNkMzcyYyIgb3BhY2l0eT0iMC41OSI+PGVsbGlwc2UgY3g9IjEwOSIgY3k9IjMyOCIgcng9IjM5IiByeT0iNDUiLz48cGF0aCBkPSJNNjYsNjYxIFExMDksMzM1IDE1Myw2NjEgWiIvPjwvZz48ZyBmaWxsPSIjM2QzNzJjIiBvcGFjaXR5PSIwLjc5Ij48ZWxsaXBzZSBjeD0iNjcxIiBjeT0iMzA5IiByeD0iMzkiIHJ5PSI0NSIvPjxwYXRoIGQ9Ik02MjgsNjQyIFE2NzEsMzE1IDcxNSw2NDIgWiIvPjwvZz48cmVjdCB3aWR0aD0iNzYwIiBoZWlnaHQ9IjEwNjAiIGZpbHRlcj0idXJsKCNnKSIgb3BhY2l0eT0iMC41Ii8+PHJlY3QgeD0iMC41IiB5PSIwLjUiIHdpZHRoPSI3NTkiIGhlaWdodD0iMTA1OSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwMDAwMjIiLz48dGV4dCB4PSI3NTAiIHk9IjEwNTAiIHRleHQtYW5jaG9yPSJlbmQiIGZvbnQtZmFtaWx5PSJHZW9yZ2lhLHNlcmlmIiBmb250LXNpemU9IjIxIiBmaWxsPSIjMDAwMDAwNTUiPnNhbXBsZSBpbWFnZSDigJQgcmVwbGFjZTwvdGV4dD48L3N2Zz4=",
+    "featured": false
+  },
+  {
+    "id": "monsoon-fields",
+    "title": "Monsoon Fields",
+    "year": 2024,
+    "themes": [
+      "landscapes",
+      "india-states"
+    ],
+    "style": "Impressionist",
+    "medium": "Acrylic on canvas",
+    "w_cm": 60,
+    "h_cm": 60,
+    "price": 46000,
+    "status": "available",
+    "prints": true,
+    "framed": false,
+    "place": "Konaseema, Andhra Pradesh",
+    "story": "Three greens, and the water underneath doing most of the work.",
+    "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDEwMDAiIHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjEwMDAiIHJvbGU9ImltZyIgYXJpYS1sYWJlbD0iUGxhY2Vob2xkZXIgaW1hZ2UgZm9yIG1vbnNvb24tZmllbGRzIj48ZGVmcz48ZmlsdGVyIGlkPSJnIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC45IiBudW1PY3RhdmVzPSIzIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjxmZUNvbXBvbmVudFRyYW5zZmVyPjxmZUZ1bmNBIHR5cGU9ImxpbmVhciIgc2xvcGU9IjAuMTAiLz48L2ZlQ29tcG9uZW50VHJhbnNmZXI+PC9maWx0ZXI+PGxpbmVhckdyYWRpZW50IGlkPSJza3kiIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNkZmVjY2QiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNhOWNmOTQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwMCIgaGVpZ2h0PSIxMDAwIiBmaWxsPSJ1cmwoI3NreSkiLz48Y2lyY2xlIGN4PSIzNzgiIGN5PSIyNjQiIHI9IjcwIiBmaWxsPSIjZGZlY2NkIiBvcGFjaXR5PSIwLjg1Ii8+PHBhdGggZD0iTTAsMTAwMCBMMCwyOTMuNSBRNjIuNSwyOTMuNSAxMjUuMCwzMTEuMSBRMTg3LjUsMzExLjEgMjUwLjAsMzQ3LjcgUTMxMi41LDM0Ny43IDM3NS4wLDM0MC45IFE0MzcuNSwzNDAuOSA1MDAuMCwzMTkuMiBRNTYyLjUsMzE5LjIgNjI1LjAsMjk1LjkgUTY4Ny41LDI5NS45IDc1MC4wLDMxMy45IFE4MTIuNSwzMTMuOSA4NzUuMCwzMzUuOCBROTM3LjUsMzM1LjggMTAwMC4wLDMzMi42IEwxMDAwLDEwMDAgWiIgZmlsbD0iI2E5Y2Y5NCIgb3BhY2l0eT0iMC45MiIvPjxwYXRoIGQ9Ik0wLDEwMDAgTDAsNTU5LjggUTYyLjUsNTU5LjggMTI1LjAsNTQ4LjAgUTE4Ny41LDU0OC4wIDI1MC4wLDUxNS42IFEzMTIuNSw1MTUuNiAzNzUuMCw1MDcuOCBRNDM3LjUsNTA3LjggNTAwLjAsNTI0LjEgUTU2Mi41LDUyNC4xIDYyNS4wLDU1Ni42IFE2ODcuNSw1NTYuNiA3NTAuMCw1NDcuMCBRODEyLjUsNTQ3LjAgODc1LjAsNTEzLjAgUTkzNy41LDUxMy4wIDEwMDAuMCw1MDQuMiBMMTAwMCwxMDAwIFoiIGZpbGw9IiM2YWE0NmIiIG9wYWNpdHk9IjAuOTIiLz48cGF0aCBkPSJNMCwxMDAwIEwwLDcxNy42IFE2Mi41LDcxNy42IDEyNS4wLDcyMS4wIFExODcuNSw3MjEuMCAyNTAuMCw3NTMuMyBRMzEyLjUsNzUzLjMgMzc1LjAsNzUzLjAgUTQzNy41LDc1My4wIDUwMC4wLDczNy4xIFE1NjIuNSw3MzcuMSA2MjUuMCw3MDUuNiBRNjg3LjUsNzA1LjYgNzUwLjAsNzE3LjcgUTgxMi41LDcxNy43IDg3NS4wLDc0NC4xIFE5MzcuNSw3NDQuMSAxMDAwLjAsNzUzLjIgTDEwMDAsMTAwMCBaIiBmaWxsPSIjMzU2YjRmIiBvcGFjaXR5PSIwLjkyIi8+PHBhdGggZD0iTTAsMTAwMCBMMCw5NjYuMCBRNjIuNSw5NjYuMCAxMjUuMCw5NTcuNiBRMTg3LjUsOTU3LjYgMjUwLjAsOTI1LjUgUTMxMi41LDkyNS41IDM3NS4wLDkxMy45IFE0MzcuNSw5MTMuOSA1MDAuMCw5MjUuNyBRNTYyLjUsOTI1LjcgNjI1LjAsOTY5LjkgUTY4Ny41LDk2OS45IDc1MC4wLDk2NC4yIFE4MTIuNSw5NjQuMiA4NzUuMCw5MTcuMCBROTM3LjUsOTE3LjAgMTAwMC4wLDkxNi41IEwxMDAwLDEwMDAgWiIgZmlsbD0iIzFlNDQzNyIgb3BhY2l0eT0iMSIvPjxyZWN0IHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjEwMDAiIGZpbHRlcj0idXJsKCNnKSIgb3BhY2l0eT0iMC41Ii8+PHJlY3QgeD0iMC41IiB5PSIwLjUiIHdpZHRoPSI5OTkiIGhlaWdodD0iOTk5IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAwMDAyMiIvPjx0ZXh0IHg9Ijk5MCIgeT0iOTkwIiB0ZXh0LWFuY2hvcj0iZW5kIiBmb250LWZhbWlseT0iR2VvcmdpYSxzZXJpZiIgZm9udC1zaXplPSIyOCIgZmlsbD0iIzAwMDAwMDU1Ij5zYW1wbGUgaW1hZ2Ug4oCUIHJlcGxhY2U8L3RleHQ+PC9zdmc+",
+    "featured": false
+  },
+  {
+    "id": "grandmother-kutch",
+    "title": "Grandmother, Kutch",
+    "year": 2025,
+    "themes": [
+      "portraits",
+      "india-states",
+      "traditional"
+    ],
+    "style": "Realist",
+    "medium": "Oil on canvas board",
+    "w_cm": 45,
+    "h_cm": 60,
+    "price": 52000,
+    "status": "available",
+    "prints": false,
+    "framed": true,
+    "place": "Bhuj, Gujarat",
+    "story": "Her embroidery took a year. The portrait took nine days.",
+    "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgMTIwMCIgd2lkdGg9IjkwMCIgaGVpZ2h0PSIxMjAwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlBsYWNlaG9sZGVyIGltYWdlIGZvciBncmFuZG1vdGhlci1rdXRjaCI+PGRlZnM+PGZpbHRlciBpZD0iZyI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuOSIgbnVtT2N0YXZlcz0iMyIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjxmZUNvbG9yTWF0cml4IHR5cGU9InNhdHVyYXRlIiB2YWx1ZXM9IjAiLz48ZmVDb21wb25lbnRUcmFuc2Zlcj48ZmVGdW5jQSB0eXBlPSJsaW5lYXIiIHNsb3BlPSIwLjEwIi8+PC9mZUNvbXBvbmVudFRyYW5zZmVyPjwvZmlsdGVyPjxsaW5lYXJHcmFkaWVudCBpZD0ic2t5IiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZjJkZWQwIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZDlhZTk1Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSIxMjAwIiBmaWxsPSJ1cmwoI3NreSkiLz48Y2lyY2xlIGN4PSI1NjkiIGN5PSIzNDgiIHI9IjYzIiBmaWxsPSIjZjJkZWQwIiBvcGFjaXR5PSIwLjg1Ii8+PHBhdGggZD0iTTAsMTIwMCBMMCw0MjMuOCBRNTYuMiw0MjMuOCAxMTIuNSw0MDkuNiBRMTY4LjgsNDA5LjYgMjI1LjAsMzcwLjggUTI4MS4yLDM3MC44IDMzNy41LDM2MS40IFEzOTMuOCwzNjEuNCA0NTAuMCwzODAuOSBRNTA2LjIsMzgwLjkgNTYyLjUsNDE5LjkgUTYxOC44LDQxOS45IDY3NS4wLDQwOC40IFE3MzEuMiw0MDguNCA3ODcuNSwzNjcuNiBRODQzLjgsMzY3LjYgOTAwLjAsMzU3LjEgTDkwMCwxMjAwIFoiIGZpbGw9IiNkOWFlOTUiIG9wYWNpdHk9IjAuOTIiLz48cGF0aCBkPSJNMCwxMjAwIEwwLDczNy4xIFE1Ni4yLDczNy4xIDExMi41LDc0MS4yIFExNjguOCw3NDEuMiAyMjUuMCw3NzkuOSBRMjgxLjIsNzc5LjkgMzM3LjUsNzc5LjYgUTM5My44LDc3OS42IDQ1MC4wLDc2MC42IFE1MDYuMiw3NjAuNiA1NjIuNSw3MjIuNyBRNjE4LjgsNzIyLjcgNjc1LjAsNzM3LjMgUTczMS4yLDczNy4zIDc4Ny41LDc2OS4wIFE4NDMuOCw3NjkuMCA5MDAuMCw3NzkuOSBMOTAwLDEyMDAgWiIgZmlsbD0iI2IyNzU1YyIgb3BhY2l0eT0iMC45MiIvPjxwYXRoIGQ9Ik0wLDEyMDAgTDAsMTE1OS4yIFE1Ni4yLDExNTkuMiAxMTIuNSwxMTQ5LjEgUTE2OC44LDExNDkuMSAyMjUuMCwxMTEwLjYgUTI4MS4yLDExMTAuNiAzMzcuNSwxMDk2LjcgUTM5My44LDEwOTYuNyA0NTAuMCwxMTEwLjkgUTUwNi4yLDExMTAuOSA1NjIuNSwxMTYzLjkgUTYxOC44LDExNjMuOSA2NzUuMCwxMTU3LjAgUTczMS4yLDExNTcuMCA3ODcuNSwxMTAwLjQgUTg0My44LDExMDAuNCA5MDAuMCwxMDk5LjcgTDkwMCwxMjAwIFoiIGZpbGw9IiM2ZjNmMzAiIG9wYWNpdHk9IjEiLz48ZyBmaWxsPSIjNmYzZjMwIiBvcGFjaXR5PSIwLjY2Ij48ZWxsaXBzZSBjeD0iNDUwIiBjeT0iNTMyIiByeD0iMzgiIHJ5PSI0NCIvPjxwYXRoIGQ9Ik00MDgsODU1IFE0NTAsNTM4IDQ5Miw4NTUgWiIvPjwvZz48cmVjdCB3aWR0aD0iOTAwIiBoZWlnaHQ9IjEyMDAiIGZpbHRlcj0idXJsKCNnKSIgb3BhY2l0eT0iMC41Ii8+PHJlY3QgeD0iMC41IiB5PSIwLjUiIHdpZHRoPSI4OTkiIGhlaWdodD0iMTE5OSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwMDAwMjIiLz48dGV4dCB4PSI4OTAiIHk9IjExOTAiIHRleHQtYW5jaG9yPSJlbmQiIGZvbnQtZmFtaWx5PSJHZW9yZ2lhLHNlcmlmIiBmb250LXNpemU9IjI1IiBmaWxsPSIjMDAwMDAwNTUiPnNhbXBsZSBpbWFnZSDigJQgcmVwbGFjZTwvdGV4dD48L3N2Zz4=",
+    "featured": true
+  },
+  {
+    "id": "pichwai-notes",
+    "title": "Pichwai Notes",
+    "year": 2024,
+    "themes": [
+      "traditional",
+      "india-states"
+    ],
+    "style": "Traditional",
+    "medium": "Gouache and gold on paper",
+    "w_cm": 40,
+    "h_cm": 50,
+    "price": 38000,
+    "status": "available",
+    "prints": true,
+    "framed": true,
+    "place": "Nathdwara, Rajasthan",
+    "story": "Working in a tradition is not copying it; it is learning what the rules were for before you decide which one to keep.",
+    "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NjAgMTIwMCIgd2lkdGg9Ijk2MCIgaGVpZ2h0PSIxMjAwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlBsYWNlaG9sZGVyIGltYWdlIGZvciBwaWNod2FpLW5vdGVzIj48ZGVmcz48ZmlsdGVyIGlkPSJnIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC45IiBudW1PY3RhdmVzPSIzIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjxmZUNvbXBvbmVudFRyYW5zZmVyPjxmZUZ1bmNBIHR5cGU9ImxpbmVhciIgc2xvcGU9IjAuMTAiLz48L2ZlQ29tcG9uZW50VHJhbnNmZXI+PC9maWx0ZXI+PGxpbmVhckdyYWRpZW50IGlkPSJza3kiIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmNWVjZDYiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNkOWM5OGYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjEyMDAiIGZpbGw9InVybCgjc2t5KSIvPjxjaXJjbGUgY3g9IjU1NCIgY3k9IjIzMCIgcj0iNjciIGZpbGw9IiNmNWVjZDYiIG9wYWNpdHk9IjAuODUiLz48cGF0aCBkPSJNMCwxMjAwIEwwLDM3MS4yIFE2MC4wLDM3MS4yIDEyMC4wLDM1MC4wIFExODAuMCwzNTAuMCAyNDAuMCwzNzMuOCBRMzAwLjAsMzczLjggMzYwLjAsNDEyLjAgUTQyMC4wLDQxMi4wIDQ4MC4wLDQwNS45IFE1NDAuMCw0MDUuOSA2MDAuMCwzNzEuMiBRNjYwLjAsMzcxLjIgNzIwLjAsMzQ1LjkgUTc4MC4wLDM0NS45IDg0MC4wLDM4NS45IFE5MDAuMCwzODUuOSA5NjAuMCw0MDUuMSBMOTYwLDEyMDAgWiIgZmlsbD0iI2Q5Yzk4ZiIgb3BhY2l0eT0iMC45MiIvPjxwYXRoIGQ9Ik0wLDEyMDAgTDAsNjQxLjAgUTYwLjAsNjQxLjAgMTIwLjAsNjcxLjcgUTE4MC4wLDY3MS43IDI0MC4wLDY0NS4zIFEzMDAuMCw2NDUuMyAzNjAuMCw2MDUuOCBRNDIwLjAsNjA1LjggNDgwLjAsNjAyLjYgUTU0MC4wLDYwMi42IDYwMC4wLDY1NS4yIFE2NjAuMCw2NTUuMiA3MjAuMCw2NjAuNyBRNzgwLjAsNjYwLjcgODQwLjAsNjI5LjkgUTkwMC4wLDYyOS45IDk2MC4wLDU5Ni4zIEw5NjAsMTIwMCBaIiBmaWxsPSIjOGZhZTdhIiBvcGFjaXR5PSIwLjkyIi8+PHBhdGggZD0iTTAsMTIwMCBMMCw4OTAuMCBRNjAuMCw4OTAuMCAxMjAuMCw4MzkuNSBRMTgwLjAsODM5LjUgMjQwLjAsODUyLjMgUTMwMC4wLDg1Mi4zIDM2MC4wLDkxNC41IFE0MjAuMCw5MTQuNSA0ODAuMCw5MDIuNSBRNTQwLjAsOTAyLjUgNjAwLjAsODY0LjAgUTY2MC4wLDg2NC4wIDcyMC4wLDg0OS44IFE3ODAuMCw4NDkuOCA4NDAuMCw4NjYuMSBROTAwLjAsODY2LjEgOTYwLjAsOTE2LjcgTDk2MCwxMjAwIFoiIGZpbGw9IiMyZjZiNTciIG9wYWNpdHk9IjAuOTIiLz48cGF0aCBkPSJNMCwxMjAwIEwwLDExMjAuOCBRNjAuMCwxMTIwLjggMTIwLjAsMTE2OC41IFExODAuMCwxMTY4LjUgMjQwLjAsMTE1Ni43IFEzMDAuMCwxMTU2LjcgMzYwLjAsMTEwMS45IFE0MjAuMCwxMTAxLjkgNDgwLjAsMTEwNC44IFE1NDAuMCwxMTA0LjggNjAwLjAsMTEzMy45IFE2NjAuMCwxMTMzLjkgNzIwLjAsMTE1MC44IFE3ODAuMCwxMTUwLjggODQwLjAsMTE1My4wIFE5MDAuMCwxMTUzLjAgOTYwLjAsMTA5Ny41IEw5NjAsMTIwMCBaIiBmaWxsPSIjMWMzZjNhIiBvcGFjaXR5PSIxIi8+PHJlY3Qgd2lkdGg9Ijk2MCIgaGVpZ2h0PSIxMjAwIiBmaWx0ZXI9InVybCgjZykiIG9wYWNpdHk9IjAuNSIvPjxyZWN0IHg9IjAuNSIgeT0iMC41IiB3aWR0aD0iOTU5IiBoZWlnaHQ9IjExOTkiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMDIyIi8+PHRleHQgeD0iOTUwIiB5PSIxMTkwIiB0ZXh0LWFuY2hvcj0iZW5kIiBmb250LWZhbWlseT0iR2VvcmdpYSxzZXJpZiIgZm9udC1zaXplPSIyNiIgZmlsbD0iIzAwMDAwMDU1Ij5zYW1wbGUgaW1hZ2Ug4oCUIHJlcGxhY2U8L3RleHQ+PC9zdmc+",
+    "featured": false
+  },
+  {
+    "id": "festival-of-colour",
+    "title": "Festival of Colour",
+    "year": 2023,
+    "themes": [
+      "india-states",
+      "traditional",
+      "life-studies"
+    ],
+    "style": "Impressionist",
+    "medium": "Acrylic on canvas",
+    "w_cm": 90,
+    "h_cm": 120,
+    "price": 130000,
+    "status": "sold",
+    "prints": true,
+    "framed": false,
+    "place": "Mathura, Uttar Pradesh",
+    "story": "Painted afterwards, from memory and from very dirty clothes.",
+    "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgMTIwMCIgd2lkdGg9IjkwMCIgaGVpZ2h0PSIxMjAwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlBsYWNlaG9sZGVyIGltYWdlIGZvciBmZXN0aXZhbC1vZi1jb2xvdXIiPjxkZWZzPjxmaWx0ZXIgaWQ9ImciPjxmZVR1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIwLjkiIG51bU9jdGF2ZXM9IjMiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz48ZmVDb2xvck1hdHJpeCB0eXBlPSJzYXR1cmF0ZSIgdmFsdWVzPSIwIi8+PGZlQ29tcG9uZW50VHJhbnNmZXI+PGZlRnVuY0EgdHlwZT0ibGluZWFyIiBzbG9wZT0iMC4xMCIvPjwvZmVDb21wb25lbnRUcmFuc2Zlcj48L2ZpbHRlcj48bGluZWFyR3JhZGllbnQgaWQ9InNreSIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2ZkZTJlNCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2Y5YThiOCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI5MDAiIGhlaWdodD0iMTIwMCIgZmlsbD0idXJsKCNza3kpIi8+PGNpcmNsZSBjeD0iNjQ5IiBjeT0iMjgzIiByPSI2MyIgZmlsbD0iI2ZkZTJlNCIgb3BhY2l0eT0iMC44NSIvPjxwYXRoIGQ9Ik0wLDEyMDAgTDAsNDA0LjYgUTU2LjIsNDA0LjYgMTEyLjUsMzc4LjAgUTE2OC44LDM3OC4wIDIyNS4wLDM1My40IFEyODEuMiwzNTMuNCAzMzcuNSwzNzUuOCBRMzkzLjgsMzc1LjggNDUwLjAsNDA3LjEgUTUwNi4yLDQwNy4xIDU2Mi41LDQxNC4wIFE2MTguOCw0MTQuMCA2NzUuMCwzNzQuMCBRNzMxLjIsMzc0LjAgNzg3LjUsMzUxLjggUTg0My44LDM1MS44IDkwMC4wLDM4My42IEw5MDAsMTIwMCBaIiBmaWxsPSIjZjlhOGI4IiBvcGFjaXR5PSIwLjkyIi8+PHBhdGggZD0iTTAsMTIwMCBMMCw2MDYuMyBRNTYuMiw2MDYuMyAxMTIuNSw2NDUuMiBRMTY4LjgsNjQ1LjIgMjI1LjAsNjU4LjMgUTI4MS4yLDY1OC4zIDMzNy41LDY1NS40IFEzOTMuOCw2NTUuNCA0NTAuMCw1OTguMyBRNTA2LjIsNTk4LjMgNTYyLjUsNjA5LjIgUTYxOC44LDYwOS4yIDY3NS4wLDYzNS40IFE3MzEuMiw2MzUuNCA3ODcuNSw2NzEuMiBRODQzLjgsNjcxLjIgOTAwLjAsNjI5LjUgTDkwMCwxMjAwIFoiIGZpbGw9IiNlMDYyOWIiIG9wYWNpdHk9IjAuOTIiLz48cGF0aCBkPSJNMCwxMjAwIEwwLDkxNS41IFE1Ni4yLDkxNS41IDExMi41LDg4My42IFExNjguOCw4ODMuNiAyMjUuMCw4NTcuNiBRMjgxLjIsODU3LjYgMzM3LjUsODU2LjYgUTM5My44LDg1Ni42IDQ1MC4wLDg5NC4wIFE1MDYuMiw4OTQuMCA1NjIuNSw5MTYuNSBRNjE4LjgsOTE2LjUgNjc1LjAsODY4LjIgUTczMS4yLDg2OC4yIDc4Ny41LDg0My42IFE4NDMuOCw4NDMuNiA5MDAuMCw4NzcuMiBMOTAwLDEyMDAgWiIgZmlsbD0iIzhlM2I4ZiIgb3BhY2l0eT0iMC45MiIvPjxwYXRoIGQ9Ik0wLDEyMDAgTDAsMTA5NS43IFE1Ni4yLDEwOTUuNyAxMTIuNSwxMTE5LjQgUTE2OC44LDExMTkuNCAyMjUuMCwxMTQ4LjYgUTI4MS4yLDExNDguNiAzMzcuNSwxMTUyLjAgUTM5My44LDExNTIuMCA0NTAuMCwxMTAxLjQgUTUwNi4yLDExMDEuNCA1NjIuNSwxMDkxLjMgUTYxOC44LDEwOTEuMyA2NzUuMCwxMTI5LjEgUTczMS4yLDExMjkuMSA3ODcuNSwxMTY0LjMgUTg0My44LDExNjQuMyA5MDAuMCwxMTUzLjMgTDkwMCwxMjAwIFoiIGZpbGw9IiM0YTIzNjEiIG9wYWNpdHk9IjEiLz48ZyBmaWxsPSIjNGEyMzYxIiBvcGFjaXR5PSIwLjg3Ij48ZWxsaXBzZSBjeD0iOTAiIGN5PSI1NTkiIHJ4PSIyOSIgcnk9IjM0Ii8+PHBhdGggZD0iTTU3LDgxMCBROTAsNTY0IDEyMiw4MTAgWiIvPjwvZz48ZyBmaWxsPSIjNGEyMzYxIiBvcGFjaXR5PSIwLjg1Ij48ZWxsaXBzZSBjeD0iMTY3IiBjeT0iMzczIiByeD0iNDUiIHJ5PSI1MiIvPjxwYXRoIGQ9Ik0xMTcsNzU1IFExNjcsMzgwIDIxNyw3NTUgWiIvPjwvZz48ZyBmaWxsPSIjNGEyMzYxIiBvcGFjaXR5PSIwLjYyIj48ZWxsaXBzZSBjeD0iMjgyIiBjeT0iNjAyIiByeD0iMzUiIHJ5PSI0MSIvPjxwYXRoIGQ9Ik0yNDMsOTAzIFEyODIsNjA4IDMyMSw5MDMgWiIvPjwvZz48ZyBmaWxsPSIjNGEyMzYxIiBvcGFjaXR5PSIwLjg0Ij48ZWxsaXBzZSBjeD0iMzgxIiBjeT0iNTY2IiByeD0iMzAiIHJ5PSIzNSIvPjxwYXRoIGQ9Ik0zNDgsODI0IFEzODEsNTcxIDQxNSw4MjQgWiIvPjwvZz48ZyBmaWxsPSIjNGEyMzYxIiBvcGFjaXR5PSIwLjY1Ij48ZWxsaXBzZSBjeD0iNDM5IiBjeT0iNDY4IiByeD0iMzMiIHJ5PSIzOCIvPjxwYXRoIGQ9Ik00MDMsNzQ3IFE0MzksNDc0IDQ3NSw3NDcgWiIvPjwvZz48ZyBmaWxsPSIjNGEyMzYxIiBvcGFjaXR5PSIwLjY2Ij48ZWxsaXBzZSBjeD0iNTQ1IiBjeT0iNTk0IiByeD0iMzAiIHJ5PSIzNSIvPjxwYXRoIGQ9Ik01MTIsODUzIFE1NDUsNTk5IDU3OSw4NTMgWiIvPjwvZz48ZyBmaWxsPSIjNGEyMzYxIiBvcGFjaXR5PSIwLjgwIj48ZWxsaXBzZSBjeD0iNjA1IiBjeT0iNjQzIiByeD0iMzAiIHJ5PSIzNCIvPjxwYXRoIGQ9Ik01NzIsODk3IFE2MDUsNjQ4IDYzOCw4OTcgWiIvPjwvZz48ZyBmaWxsPSIjNGEyMzYxIiBvcGFjaXR5PSIwLjgxIj48ZWxsaXBzZSBjeD0iNjkyIiBjeT0iNTE3IiByeD0iMzgiIHJ5PSI0NCIvPjxwYXRoIGQ9Ik02NTAsODQxIFE2OTIsNTI0IDczNCw4NDEgWiIvPjwvZz48ZyBmaWxsPSIjNGEyMzYxIiBvcGFjaXR5PSIwLjYxIj48ZWxsaXBzZSBjeD0iODAxIiBjeT0iNTIyIiByeD0iMzQiIHJ5PSIzOSIvPjxwYXRoIGQ9Ik03NjQsODExIFE4MDEsNTI4IDgzOSw4MTEgWiIvPjwvZz48cmVjdCB3aWR0aD0iOTAwIiBoZWlnaHQ9IjEyMDAiIGZpbHRlcj0idXJsKCNnKSIgb3BhY2l0eT0iMC41Ii8+PHJlY3QgeD0iMC41IiB5PSIwLjUiIHdpZHRoPSI4OTkiIGhlaWdodD0iMTE5OSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwMDAwMjIiLz48dGV4dCB4PSI4OTAiIHk9IjExOTAiIHRleHQtYW5jaG9yPSJlbmQiIGZvbnQtZmFtaWx5PSJHZW9yZ2lhLHNlcmlmIiBmb250LXNpemU9IjI1IiBmaWxsPSIjMDAwMDAwNTUiPnNhbXBsZSBpbWFnZSDigJQgcmVwbGFjZTwvdGV4dD48L3N2Zz4=",
+    "featured": false
+  },
+  {
+    "id": "assembly",
+    "title": "Assembly",
+    "year": 2025,
+    "themes": [
+      "political",
+      "life-studies"
+    ],
+    "style": "Realist",
+    "medium": "Oil on canvas",
+    "w_cm": 100,
+    "h_cm": 120,
+    "price": null,
+    "status": "nfs",
+    "prints": false,
+    "framed": false,
+    "place": "—",
+    "story": "Part of a continuing series on public life and the crowd. Currently on loan for exhibition and not for sale.",
+    "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDEyMDAiIHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjEyMDAiIHJvbGU9ImltZyIgYXJpYS1sYWJlbD0iUGxhY2Vob2xkZXIgaW1hZ2UgZm9yIGFzc2VtYmx5Ij48ZGVmcz48ZmlsdGVyIGlkPSJnIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC45IiBudW1PY3RhdmVzPSIzIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjxmZUNvbXBvbmVudFRyYW5zZmVyPjxmZUZ1bmNBIHR5cGU9ImxpbmVhciIgc2xvcGU9IjAuMTAiLz48L2ZlQ29tcG9uZW50VHJhbnNmZXI+PC9maWx0ZXI+PGxpbmVhckdyYWRpZW50IGlkPSJza3kiIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNlOWU0ZDgiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNjMmI3YTAiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwMCIgaGVpZ2h0PSIxMjAwIiBmaWxsPSJ1cmwoI3NreSkiLz48Y2lyY2xlIGN4PSIzODMiIGN5PSIyNjYiIHI9IjcwIiBmaWxsPSIjZTllNGQ4IiBvcGFjaXR5PSIwLjg1Ii8+PHBhdGggZD0iTTAsMTIwMCBMMCwzNDkuMyBRNjIuNSwzNDkuMyAxMjUuMCwzNzYuNSBRMTg3LjUsMzc2LjUgMjUwLjAsNDIyLjQgUTMxMi41LDQyMi40IDM3NS4wLDQwNy41IFE0MzcuNSw0MDcuNSA1MDAuMCwzNjguMyBRNTYyLjUsMzY4LjMgNjI1LjAsMzUzLjIgUTY4Ny41LDM1My4yIDc1MC4wLDM3NS4zIFE4MTIuNSwzNzUuMyA4NzUuMCw0MTYuMiBROTM3LjUsNDE2LjIgMTAwMC4wLDQwNS42IEwxMDAwLDEyMDAgWiIgZmlsbD0iI2MyYjdhMCIgb3BhY2l0eT0iMC45MiIvPjxwYXRoIGQ9Ik0wLDEyMDAgTDAsNjU2LjUgUTYyLjUsNjU2LjUgMTI1LjAsNjQ5LjkgUTE4Ny41LDY0OS45IDI1MC4wLDYwOS4zIFEzMTIuNSw2MDkuMyAzNzUuMCw2MTQuNSBRNDM3LjUsNjE0LjUgNTAwLjAsNjM4LjQgUTU2Mi41LDYzOC40IDYyNS4wLDY2MC4wIFE2ODcuNSw2NjAuMCA3NTAuMCw2NDMuNiBRODEyLjUsNjQzLjYgODc1LjAsNjA1LjUgUTkzNy41LDYwNS41IDEwMDAuMCw2MDUuMSBMMTAwMCwxMjAwIFoiIGZpbGw9IiM4YTdjNjIiIG9wYWNpdHk9IjAuOTIiLz48cGF0aCBkPSJNMCwxMjAwIEwwLDg0OC4yIFE2Mi41LDg0OC4yIDEyNS4wLDg2OS4zIFExODcuNSw4NjkuMyAyNTAuMCw5MTMuMiBRMzEyLjUsOTEzLjIgMzc1LjAsOTA1LjEgUTQzNy41LDkwNS4xIDUwMC4wLDg3OS4wIFE1NjIuNSw4NzkuMCA2MjUuMCw4NTEuMCBRNjg3LjUsODUxLjAgNzUwLjAsODcyLjYgUTgxMi41LDg3Mi42IDg3NS4wLDg5OC45IFE5MzcuNSw4OTguOSAxMDAwLjAsODk1LjIgTDEwMDAsMTIwMCBaIiBmaWxsPSIjNGI0MzM1IiBvcGFjaXR5PSIwLjkyIi8+PHBhdGggZD0iTTAsMTIwMCBMMCwxMTY3LjggUTYyLjUsMTE2Ny44IDEyNS4wLDExNTMuNiBRMTg3LjUsMTE1My42IDI1MC4wLDExMTQuOCBRMzEyLjUsMTExNC44IDM3NS4wLDExMDUuNCBRNDM3LjUsMTEwNS40IDUwMC4wLDExMjQuOSBRNTYyLjUsMTEyNC45IDYyNS4wLDExNjMuOSBRNjg3LjUsMTE2My45IDc1MC4wLDExNTIuNCBRODEyLjUsMTE1Mi40IDg3NS4wLDExMTEuNiBROTM3LjUsMTExMS42IDEwMDAuMCwxMTAxLjEgTDEwMDAsMTIwMCBaIiBmaWxsPSIjMjQxZjE4IiBvcGFjaXR5PSIxIi8+PGcgZmlsbD0iIzI0MWYxOCIgb3BhY2l0eT0iMC41OCI+PGVsbGlwc2UgY3g9IjExMSIgY3k9IjYxMyIgcng9IjMyIiByeT0iMzciLz48cGF0aCBkPSJNNzYsODg2IFExMTEsNjE4IDE0Nyw4ODYgWiIvPjwvZz48ZyBmaWxsPSIjMjQxZjE4IiBvcGFjaXR5PSIwLjY1Ij48ZWxsaXBzZSBjeD0iMTkzIiBjeT0iNTY4IiByeD0iNDAiIHJ5PSI0NiIvPjxwYXRoIGQ9Ik0xNDgsOTEwIFExOTMsNTc1IDIzNyw5MTAgWiIvPjwvZz48ZyBmaWxsPSIjMjQxZjE4IiBvcGFjaXR5PSIwLjYyIj48ZWxsaXBzZSBjeD0iMzE0IiBjeT0iNjQ5IiByeD0iMzAiIHJ5PSIzNCIvPjxwYXRoIGQ9Ik0yODEsOTA0IFEzMTQsNjU0IDM0Nyw5MDQgWiIvPjwvZz48ZyBmaWxsPSIjMjQxZjE4IiBvcGFjaXR5PSIwLjU5Ij48ZWxsaXBzZSBjeD0iNDMwIiBjeT0iNDM0IiByeD0iMzkiIHJ5PSI0NSIvPjxwYXRoIGQ9Ik0zODcsNzY2IFE0MzAsNDQwIDQ3NCw3NjYgWiIvPjwvZz48ZyBmaWxsPSIjMjQxZjE4IiBvcGFjaXR5PSIwLjg0Ij48ZWxsaXBzZSBjeD0iNDg1IiBjeT0iMzk5IiByeD0iNDUiIHJ5PSI1MSIvPjxwYXRoIGQ9Ik00MzUsNzgwIFE0ODUsNDA3IDUzNCw3ODAgWiIvPjwvZz48ZyBmaWxsPSIjMjQxZjE4IiBvcGFjaXR5PSIwLjg1Ij48ZWxsaXBzZSBjeD0iNTgxIiBjeT0iNTIwIiByeD0iMzgiIHJ5PSI0NCIvPjxwYXRoIGQ9Ik01MzksODQ1IFE1ODEsNTI2IDYyNCw4NDUgWiIvPjwvZz48ZyBmaWxsPSIjMjQxZjE4IiBvcGFjaXR5PSIwLjYwIj48ZWxsaXBzZSBjeD0iNjczIiBjeT0iNDYzIiByeD0iNDYiIHJ5PSI1NCIvPjxwYXRoIGQ9Ik02MjIsODYwIFE2NzMsNDcxIDcyNSw4NjAgWiIvPjwvZz48ZyBmaWxsPSIjMjQxZjE4IiBvcGFjaXR5PSIwLjU4Ij48ZWxsaXBzZSBjeD0iNzY0IiBjeT0iNTEzIiByeD0iMzUiIHJ5PSI0MSIvPjxwYXRoIGQ9Ik03MjUsODEzIFE3NjQsNTE5IDgwMiw4MTMgWiIvPjwvZz48ZyBmaWxsPSIjMjQxZjE4IiBvcGFjaXR5PSIwLjU4Ij48ZWxsaXBzZSBjeD0iODkxIiBjeT0iNDQyIiByeD0iMzciIHJ5PSI0MyIvPjxwYXRoIGQ9Ik04NTAsNzU4IFE4OTEsNDQ4IDkzMiw3NTggWiIvPjwvZz48cmVjdCB3aWR0aD0iMTAwMCIgaGVpZ2h0PSIxMjAwIiBmaWx0ZXI9InVybCgjZykiIG9wYWNpdHk9IjAuNSIvPjxyZWN0IHg9IjAuNSIgeT0iMC41IiB3aWR0aD0iOTk5IiBoZWlnaHQ9IjExOTkiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMDIyIi8+PHRleHQgeD0iOTkwIiB5PSIxMTkwIiB0ZXh0LWFuY2hvcj0iZW5kIiBmb250LWZhbWlseT0iR2VvcmdpYSxzZXJpZiIgZm9udC1zaXplPSIyOCIgZmlsbD0iIzAwMDAwMDU1Ij5zYW1wbGUgaW1hZ2Ug4oCUIHJlcGxhY2U8L3RleHQ+PC9zdmc+",
+    "featured": false
+  },
+  {
+    "id": "march-in-the-rain",
+    "title": "March in the Rain",
+    "year": 2024,
+    "themes": [
+      "political",
+      "life-studies"
+    ],
+    "style": "Line drawing",
+    "medium": "Charcoal and wash on paper",
+    "w_cm": 50,
+    "h_cm": 70,
+    "price": 28000,
+    "status": "available",
+    "prints": false,
+    "framed": false,
+    "place": "—",
+    "story": "Umbrellas make a crowd read as one body rather than many.",
+    "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4NjAgMTIwMCIgd2lkdGg9Ijg2MCIgaGVpZ2h0PSIxMjAwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlBsYWNlaG9sZGVyIGltYWdlIGZvciBtYXJjaC1pbi10aGUtcmFpbiI+PGRlZnM+PGZpbHRlciBpZD0iZyI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuOSIgbnVtT2N0YXZlcz0iMyIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjxmZUNvbG9yTWF0cml4IHR5cGU9InNhdHVyYXRlIiB2YWx1ZXM9IjAiLz48ZmVDb21wb25lbnRUcmFuc2Zlcj48ZmVGdW5jQSB0eXBlPSJsaW5lYXIiIHNsb3BlPSIwLjEwIi8+PC9mZUNvbXBvbmVudFRyYW5zZmVyPjwvZmlsdGVyPjxsaW5lYXJHcmFkaWVudCBpZD0ic2t5IiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZGZlM2U2Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjYjZiY2MyIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9Ijg2MCIgaGVpZ2h0PSIxMjAwIiBmaWxsPSJ1cmwoI3NreSkiLz48Y2lyY2xlIGN4PSI2NDEiIGN5PSIyMjIiIHI9IjYwIiBmaWxsPSIjZGZlM2U2IiBvcGFjaXR5PSIwLjg1Ii8+PHBhdGggZD0iTTAsMTIwMCBMMCw0MjMuOCBRNTMuOCw0MjMuOCAxMDcuNSw0MDkuNiBRMTYxLjIsNDA5LjYgMjE1LjAsMzcwLjggUTI2OC44LDM3MC44IDMyMi41LDM2MS40IFEzNzYuMiwzNjEuNCA0MzAuMCwzODAuOSBRNDgzLjgsMzgwLjkgNTM3LjUsNDE5LjkgUTU5MS4yLDQxOS45IDY0NS4wLDQwOC40IFE2OTguOCw0MDguNCA3NTIuNSwzNjcuNiBRODA2LjIsMzY3LjYgODYwLjAsMzU3LjEgTDg2MCwxMjAwIFoiIGZpbGw9IiNiNmJjYzIiIG9wYWNpdHk9IjAuOTIiLz48cGF0aCBkPSJNMCwxMjAwIEwwLDczNy4xIFE1My44LDczNy4xIDEwNy41LDc0MS4yIFExNjEuMiw3NDEuMiAyMTUuMCw3NzkuOSBRMjY4LjgsNzc5LjkgMzIyLjUsNzc5LjYgUTM3Ni4yLDc3OS42IDQzMC4wLDc2MC42IFE0ODMuOCw3NjAuNiA1MzcuNSw3MjIuNyBRNTkxLjIsNzIyLjcgNjQ1LjAsNzM3LjMgUTY5OC44LDczNy4zIDc1Mi41LDc2OS4wIFE4MDYuMiw3NjkuMCA4NjAuMCw3NzkuOSBMODYwLDEyMDAgWiIgZmlsbD0iIzdkODU4ZCIgb3BhY2l0eT0iMC45MiIvPjxwYXRoIGQ9Ik0wLDEyMDAgTDAsMTE1OS4yIFE1My44LDExNTkuMiAxMDcuNSwxMTQ5LjEgUTE2MS4yLDExNDkuMSAyMTUuMCwxMTEwLjYgUTI2OC44LDExMTAuNiAzMjIuNSwxMDk2LjcgUTM3Ni4yLDEwOTYuNyA0MzAuMCwxMTEwLjkgUTQ4My44LDExMTAuOSA1MzcuNSwxMTYzLjkgUTU5MS4yLDExNjMuOSA2NDUuMCwxMTU3LjAgUTY5OC44LDExNTcuMCA3NTIuNSwxMTAwLjQgUTgwNi4yLDExMDAuNCA4NjAuMCwxMDk5LjcgTDg2MCwxMjAwIFoiIGZpbGw9IiMzYzQyNDkiIG9wYWNpdHk9IjEiLz48ZyBmaWxsPSIjM2M0MjQ5IiBvcGFjaXR5PSIwLjg1Ij48ZWxsaXBzZSBjeD0iMTE1IiBjeT0iNDYxIiByeD0iNDUiIHJ5PSI1MiIvPjxwYXRoIGQ9Ik02Niw4NDQgUTExNSw0NjkgMTY1LDg0NCBaIi8+PC9nPjxnIGZpbGw9IiMzYzQyNDkiIG9wYWNpdHk9IjAuODciPjxlbGxpcHNlIGN4PSIxNjUiIGN5PSIzNTkiIHJ4PSI0MyIgcnk9IjQ5Ii8+PHBhdGggZD0iTTExOCw3MjMgUTE2NSwzNjcgMjEzLDcyMyBaIi8+PC9nPjxnIGZpbGw9IiMzYzQyNDkiIG9wYWNpdHk9IjAuNjciPjxlbGxpcHNlIGN4PSIyNTciIGN5PSI0NzEiIHJ4PSIzNiIgcnk9IjQyIi8+PHBhdGggZD0iTTIxNyw3ODIgUTI1Nyw0NzcgMjk4LDc4MiBaIi8+PC9nPjxnIGZpbGw9IiMzYzQyNDkiIG9wYWNpdHk9IjAuODEiPjxlbGxpcHNlIGN4PSIzNjYiIGN5PSI1MDkiIHJ4PSIzMiIgcnk9IjM3Ii8+PHBhdGggZD0iTTMzMCw3ODAgUTM2Niw1MTUgNDAxLDc4MCBaIi8+PC9nPjxnIGZpbGw9IiMzYzQyNDkiIG9wYWNpdHk9IjAuNjEiPjxlbGxpcHNlIGN4PSI0MzEiIGN5PSI1NDciIHJ4PSIzMyIgcnk9IjM4Ii8+PHBhdGggZD0iTTM5NCw4MjggUTQzMSw1NTMgNDY3LDgyOCBaIi8+PC9nPjxnIGZpbGw9IiMzYzQyNDkiIG9wYWNpdHk9IjAuODQiPjxlbGxpcHNlIGN4PSI1MjkiIGN5PSI1NzUiIHJ4PSIzMyIgcnk9IjM4Ii8+PHBhdGggZD0iTTQ5Miw4NTQgUTUyOSw1ODEgNTY1LDg1NCBaIi8+PC9nPjxnIGZpbGw9IiMzYzQyNDkiIG9wYWNpdHk9IjAuODAiPjxlbGxpcHNlIGN4PSI2MDgiIGN5PSIzNjAiIHJ4PSI0MyIgcnk9IjUwIi8+PHBhdGggZD0iTTU2MCw3MjkgUTYwOCwzNjggNjU2LDcyOSBaIi8+PC9nPjxnIGZpbGw9IiMzYzQyNDkiIG9wYWNpdHk9IjAuODAiPjxlbGxpcHNlIGN4PSI2NjYiIGN5PSI1MjEiIHJ4PSI0MyIgcnk9IjQ5Ii8+PHBhdGggZD0iTTYxOCw4ODUgUTY2Niw1MjggNzEzLDg4NSBaIi8+PC9nPjxnIGZpbGw9IiMzYzQyNDkiIG9wYWNpdHk9IjAuODEiPjxlbGxpcHNlIGN4PSI3NDUiIGN5PSIzOTYiIHJ4PSI0MSIgcnk9IjQ3Ii8+PHBhdGggZD0iTTcwMCw3NDQgUTc0NSw0MDMgNzkwLDc0NCBaIi8+PC9nPjxyZWN0IHdpZHRoPSI4NjAiIGhlaWdodD0iMTIwMCIgZmlsdGVyPSJ1cmwoI2cpIiBvcGFjaXR5PSIwLjUiLz48cmVjdCB4PSIwLjUiIHk9IjAuNSIgd2lkdGg9Ijg1OSIgaGVpZ2h0PSIxMTk5IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAwMDAyMiIvPjx0ZXh0IHg9Ijg1MCIgeT0iMTE5MCIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiMwMDAwMDA1NSI+c2FtcGxlIGltYWdlIOKAlCByZXBsYWNlPC90ZXh0Pjwvc3ZnPg==",
+    "featured": false
+  },
+  {
+    "id": "delta-abstract-iii",
+    "title": "Delta III",
+    "year": 2025,
+    "themes": [
+      "abstract",
+      "rivers"
+    ],
+    "style": "Abstract",
+    "medium": "Mixed media on canvas",
+    "w_cm": 80,
+    "h_cm": 80,
+    "price": 64000,
+    "status": "available",
+    "prints": false,
+    "framed": false,
+    "place": "—",
+    "story": "The same river as the Varanasi paintings, reduced to its silt.",
+    "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDEwMDAiIHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjEwMDAiIHJvbGU9ImltZyIgYXJpYS1sYWJlbD0iUGxhY2Vob2xkZXIgaW1hZ2UgZm9yIGRlbHRhLWFic3RyYWN0LWlpaSI+PGRlZnM+PGZpbHRlciBpZD0iZyI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuOSIgbnVtT2N0YXZlcz0iMyIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjxmZUNvbG9yTWF0cml4IHR5cGU9InNhdHVyYXRlIiB2YWx1ZXM9IjAiLz48ZmVDb21wb25lbnRUcmFuc2Zlcj48ZmVGdW5jQSB0eXBlPSJsaW5lYXIiIHNsb3BlPSIwLjEwIi8+PC9mZUNvbXBvbmVudFRyYW5zZmVyPjwvZmlsdGVyPjxsaW5lYXJHcmFkaWVudCBpZD0ic2t5IiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZTZlZmU4Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjOWZjNmJkIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMDAiIGhlaWdodD0iMTAwMCIgZmlsbD0idXJsKCNza3kpIi8+PHBhdGggZD0iTTAsMTAwMCBMMCwzMzcuMiBRNjIuNSwzMzcuMiAxMjUuMCwzMTUuMCBRMTg3LjUsMzE1LjAgMjUwLjAsMjk0LjUgUTMxMi41LDI5NC41IDM3NS4wLDMxMy4yIFE0MzcuNSwzMTMuMiA1MDAuMCwzMzkuMiBRNTYyLjUsMzM5LjIgNjI1LjAsMzQ1LjAgUTY4Ny41LDM0NS4wIDc1MC4wLDMxMS43IFE4MTIuNSwzMTEuNyA4NzUuMCwyOTMuMSBROTM3LjUsMjkzLjEgMTAwMC4wLDMxOS42IEwxMDAwLDEwMDAgWiIgZmlsbD0iIzlmYzZiZCIgb3BhY2l0eT0iMC45MiIvPjxwYXRoIGQ9Ik0wLDEwMDAgTDAsNTA1LjMgUTYyLjUsNTA1LjMgMTI1LjAsNTM3LjcgUTE4Ny41LDUzNy43IDI1MC4wLDU0OC42IFEzMTIuNSw1NDguNiAzNzUuMCw1NDYuMiBRNDM3LjUsNTQ2LjIgNTAwLjAsNDk4LjYgUTU2Mi41LDQ5OC42IDYyNS4wLDUwNy42IFE2ODcuNSw1MDcuNiA3NTAuMCw1MjkuNSBRODEyLjUsNTI5LjUgODc1LjAsNTU5LjMgUTkzNy41LDU1OS4zIDEwMDAuMCw1MjQuNSBMMTAwMCwxMDAwIFoiIGZpbGw9IiM1ZjlhOWIiIG9wYWNpdHk9IjAuOTIiLz48cGF0aCBkPSJNMCwxMDAwIEwwLDc2Mi45IFE2Mi41LDc2Mi45IDEyNS4wLDczNi40IFExODcuNSw3MzYuNCAyNTAuMCw3MTQuNyBRMzEyLjUsNzE0LjcgMzc1LjAsNzEzLjkgUTQzNy41LDcxMy45IDUwMC4wLDc0NS4wIFE1NjIuNSw3NDUuMCA2MjUuMCw3NjMuOCBRNjg3LjUsNzYzLjggNzUwLjAsNzIzLjUgUTgxMi41LDcyMy41IDg3NS4wLDcwMy4wIFE5MzcuNSw3MDMuMCAxMDAwLjAsNzMxLjAgTDEwMDAsMTAwMCBaIiBmaWxsPSIjMmY1ZDZlIiBvcGFjaXR5PSIwLjkyIi8+PHBhdGggZD0iTTAsMTAwMCBMMCw5MTMuMSBRNjIuNSw5MTMuMSAxMjUuMCw5MzIuOCBRMTg3LjUsOTMyLjggMjUwLjAsOTU3LjIgUTMxMi41LDk1Ny4yIDM3NS4wLDk2MC4wIFE0MzcuNSw5NjAuMCA1MDAuMCw5MTcuOCBRNTYyLjUsOTE3LjggNjI1LjAsOTA5LjQgUTY4Ny41LDkwOS40IDc1MC4wLDk0MC45IFE4MTIuNSw5NDAuOSA4NzUuMCw5NzAuMiBROTM3LjUsOTcwLjIgMTAwMC4wLDk2MS4xIEwxMDAwLDEwMDAgWiIgZmlsbD0iIzE3MzEzZiIgb3BhY2l0eT0iMSIvPjxyZWN0IHg9IjQwMSIgeT0iNjA4IiB3aWR0aD0iOTQiIGhlaWdodD0iMTk5IiBmaWxsPSIjMmY1ZDZlIiBvcGFjaXR5PSIwLjU3IiB0cmFuc2Zvcm09InJvdGF0ZSgtOS4yIDUwMCA1MDApIi8+PHJlY3QgeD0iMjM5IiB5PSIyODAiIHdpZHRoPSIyMTUiIGhlaWdodD0iMTg3IiBmaWxsPSIjMmY1ZDZlIiBvcGFjaXR5PSIwLjI3IiB0cmFuc2Zvcm09InJvdGF0ZSgwLjMgNTAwIDUwMCkiLz48cmVjdCB4PSI2MDMiIHk9IjQwNyIgd2lkdGg9IjIyNCIgaGVpZ2h0PSIxOTIiIGZpbGw9IiMxNzMxM2YiIG9wYWNpdHk9IjAuMzkiIHRyYW5zZm9ybT0icm90YXRlKC0xMC45IDUwMCA1MDApIi8+PHJlY3QgeD0iNjY0IiB5PSIyNDEiIHdpZHRoPSIxNzgiIGhlaWdodD0iODEiIGZpbGw9IiM1ZjlhOWIiIG9wYWNpdHk9IjAuNTMiIHRyYW5zZm9ybT0icm90YXRlKC0xLjQgNTAwIDUwMCkiLz48cmVjdCB4PSIxMjMiIHk9IjQ5MiIgd2lkdGg9IjI0OSIgaGVpZ2h0PSIyMTciIGZpbGw9IiM1ZjlhOWIiIG9wYWNpdHk9IjAuNTIiIHRyYW5zZm9ybT0icm90YXRlKC00LjQgNTAwIDUwMCkiLz48cmVjdCB4PSI0MDEiIHk9IjY4NCIgd2lkdGg9IjIyNCIgaGVpZ2h0PSIyNDIiIGZpbGw9IiMxNzMxM2YiIG9wYWNpdHk9IjAuMzAiIHRyYW5zZm9ybT0icm90YXRlKDEuNSA1MDAgNTAwKSIvPjxyZWN0IHg9IjMwMyIgeT0iMTYwIiB3aWR0aD0iMTI3IiBoZWlnaHQ9IjExOSIgZmlsbD0iIzVmOWE5YiIgb3BhY2l0eT0iMC40NSIgdHJhbnNmb3JtPSJyb3RhdGUoNC44IDUwMCA1MDApIi8+PHJlY3Qgd2lkdGg9IjEwMDAiIGhlaWdodD0iMTAwMCIgZmlsdGVyPSJ1cmwoI2cpIiBvcGFjaXR5PSIwLjUiLz48cmVjdCB4PSIwLjUiIHk9IjAuNSIgd2lkdGg9Ijk5OSIgaGVpZ2h0PSI5OTkiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMDIyIi8+PHRleHQgeD0iOTkwIiB5PSI5OTAiIHRleHQtYW5jaG9yPSJlbmQiIGZvbnQtZmFtaWx5PSJHZW9yZ2lhLHNlcmlmIiBmb250LXNpemU9IjI4IiBmaWxsPSIjMDAwMDAwNTUiPnNhbXBsZSBpbWFnZSDigJQgcmVwbGFjZTwvdGV4dD48L3N2Zz4=",
+    "featured": true
+  },
+  {
+    "id": "market-morning-marrakesh",
+    "title": "Market Morning, Marrakesh",
+    "year": 2023,
+    "themes": [
+      "world",
+      "life-studies"
+    ],
+    "style": "Impressionist",
+    "medium": "Watercolour on paper",
+    "w_cm": 38,
+    "h_cm": 56,
+    "price": 24000,
+    "status": "available",
+    "prints": true,
+    "framed": false,
+    "place": "Marrakesh, Morocco",
+    "story": "A different desert, and a very similar morning.",
+    "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MjAgMTIwMCIgd2lkdGg9IjgyMCIgaGVpZ2h0PSIxMjAwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlBsYWNlaG9sZGVyIGltYWdlIGZvciBtYXJrZXQtbW9ybmluZy1tYXJyYWtlc2giPjxkZWZzPjxmaWx0ZXIgaWQ9ImciPjxmZVR1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIwLjkiIG51bU9jdGF2ZXM9IjMiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz48ZmVDb2xvck1hdHJpeCB0eXBlPSJzYXR1cmF0ZSIgdmFsdWVzPSIwIi8+PGZlQ29tcG9uZW50VHJhbnNmZXI+PGZlRnVuY0EgdHlwZT0ibGluZWFyIiBzbG9wZT0iMC4xMCIvPjwvZmVDb21wb25lbnRUcmFuc2Zlcj48L2ZpbHRlcj48bGluZWFyR3JhZGllbnQgaWQ9InNreSIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2ZiZThjZiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2VmYzA4YSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI4MjAiIGhlaWdodD0iMTIwMCIgZmlsbD0idXJsKCNza3kpIi8+PGNpcmNsZSBjeD0iMjcyIiBjeT0iMjkxIiByPSI1NyIgZmlsbD0iI2ZiZThjZiIgb3BhY2l0eT0iMC44NSIvPjxwYXRoIGQ9Ik0wLDEyMDAgTDAsNDE5LjUgUTUxLjIsNDE5LjUgMTAyLjUsMzg3LjYgUTE1My44LDM4Ny42IDIwNS4wLDM2MS42IFEyNTYuMiwzNjEuNiAzMDcuNSwzNjAuNiBRMzU4LjgsMzYwLjYgNDEwLjAsMzk4LjAgUTQ2MS4yLDM5OC4wIDUxMi41LDQyMC41IFE1NjMuOCw0MjAuNSA2MTUuMCwzNzIuMiBRNjY2LjIsMzcyLjIgNzE3LjUsMzQ3LjYgUTc2OC44LDM0Ny42IDgyMC4wLDM4MS4yIEw4MjAsMTIwMCBaIiBmaWxsPSIjZWZjMDhhIiBvcGFjaXR5PSIwLjkyIi8+PHBhdGggZD0iTTAsMTIwMCBMMCw1OTkuNyBRNTEuMiw1OTkuNyAxMDIuNSw2MjMuNCBRMTUzLjgsNjIzLjQgMjA1LjAsNjUyLjYgUTI1Ni4yLDY1Mi42IDMwNy41LDY1Ni4wIFEzNTguOCw2NTYuMCA0MTAuMCw2MDUuNCBRNDYxLjIsNjA1LjQgNTEyLjUsNTk1LjMgUTU2My44LDU5NS4zIDYxNS4wLDYzMy4xIFE2NjYuMiw2MzMuMSA3MTcuNSw2NjguMyBRNzY4LjgsNjY4LjMgODIwLjAsNjU3LjMgTDgyMCwxMjAwIFoiIGZpbGw9IiNkMDgyNGYiIG9wYWNpdHk9IjAuOTIiLz48cGF0aCBkPSJNMCwxMjAwIEwwLDkxNS4yIFE1MS4yLDkxNS4yIDEwMi41LDg5MS41IFExNTMuOCw4OTEuNSAyMDUuMCw4NTguMSBRMjU2LjIsODU4LjEgMzA3LjUsODUwLjkgUTM1OC44LDg1MC45IDQxMC4wLDg5OS41IFE0NjEuMiw4OTkuNSA1MTIuNSw5MjEuNSBRNTYzLjgsOTIxLjUgNjE1LjAsODkwLjUgUTY2Ni4yLDg5MC41IDcxNy41LDg0MS4wIFE3NjguOCw4NDEuMCA4MjAuMCw4NjQuOSBMODIwLDEyMDAgWiIgZmlsbD0iIzlhNGIzMiIgb3BhY2l0eT0iMC45MiIvPjxwYXRoIGQ9Ik0wLDEyMDAgTDAsMTA5MC44IFE1MS4yLDEwOTAuOCAxMDIuNSwxMTI1LjggUTE1My44LDExMjUuOCAyMDUuMCwxMTY0LjYgUTI1Ni4yLDExNjQuNiAzMDcuNSwxMTY0LjUgUTM1OC44LDExNjQuNSA0MTAuMCwxMTIyLjcgUTQ2MS4yLDExMjIuNyA1MTIuNSwxMTAyLjkgUTU2My44LDExMDIuOSA2MTUuMCwxMTEwLjcgUTY2Ni4yLDExMTAuNyA3MTcuNSwxMTYxLjEgUTc2OC44LDExNjEuMSA4MjAuMCwxMTQ0LjYgTDgyMCwxMjAwIFoiIGZpbGw9IiM1YjJhMjAiIG9wYWNpdHk9IjEiLz48ZyBmaWxsPSIjNWIyYTIwIiBvcGFjaXR5PSIwLjY4Ij48ZWxsaXBzZSBjeD0iODAiIGN5PSI0NTkiIHJ4PSI0MyIgcnk9IjUwIi8+PHBhdGggZD0iTTMyLDgyOCBRODAsNDY3IDEyOCw4MjggWiIvPjwvZz48ZyBmaWxsPSIjNWIyYTIwIiBvcGFjaXR5PSIwLjg0Ij48ZWxsaXBzZSBjeD0iMjUwIiBjeT0iNTc4IiByeD0iMzEiIHJ5PSIzNiIvPjxwYXRoIGQ9Ik0yMTYsODQ0IFEyNTAsNTg0IDI4NSw4NDQgWiIvPjwvZz48ZyBmaWxsPSIjNWIyYTIwIiBvcGFjaXR5PSIwLjg4Ij48ZWxsaXBzZSBjeD0iMzkzIiBjeT0iNTU0IiByeD0iMzYiIHJ5PSI0MiIvPjxwYXRoIGQ9Ik0zNTMsODY0IFEzOTMsNTYwIDQzNCw4NjQgWiIvPjwvZz48ZyBmaWxsPSIjNWIyYTIwIiBvcGFjaXR5PSIwLjc4Ij48ZWxsaXBzZSBjeD0iNTYxIiBjeT0iNTA2IiByeD0iNDciIHJ5PSI1NCIvPjxwYXRoIGQ9Ik01MDksOTA2IFE1NjEsNTE0IDYxMyw5MDYgWiIvPjwvZz48ZyBmaWxsPSIjNWIyYTIwIiBvcGFjaXR5PSIwLjY4Ij48ZWxsaXBzZSBjeD0iNzEyIiBjeT0iNjU4IiByeD0iMjkiIHJ5PSIzMyIvPjxwYXRoIGQ9Ik02ODEsOTAyIFE3MTIsNjYyIDc0NCw5MDIgWiIvPjwvZz48cmVjdCB3aWR0aD0iODIwIiBoZWlnaHQ9IjEyMDAiIGZpbHRlcj0idXJsKCNnKSIgb3BhY2l0eT0iMC41Ii8+PHJlY3QgeD0iMC41IiB5PSIwLjUiIHdpZHRoPSI4MTkiIGhlaWdodD0iMTE5OSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwMDAwMjIiLz48dGV4dCB4PSI4MTAiIHk9IjExOTAiIHRleHQtYW5jaG9yPSJlbmQiIGZvbnQtZmFtaWx5PSJHZW9yZ2lhLHNlcmlmIiBmb250LXNpemU9IjIyIiBmaWxsPSIjMDAwMDAwNTUiPnNhbXBsZSBpbWFnZSDigJQgcmVwbGFjZTwvdGV4dD48L3N2Zz4=",
+    "featured": false
+  },
+  {
+    "id": "summer-heat-abstract",
+    "title": "Summer Heat",
+    "year": 2024,
+    "themes": [
+      "abstract",
+      "deserts"
+    ],
+    "style": "Abstract",
+    "medium": "Acrylic on canvas",
+    "w_cm": 70,
+    "h_cm": 70,
+    "price": 42000,
+    "status": "available",
+    "prints": false,
+    "framed": false,
+    "place": "—",
+    "story": "An attempt to paint a temperature rather than a place.",
+    "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDEwMDAiIHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjEwMDAiIHJvbGU9ImltZyIgYXJpYS1sYWJlbD0iUGxhY2Vob2xkZXIgaW1hZ2UgZm9yIHN1bW1lci1oZWF0LWFic3RyYWN0Ij48ZGVmcz48ZmlsdGVyIGlkPSJnIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC45IiBudW1PY3RhdmVzPSIzIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjxmZUNvbXBvbmVudFRyYW5zZmVyPjxmZUZ1bmNBIHR5cGU9ImxpbmVhciIgc2xvcGU9IjAuMTAiLz48L2ZlQ29tcG9uZW50VHJhbnNmZXI+PC9maWx0ZXI+PGxpbmVhckdyYWRpZW50IGlkPSJza3kiIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmZGYwYzkiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNmN2M5NWMiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwMCIgaGVpZ2h0PSIxMDAwIiBmaWxsPSJ1cmwoI3NreSkiLz48cGF0aCBkPSJNMCwxMDAwIEwwLDMwNC4yIFE2Mi41LDMwNC4yIDEyNS4wLDMwNy43IFExODcuNSwzMDcuNyAyNTAuMCwzMzkuOSBRMzEyLjUsMzM5LjkgMzc1LjAsMzM5LjcgUTQzNy41LDMzOS43IDUwMC4wLDMyMy44IFE1NjIuNSwzMjMuOCA2MjUuMCwyOTIuMiBRNjg3LjUsMjkyLjIgNzUwLjAsMzA0LjQgUTgxMi41LDMwNC40IDg3NS4wLDMzMC44IFE5MzcuNSwzMzAuOCAxMDAwLjAsMzM5LjkgTDEwMDAsMTAwMCBaIiBmaWxsPSIjZjdjOTVjIiBvcGFjaXR5PSIwLjkyIi8+PHBhdGggZD0iTTAsMTAwMCBMMCw2NTYuMCBRNjIuNSw2NTYuMCAxMjUuMCw2NDcuNiBRMTg3LjUsNjQ3LjYgMjUwLjAsNjE1LjUgUTMxMi41LDYxNS41IDM3NS4wLDYwMy45IFE0MzcuNSw2MDMuOSA1MDAuMCw2MTUuNyBRNTYyLjUsNjE1LjcgNjI1LjAsNjU5LjkgUTY4Ny41LDY1OS45IDc1MC4wLDY1NC4yIFE4MTIuNSw2NTQuMiA4NzUuMCw2MDcuMCBROTM3LjUsNjA3LjAgMTAwMC4wLDYwNi41IEwxMDAwLDEwMDAgWiIgZmlsbD0iI2U4ODkzYSIgb3BhY2l0eT0iMC45MiIvPjxwYXRoIGQ9Ik0wLDEwMDAgTDAsOTIyLjMgUTYyLjUsOTIyLjMgMTI1LjAsOTEyLjAgUTE4Ny41LDkxMi4wIDI1MC4wLDk1MS42IFEzMTIuNSw5NTEuNiAzNzUuMCw5NjMuOSBRNDM3LjUsOTYzLjkgNTAwLjAsOTUwLjAgUTU2Mi41LDk1MC4wIDYyNS4wLDkxNC40IFE2ODcuNSw5MTQuNCA3NTAuMCw5MTYuNSBRODEyLjUsOTE2LjUgODc1LjAsOTU5LjggUTkzNy41LDk1OS44IDEwMDAuMCw5NjAuNCBMMTAwMCwxMDAwIFoiIGZpbGw9IiNiODQ0MmIiIG9wYWNpdHk9IjEiLz48cmVjdCB4PSI0NDYiIHk9IjUxNyIgd2lkdGg9IjIwOSIgaGVpZ2h0PSI5MyIgZmlsbD0iI2ZkZjBjOSIgb3BhY2l0eT0iMC4zOCIgdHJhbnNmb3JtPSJyb3RhdGUoLTMuMCA1MDAgNTAwKSIvPjxyZWN0IHg9IjE4NiIgeT0iMzA2IiB3aWR0aD0iMTA2IiBoZWlnaHQ9IjgwIiBmaWxsPSIjZjdjOTVjIiBvcGFjaXR5PSIwLjU5IiB0cmFuc2Zvcm09InJvdGF0ZSgtOS42IDUwMCA1MDApIi8+PHJlY3QgeD0iMzkiIHk9IjIyIiB3aWR0aD0iMjE4IiBoZWlnaHQ9IjI0NSIgZmlsbD0iI2Y3Yzk1YyIgb3BhY2l0eT0iMC41MiIgdHJhbnNmb3JtPSJyb3RhdGUoLTExLjQgNTAwIDUwMCkiLz48cmVjdCB4PSIxODIiIHk9IjYyOSIgd2lkdGg9IjI5MSIgaGVpZ2h0PSIxNDkiIGZpbGw9IiNiODQ0MmIiIG9wYWNpdHk9IjAuMzciIHRyYW5zZm9ybT0icm90YXRlKDkuOSA1MDAgNTAwKSIvPjxyZWN0IHg9IjQ3NyIgeT0iNDM3IiB3aWR0aD0iMTM2IiBoZWlnaHQ9IjExMSIgZmlsbD0iI2ZkZjBjOSIgb3BhY2l0eT0iMC4yOSIgdHJhbnNmb3JtPSJyb3RhdGUoLTguNyA1MDAgNTAwKSIvPjxyZWN0IHg9Ijc3NSIgeT0iNjkiIHdpZHRoPSIyMzgiIGhlaWdodD0iMjQxIiBmaWxsPSIjYjg0NDJiIiBvcGFjaXR5PSIwLjUzIiB0cmFuc2Zvcm09InJvdGF0ZSgxLjkgNTAwIDUwMCkiLz48cmVjdCB4PSI2NTgiIHk9IjI1OSIgd2lkdGg9IjIwMSIgaGVpZ2h0PSIyNTAiIGZpbGw9IiNiODQ0MmIiIG9wYWNpdHk9IjAuMzkiIHRyYW5zZm9ybT0icm90YXRlKC0xMC4zIDUwMCA1MDApIi8+PHJlY3Qgd2lkdGg9IjEwMDAiIGhlaWdodD0iMTAwMCIgZmlsdGVyPSJ1cmwoI2cpIiBvcGFjaXR5PSIwLjUiLz48cmVjdCB4PSIwLjUiIHk9IjAuNSIgd2lkdGg9Ijk5OSIgaGVpZ2h0PSI5OTkiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMDIyIi8+PHRleHQgeD0iOTkwIiB5PSI5OTAiIHRleHQtYW5jaG9yPSJlbmQiIGZvbnQtZmFtaWx5PSJHZW9yZ2lhLHNlcmlmIiBmb250LXNpemU9IjI4IiBmaWxsPSIjMDAwMDAwNTUiPnNhbXBsZSBpbWFnZSDigJQgcmVwbGFjZTwvdGV4dD48L3N2Zz4=",
+    "featured": false
+  }
+];
+
+</script>
+<script>
+/* =============================================================================
+   products.js — THE STUDIO SHOP: your hand-made paints, pigments and materials.
+   Managed from admin.html (the "Materials" tab), same as the paintings.
+   -----------------------------------------------------------------------------
+   category:  must match a category id in site.js -> shop.categories
+   status:    "instock" | "madetoorder" | "soldout"
+   price:     a number in rupees, or null for "Price on request"
+   unit:      what one order gets you — "50 g jar", "12 half pans", "5 sheets"
+   madeFrom:  the raw material. For hand-made pigments this is the whole story.
+   lead:      how long before it ships, for made-to-order items
+   -----------------------------------------------------------------------------
+   Everything below is SAMPLE DATA with placeholder images and INVENTED PRICES.
+   Replace it with your own materials before the site goes public.
+   ========================================================================== */
+
+window.PRODUCTS = [
+  {
+    "id": "indian-yellow-pigment",
+    "name": "Indian Yellow",
+    "category": "pigments",
+    "unit": "50 g jar",
+    "price": 850,
+    "status": "instock",
+    "batch": "Batch 04 · 2026",
+    "madeFrom": "Hand-ground and levigated in the studio; a warm transparent yellow.",
+    "notes": "Grind with gum arabic for watercolour, or with stand oil for oils. Lightfastness tested over six months on the studio wall.",
+    "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgOTAwIiB3aWR0aD0iOTAwIiBoZWlnaHQ9IjkwMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJQbGFjZWhvbGRlciBwaG90b2dyYXBoIG9mIGluZGlhbi15ZWxsb3ctcGlnbWVudCI+PGRlZnM+PGZpbHRlciBpZD0iZyI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuODUiIG51bU9jdGF2ZXM9IjMiLz48ZmVDb2xvck1hdHJpeCB0eXBlPSJzYXR1cmF0ZSIgdmFsdWVzPSIwIi8+PGZlQ29tcG9uZW50VHJhbnNmZXI+PGZlRnVuY0EgdHlwZT0ibGluZWFyIiBzbG9wZT0iMC4wOSIvPjwvZmVDb21wb25lbnRUcmFuc2Zlcj48L2ZpbHRlcj48L2RlZnM+PHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSI5MDAiIGZpbGw9IiNlZmVhZTEiLz48ZWxsaXBzZSBjeD0iNDUwLjAiIGN5PSI3NzQuMCIgcng9IjMwNi4wIiByeT0iNDAuNSIgZmlsbD0iIzAwMCIgb3BhY2l0eT0iMC4wOCIvPjxyZWN0IHg9IjI3MC4wIiB5PSIyNzAuMCIgd2lkdGg9IjM2MC4wIiBoZWlnaHQ9IjQ2OC4wIiByeD0iMTQiIGZpbGw9IiNmZmZmZmYiIG9wYWNpdHk9IjAuNTUiLz48cmVjdCB4PSIyNzkuMCIgeT0iNDE0LjAiIHdpZHRoPSIzNDIuMCIgaGVpZ2h0PSIzMTUuMCIgcng9IjEwIiBmaWxsPSIjZThhNzIzIi8+PHBhdGggZD0iTTI3OS4wLDQ1MC4wIFE0NTAuMCwzNzguMCA2MjEuMCw0NTAuMCBMNjIxLjAsNDIzLjAgUTQ1MC4wLDM2MC4wIDI3OS4wLDQyMy4wIFoiIGZpbGw9IiNhNTZkMGQiLz48cmVjdCB4PSIzMDYuMCIgeT0iMjM0LjAiIHdpZHRoPSIyODguMCIgaGVpZ2h0PSI1NC4wIiByeD0iNiIgZmlsbD0iI2E1NmQwZCIvPjxwYXRoIGQ9Ik0xNDQuMCw4MTAuMCBxMTgwLjAsLTQ1LjAgMzI0LjAsMCBxMTQ0LjAsMzYuMCAyNzAuMCwtMC4wMSIgc3Ryb2tlPSIjZThhNzIzIiBzdHJva2Utd2lkdGg9IjE2IiBmaWxsPSJub25lIiBvcGFjaXR5PSIwLjg1IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cmVjdCB3aWR0aD0iOTAwIiBoZWlnaHQ9IjkwMCIgZmlsdGVyPSJ1cmwoI2cpIiBvcGFjaXR5PSIwLjUiLz48dGV4dCB4PSI4ODQiIHk9Ijg4NCIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMjIiIGZpbGw9IiMwMDAwMDA1NSI+c2FtcGxlIGltYWdlIOKAlCByZXBsYWNlPC90ZXh0Pjwvc3ZnPg==",
+    "featured": true
+  },
+  {
+    "id": "lapis-blue-pigment",
+    "name": "Lapis Ultramarine",
+    "category": "pigments",
+    "unit": "25 g jar",
+    "price": 4200,
+    "status": "madetoorder",
+    "lead": "2–3 weeks",
+    "batch": "Ground to order",
+    "madeFrom": "Natural lapis lazuli, washed and separated by hand over several days.",
+    "notes": "The old blue. Expensive because the process is slow, not because it is rare. Made only to order, in small quantities.",
+    "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgOTAwIiB3aWR0aD0iOTAwIiBoZWlnaHQ9IjkwMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJQbGFjZWhvbGRlciBwaG90b2dyYXBoIG9mIGxhcGlzLWJsdWUtcGlnbWVudCI+PGRlZnM+PGZpbHRlciBpZD0iZyI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuODUiIG51bU9jdGF2ZXM9IjMiLz48ZmVDb2xvck1hdHJpeCB0eXBlPSJzYXR1cmF0ZSIgdmFsdWVzPSIwIi8+PGZlQ29tcG9uZW50VHJhbnNmZXI+PGZlRnVuY0EgdHlwZT0ibGluZWFyIiBzbG9wZT0iMC4wOSIvPjwvZmVDb21wb25lbnRUcmFuc2Zlcj48L2ZpbHRlcj48L2RlZnM+PHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSI5MDAiIGZpbGw9IiNlZmVhZTEiLz48ZWxsaXBzZSBjeD0iNDUwLjAiIGN5PSI3NzQuMCIgcng9IjMwNi4wIiByeT0iNDAuNSIgZmlsbD0iIzAwMCIgb3BhY2l0eT0iMC4wOCIvPjxyZWN0IHg9IjI3MC4wIiB5PSIyNzAuMCIgd2lkdGg9IjM2MC4wIiBoZWlnaHQ9IjQ2OC4wIiByeD0iMTQiIGZpbGw9IiNmZmZmZmYiIG9wYWNpdHk9IjAuNTUiLz48cmVjdCB4PSIyNzkuMCIgeT0iNDE0LjAiIHdpZHRoPSIzNDIuMCIgaGVpZ2h0PSIzMTUuMCIgcng9IjEwIiBmaWxsPSIjMmM0YzliIi8+PHBhdGggZD0iTTI3OS4wLDQ1MC4wIFE0NTAuMCwzNzguMCA2MjEuMCw0NTAuMCBMNjIxLjAsNDIzLjAgUTQ1MC4wLDM2MC4wIDI3OS4wLDQyMy4wIFoiIGZpbGw9IiMxYTJmNjMiLz48cmVjdCB4PSIzMDYuMCIgeT0iMjM0LjAiIHdpZHRoPSIyODguMCIgaGVpZ2h0PSI1NC4wIiByeD0iNiIgZmlsbD0iIzFhMmY2MyIvPjxwYXRoIGQ9Ik0xNDQuMCw4MTAuMCBxMTgwLjAsLTQ1LjAgMzI0LjAsMCBxMTQ0LjAsMzYuMCAyNzAuMCwtMC4wMSIgc3Ryb2tlPSIjMmM0YzliIiBzdHJva2Utd2lkdGg9IjE2IiBmaWxsPSJub25lIiBvcGFjaXR5PSIwLjg1IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cmVjdCB3aWR0aD0iOTAwIiBoZWlnaHQ9IjkwMCIgZmlsdGVyPSJ1cmwoI2cpIiBvcGFjaXR5PSIwLjUiLz48dGV4dCB4PSI4ODQiIHk9Ijg4NCIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMjIiIGZpbGw9IiMwMDAwMDA1NSI+c2FtcGxlIGltYWdlIOKAlCByZXBsYWNlPC90ZXh0Pjwvc3ZnPg==",
+    "featured": true
+  },
+  {
+    "id": "red-ochre-kutch",
+    "name": "Kutch Red Ochre",
+    "category": "pigments",
+    "unit": "100 g jar",
+    "price": 450,
+    "status": "instock",
+    "batch": "Batch 11 · 2026",
+    "madeFrom": "Earth collected on painting trips, washed, dried and ground.",
+    "notes": "An opaque earth red that behaves well in every medium.",
+    "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgOTAwIiB3aWR0aD0iOTAwIiBoZWlnaHQ9IjkwMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJQbGFjZWhvbGRlciBwaG90b2dyYXBoIG9mIHJlZC1vY2hyZS1rdXRjaCI+PGRlZnM+PGZpbHRlciBpZD0iZyI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuODUiIG51bU9jdGF2ZXM9IjMiLz48ZmVDb2xvck1hdHJpeCB0eXBlPSJzYXR1cmF0ZSIgdmFsdWVzPSIwIi8+PGZlQ29tcG9uZW50VHJhbnNmZXI+PGZlRnVuY0EgdHlwZT0ibGluZWFyIiBzbG9wZT0iMC4wOSIvPjwvZmVDb21wb25lbnRUcmFuc2Zlcj48L2ZpbHRlcj48L2RlZnM+PHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSI5MDAiIGZpbGw9IiNlZmVhZTEiLz48ZWxsaXBzZSBjeD0iNDUwLjAiIGN5PSI3NzQuMCIgcng9IjMwNi4wIiByeT0iNDAuNSIgZmlsbD0iIzAwMCIgb3BhY2l0eT0iMC4wOCIvPjxyZWN0IHg9IjI3MC4wIiB5PSIyNzAuMCIgd2lkdGg9IjM2MC4wIiBoZWlnaHQ9IjQ2OC4wIiByeD0iMTQiIGZpbGw9IiNmZmZmZmYiIG9wYWNpdHk9IjAuNTUiLz48cmVjdCB4PSIyNzkuMCIgeT0iNDE0LjAiIHdpZHRoPSIzNDIuMCIgaGVpZ2h0PSIzMTUuMCIgcng9IjEwIiBmaWxsPSIjYTg0NDJjIi8+PHBhdGggZD0iTTI3OS4wLDQ1MC4wIFE0NTAuMCwzNzguMCA2MjEuMCw0NTAuMCBMNjIxLjAsNDIzLjAgUTQ1MC4wLDM2MC4wIDI3OS4wLDQyMy4wIFoiIGZpbGw9IiM2ZDI3MTgiLz48cmVjdCB4PSIzMDYuMCIgeT0iMjM0LjAiIHdpZHRoPSIyODguMCIgaGVpZ2h0PSI1NC4wIiByeD0iNiIgZmlsbD0iIzZkMjcxOCIvPjxwYXRoIGQ9Ik0xNDQuMCw4MTAuMCBxMTgwLjAsLTQ1LjAgMzI0LjAsMCBxMTQ0LjAsMzYuMCAyNzAuMCwtMC4wMSIgc3Ryb2tlPSIjYTg0NDJjIiBzdHJva2Utd2lkdGg9IjE2IiBmaWxsPSJub25lIiBvcGFjaXR5PSIwLjg1IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cmVjdCB3aWR0aD0iOTAwIiBoZWlnaHQ9IjkwMCIgZmlsdGVyPSJ1cmwoI2cpIiBvcGFjaXR5PSIwLjUiLz48dGV4dCB4PSI4ODQiIHk9Ijg4NCIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMjIiIGZpbGw9IiMwMDAwMDA1NSI+c2FtcGxlIGltYWdlIOKAlCByZXBsYWNlPC90ZXh0Pjwvc3ZnPg==",
+    "featured": false
+  },
+  {
+    "id": "lamp-black-pigment",
+    "name": "Lamp Black",
+    "category": "pigments",
+    "unit": "50 g jar",
+    "price": 380,
+    "status": "instock",
+    "batch": "Batch 09 · 2026",
+    "madeFrom": "Soot collected from oil lamps, in the traditional way.",
+    "notes": "Very fine, very strong. A little goes a long way.",
+    "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgOTAwIiB3aWR0aD0iOTAwIiBoZWlnaHQ9IjkwMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJQbGFjZWhvbGRlciBwaG90b2dyYXBoIG9mIGxhbXAtYmxhY2stcGlnbWVudCI+PGRlZnM+PGZpbHRlciBpZD0iZyI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuODUiIG51bU9jdGF2ZXM9IjMiLz48ZmVDb2xvck1hdHJpeCB0eXBlPSJzYXR1cmF0ZSIgdmFsdWVzPSIwIi8+PGZlQ29tcG9uZW50VHJhbnNmZXI+PGZlRnVuY0EgdHlwZT0ibGluZWFyIiBzbG9wZT0iMC4wOSIvPjwvZmVDb21wb25lbnRUcmFuc2Zlcj48L2ZpbHRlcj48L2RlZnM+PHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSI5MDAiIGZpbGw9IiNlZmVhZTEiLz48ZWxsaXBzZSBjeD0iNDUwLjAiIGN5PSI3NzQuMCIgcng9IjMwNi4wIiByeT0iNDAuNSIgZmlsbD0iIzAwMCIgb3BhY2l0eT0iMC4wOCIvPjxyZWN0IHg9IjI3MC4wIiB5PSIyNzAuMCIgd2lkdGg9IjM2MC4wIiBoZWlnaHQ9IjQ2OC4wIiByeD0iMTQiIGZpbGw9IiNmZmZmZmYiIG9wYWNpdHk9IjAuNTUiLz48cmVjdCB4PSIyNzkuMCIgeT0iNDE0LjAiIHdpZHRoPSIzNDIuMCIgaGVpZ2h0PSIzMTUuMCIgcng9IjEwIiBmaWxsPSIjMmEyNzI0Ii8+PHBhdGggZD0iTTI3OS4wLDQ1MC4wIFE0NTAuMCwzNzguMCA2MjEuMCw0NTAuMCBMNjIxLjAsNDIzLjAgUTQ1MC4wLDM2MC4wIDI3OS4wLDQyMy4wIFoiIGZpbGw9IiMxNDEzMTEiLz48cmVjdCB4PSIzMDYuMCIgeT0iMjM0LjAiIHdpZHRoPSIyODguMCIgaGVpZ2h0PSI1NC4wIiByeD0iNiIgZmlsbD0iIzE0MTMxMSIvPjxwYXRoIGQ9Ik0xNDQuMCw4MTAuMCBxMTgwLjAsLTQ1LjAgMzI0LjAsMCBxMTQ0LjAsMzYuMCAyNzAuMCwtMC4wMSIgc3Ryb2tlPSIjMmEyNzI0IiBzdHJva2Utd2lkdGg9IjE2IiBmaWxsPSJub25lIiBvcGFjaXR5PSIwLjg1IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cmVjdCB3aWR0aD0iOTAwIiBoZWlnaHQ9IjkwMCIgZmlsdGVyPSJ1cmwoI2cpIiBvcGFjaXR5PSIwLjUiLz48dGV4dCB4PSI4ODQiIHk9Ijg4NCIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMjIiIGZpbGw9IiMwMDAwMDA1NSI+c2FtcGxlIGltYWdlIOKAlCByZXBsYWNlPC90ZXh0Pjwvc3ZnPg==",
+    "featured": false
+  },
+  {
+    "id": "malachite-green-pigment",
+    "name": "Malachite Green",
+    "category": "pigments",
+    "unit": "25 g jar",
+    "price": 3600,
+    "status": "madetoorder",
+    "lead": "2–3 weeks",
+    "madeFrom": "Mineral malachite, hand-ground; the coarser the grind, the deeper the green.",
+    "notes": "Tell me in your order whether you want a coarse or fine grind.",
+    "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgOTAwIiB3aWR0aD0iOTAwIiBoZWlnaHQ9IjkwMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJQbGFjZWhvbGRlciBwaG90b2dyYXBoIG9mIG1hbGFjaGl0ZS1ncmVlbi1waWdtZW50Ij48ZGVmcz48ZmlsdGVyIGlkPSJnIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC44NSIgbnVtT2N0YXZlcz0iMyIvPjxmZUNvbG9yTWF0cml4IHR5cGU9InNhdHVyYXRlIiB2YWx1ZXM9IjAiLz48ZmVDb21wb25lbnRUcmFuc2Zlcj48ZmVGdW5jQSB0eXBlPSJsaW5lYXIiIHNsb3BlPSIwLjA5Ii8+PC9mZUNvbXBvbmVudFRyYW5zZmVyPjwvZmlsdGVyPjwvZGVmcz48cmVjdCB3aWR0aD0iOTAwIiBoZWlnaHQ9IjkwMCIgZmlsbD0iI2VmZWFlMSIvPjxlbGxpcHNlIGN4PSI0NTAuMCIgY3k9Ijc3NC4wIiByeD0iMzA2LjAiIHJ5PSI0MC41IiBmaWxsPSIjMDAwIiBvcGFjaXR5PSIwLjA4Ii8+PHJlY3QgeD0iMjcwLjAiIHk9IjI3MC4wIiB3aWR0aD0iMzYwLjAiIGhlaWdodD0iNDY4LjAiIHJ4PSIxNCIgZmlsbD0iI2ZmZmZmZiIgb3BhY2l0eT0iMC41NSIvPjxyZWN0IHg9IjI3OS4wIiB5PSI0MTQuMCIgd2lkdGg9IjM0Mi4wIiBoZWlnaHQ9IjMxNS4wIiByeD0iMTAiIGZpbGw9IiMzZjhmNmUiLz48cGF0aCBkPSJNMjc5LjAsNDUwLjAgUTQ1MC4wLDM3OC4wIDYyMS4wLDQ1MC4wIEw2MjEuMCw0MjMuMCBRNDUwLjAsMzYwLjAgMjc5LjAsNDIzLjAgWiIgZmlsbD0iIzI0NWE0NCIvPjxyZWN0IHg9IjMwNi4wIiB5PSIyMzQuMCIgd2lkdGg9IjI4OC4wIiBoZWlnaHQ9IjU0LjAiIHJ4PSI2IiBmaWxsPSIjMjQ1YTQ0Ii8+PHBhdGggZD0iTTE0NC4wLDgxMC4wIHExODAuMCwtNDUuMCAzMjQuMCwwIHExNDQuMCwzNi4wIDI3MC4wLC0wLjAxIiBzdHJva2U9IiMzZjhmNmUiIHN0cm9rZS13aWR0aD0iMTYiIGZpbGw9Im5vbmUiIG9wYWNpdHk9IjAuODUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxyZWN0IHdpZHRoPSI5MDAiIGhlaWdodD0iOTAwIiBmaWx0ZXI9InVybCgjZykiIG9wYWNpdHk9IjAuNSIvPjx0ZXh0IHg9Ijg4NCIgeT0iODg0IiB0ZXh0LWFuY2hvcj0iZW5kIiBmb250LWZhbWlseT0iR2VvcmdpYSxzZXJpZiIgZm9udC1zaXplPSIyMiIgZmlsbD0iIzAwMDAwMDU1Ij5zYW1wbGUgaW1hZ2Ug4oCUIHJlcGxhY2U8L3RleHQ+PC9zdmc+",
+    "featured": false
+  },
+  {
+    "id": "earth-watercolour-set",
+    "name": "Earth Watercolour Set",
+    "category": "paints",
+    "unit": "12 half pans in a tin",
+    "price": 2400,
+    "status": "instock",
+    "batch": "Batch 06 · 2026",
+    "madeFrom": "My own pigments, hand-mulled with gum arabic and honey, poured into pans.",
+    "notes": "The palette I actually travel with: six earths, two yellows, two blues, a green and a black.",
+    "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgOTAwIiB3aWR0aD0iOTAwIiBoZWlnaHQ9IjkwMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJQbGFjZWhvbGRlciBwaG90b2dyYXBoIG9mIGVhcnRoLXdhdGVyY29sb3VyLXNldCI+PGRlZnM+PGZpbHRlciBpZD0iZyI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuODUiIG51bU9jdGF2ZXM9IjMiLz48ZmVDb2xvck1hdHJpeCB0eXBlPSJzYXR1cmF0ZSIgdmFsdWVzPSIwIi8+PGZlQ29tcG9uZW50VHJhbnNmZXI+PGZlRnVuY0EgdHlwZT0ibGluZWFyIiBzbG9wZT0iMC4wOSIvPjwvZmVDb21wb25lbnRUcmFuc2Zlcj48L2ZpbHRlcj48L2RlZnM+PHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSI5MDAiIGZpbGw9IiNlZmVhZTEiLz48ZWxsaXBzZSBjeD0iNDUwLjAiIGN5PSI3NzQuMCIgcng9IjMwNi4wIiByeT0iNDAuNSIgZmlsbD0iIzAwMCIgb3BhY2l0eT0iMC4wOCIvPjxyZWN0IHg9IjE0NC4wIiB5PSIzMDYuMCIgd2lkdGg9IjYxMi4wIiBoZWlnaHQ9IjM2MC4wIiByeD0iMTAiIGZpbGw9IiMzYTM1MmYiLz48cmVjdCB4PSIxODAuMCIgeT0iMzYwLjAiIHdpZHRoPSI3Ni41IiBoZWlnaHQ9IjExNy4wIiByeD0iMyIgZmlsbD0iI2I0NzEzZiIvPjxyZWN0IHg9IjE4MC4wIiB5PSI1MTMuMCIgd2lkdGg9Ijc2LjUiIGhlaWdodD0iMTE3LjAiIHJ4PSIzIiBmaWxsPSIjYzlhMjNmIi8+PHJlY3QgeD0iMjc2LjMiIHk9IjM2MC4wIiB3aWR0aD0iNzYuNSIgaGVpZ2h0PSIxMTcuMCIgcng9IjMiIGZpbGw9IiM2ZDNmMjEiLz48cmVjdCB4PSIyNzYuMyIgeT0iNTEzLjAiIHdpZHRoPSI3Ni41IiBoZWlnaHQ9IjExNy4wIiByeD0iMyIgZmlsbD0iIzZkN2Y0YSIvPjxyZWN0IHg9IjM3Mi42IiB5PSIzNjAuMCIgd2lkdGg9Ijc2LjUiIGhlaWdodD0iMTE3LjAiIHJ4PSIzIiBmaWxsPSIjOGM1YTJiIi8+PHJlY3QgeD0iMzcyLjYiIHk9IjUxMy4wIiB3aWR0aD0iNzYuNSIgaGVpZ2h0PSIxMTcuMCIgcng9IjMiIGZpbGw9IiM4ZDNmMzYiLz48cmVjdCB4PSI0NjguOTAwMDAwMDAwMDAwMDMiIHk9IjM2MC4wIiB3aWR0aD0iNzYuNSIgaGVpZ2h0PSIxMTcuMCIgcng9IjMiIGZpbGw9IiNjOWEyM2YiLz48cmVjdCB4PSI0NjguOTAwMDAwMDAwMDAwMDMiIHk9IjUxMy4wIiB3aWR0aD0iNzYuNSIgaGVpZ2h0PSIxMTcuMCIgcng9IjMiIGZpbGw9IiNiNDcxM2YiLz48cmVjdCB4PSI1NjUuMiIgeT0iMzYwLjAiIHdpZHRoPSI3Ni41IiBoZWlnaHQ9IjExNy4wIiByeD0iMyIgZmlsbD0iIzZkN2Y0YSIvPjxyZWN0IHg9IjU2NS4yIiB5PSI1MTMuMCIgd2lkdGg9Ijc2LjUiIGhlaWdodD0iMTE3LjAiIHJ4PSIzIiBmaWxsPSIjNmQzZjIxIi8+PHJlY3QgeD0iNjYxLjUwMDAwMDAwMDAwMDEiIHk9IjM2MC4wIiB3aWR0aD0iNzYuNSIgaGVpZ2h0PSIxMTcuMCIgcng9IjMiIGZpbGw9IiM4ZDNmMzYiLz48cmVjdCB4PSI2NjEuNTAwMDAwMDAwMDAwMSIgeT0iNTEzLjAiIHdpZHRoPSI3Ni41IiBoZWlnaHQ9IjExNy4wIiByeD0iMyIgZmlsbD0iIzhjNWEyYiIvPjxwYXRoIGQ9Ik0xNDQuMCw4MTAuMCBxMTgwLjAsLTQ1LjAgMzI0LjAsMCBxMTQ0LjAsMzYuMCAyNzAuMCwtMC4wMSIgc3Ryb2tlPSIjYjQ3MTNmIiBzdHJva2Utd2lkdGg9IjE2IiBmaWxsPSJub25lIiBvcGFjaXR5PSIwLjg1IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cmVjdCB3aWR0aD0iOTAwIiBoZWlnaHQ9IjkwMCIgZmlsdGVyPSJ1cmwoI2cpIiBvcGFjaXR5PSIwLjUiLz48dGV4dCB4PSI4ODQiIHk9Ijg4NCIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMjIiIGZpbGw9IiMwMDAwMDA1NSI+c2FtcGxlIGltYWdlIOKAlCByZXBsYWNlPC90ZXh0Pjwvc3ZnPg==",
+    "featured": true
+  },
+  {
+    "id": "earth-pigment-starter",
+    "name": "Starter Set — Six Earths",
+    "category": "kits",
+    "unit": "6 × 30 g jars",
+    "price": 2900,
+    "status": "instock",
+    "batch": "Batch 03 · 2026",
+    "madeFrom": "Six hand-ground earth pigments with a printed sheet on how to bind them.",
+    "notes": "The set I recommend to anyone grinding their own paint for the first time.",
+    "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgOTAwIiB3aWR0aD0iOTAwIiBoZWlnaHQ9IjkwMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJQbGFjZWhvbGRlciBwaG90b2dyYXBoIG9mIGVhcnRoLXBpZ21lbnQtc3RhcnRlciI+PGRlZnM+PGZpbHRlciBpZD0iZyI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuODUiIG51bU9jdGF2ZXM9IjMiLz48ZmVDb2xvck1hdHJpeCB0eXBlPSJzYXR1cmF0ZSIgdmFsdWVzPSIwIi8+PGZlQ29tcG9uZW50VHJhbnNmZXI+PGZlRnVuY0EgdHlwZT0ibGluZWFyIiBzbG9wZT0iMC4wOSIvPjwvZmVDb21wb25lbnRUcmFuc2Zlcj48L2ZpbHRlcj48L2RlZnM+PHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSI5MDAiIGZpbGw9IiNlZmVhZTEiLz48ZWxsaXBzZSBjeD0iNDUwLjAiIGN5PSI3NzQuMCIgcng9IjMwNi4wIiByeT0iNDAuNSIgZmlsbD0iIzAwMCIgb3BhY2l0eT0iMC4wOCIvPjxyZWN0IHg9IjE0NC4wIiB5PSIzMDYuMCIgd2lkdGg9IjYxMi4wIiBoZWlnaHQ9IjM2MC4wIiByeD0iMTAiIGZpbGw9IiMzYTM1MmYiLz48cmVjdCB4PSIxODAuMCIgeT0iMzYwLjAiIHdpZHRoPSI3Ni41IiBoZWlnaHQ9IjExNy4wIiByeD0iMyIgZmlsbD0iI2MwN2EzYSIvPjxyZWN0IHg9IjE4MC4wIiB5PSI1MTMuMCIgd2lkdGg9Ijc2LjUiIGhlaWdodD0iMTE3LjAiIHJ4PSIzIiBmaWxsPSIjYzlhMjNmIi8+PHJlY3QgeD0iMjc2LjMiIHk9IjM2MC4wIiB3aWR0aD0iNzYuNSIgaGVpZ2h0PSIxMTcuMCIgcng9IjMiIGZpbGw9IiM3ZDQ2MjAiLz48cmVjdCB4PSIyNzYuMyIgeT0iNTEzLjAiIHdpZHRoPSI3Ni41IiBoZWlnaHQ9IjExNy4wIiByeD0iMyIgZmlsbD0iIzZkN2Y0YSIvPjxyZWN0IHg9IjM3Mi42IiB5PSIzNjAuMCIgd2lkdGg9Ijc2LjUiIGhlaWdodD0iMTE3LjAiIHJ4PSIzIiBmaWxsPSIjOGM1YTJiIi8+PHJlY3QgeD0iMzcyLjYiIHk9IjUxMy4wIiB3aWR0aD0iNzYuNSIgaGVpZ2h0PSIxMTcuMCIgcng9IjMiIGZpbGw9IiM4ZDNmMzYiLz48cmVjdCB4PSI0NjguOTAwMDAwMDAwMDAwMDMiIHk9IjM2MC4wIiB3aWR0aD0iNzYuNSIgaGVpZ2h0PSIxMTcuMCIgcng9IjMiIGZpbGw9IiNjOWEyM2YiLz48cmVjdCB4PSI0NjguOTAwMDAwMDAwMDAwMDMiIHk9IjUxMy4wIiB3aWR0aD0iNzYuNSIgaGVpZ2h0PSIxMTcuMCIgcng9IjMiIGZpbGw9IiNjMDdhM2EiLz48cmVjdCB4PSI1NjUuMiIgeT0iMzYwLjAiIHdpZHRoPSI3Ni41IiBoZWlnaHQ9IjExNy4wIiByeD0iMyIgZmlsbD0iIzZkN2Y0YSIvPjxyZWN0IHg9IjU2NS4yIiB5PSI1MTMuMCIgd2lkdGg9Ijc2LjUiIGhlaWdodD0iMTE3LjAiIHJ4PSIzIiBmaWxsPSIjN2Q0NjIwIi8+PHJlY3QgeD0iNjYxLjUwMDAwMDAwMDAwMDEiIHk9IjM2MC4wIiB3aWR0aD0iNzYuNSIgaGVpZ2h0PSIxMTcuMCIgcng9IjMiIGZpbGw9IiM4ZDNmMzYiLz48cmVjdCB4PSI2NjEuNTAwMDAwMDAwMDAwMSIgeT0iNTEzLjAiIHdpZHRoPSI3Ni41IiBoZWlnaHQ9IjExNy4wIiByeD0iMyIgZmlsbD0iIzhjNWEyYiIvPjxwYXRoIGQ9Ik0xNDQuMCw4MTAuMCBxMTgwLjAsLTQ1LjAgMzI0LjAsMCBxMTQ0LjAsMzYuMCAyNzAuMCwtMC4wMSIgc3Ryb2tlPSIjYzA3YTNhIiBzdHJva2Utd2lkdGg9IjE2IiBmaWxsPSJub25lIiBvcGFjaXR5PSIwLjg1IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cmVjdCB3aWR0aD0iOTAwIiBoZWlnaHQ9IjkwMCIgZmlsdGVyPSJ1cmwoI2cpIiBvcGFjaXR5PSIwLjUiLz48dGV4dCB4PSI4ODQiIHk9Ijg4NCIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMjIiIGZpbGw9IiMwMDAwMDA1NSI+c2FtcGxlIGltYWdlIOKAlCByZXBsYWNlPC90ZXh0Pjwvc3ZnPg==",
+    "featured": true
+  },
+  {
+    "id": "gum-arabic-binder",
+    "name": "Gum Arabic Binder",
+    "category": "mediums",
+    "unit": "100 ml bottle",
+    "price": 520,
+    "status": "instock",
+    "batch": "Batch 12 · 2026",
+    "madeFrom": "Prepared in the studio, strained, with a little honey and clove oil.",
+    "notes": "For mulling watercolour and gouache. Keeps six months in a cool place.",
+    "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgOTAwIiB3aWR0aD0iOTAwIiBoZWlnaHQ9IjkwMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJQbGFjZWhvbGRlciBwaG90b2dyYXBoIG9mIGd1bS1hcmFiaWMtYmluZGVyIj48ZGVmcz48ZmlsdGVyIGlkPSJnIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC44NSIgbnVtT2N0YXZlcz0iMyIvPjxmZUNvbG9yTWF0cml4IHR5cGU9InNhdHVyYXRlIiB2YWx1ZXM9IjAiLz48ZmVDb21wb25lbnRUcmFuc2Zlcj48ZmVGdW5jQSB0eXBlPSJsaW5lYXIiIHNsb3BlPSIwLjA5Ii8+PC9mZUNvbXBvbmVudFRyYW5zZmVyPjwvZmlsdGVyPjwvZGVmcz48cmVjdCB3aWR0aD0iOTAwIiBoZWlnaHQ9IjkwMCIgZmlsbD0iI2VmZWFlMSIvPjxlbGxpcHNlIGN4PSI0NTAuMCIgY3k9Ijc3NC4wIiByeD0iMzA2LjAiIHJ5PSI0MC41IiBmaWxsPSIjMDAwIiBvcGFjaXR5PSIwLjA4Ii8+PHJlY3QgeD0iMzc4LjAiIHk9IjE4MC4wIiB3aWR0aD0iMTQ0LjAiIGhlaWdodD0iMTQ0LjAiIGZpbGw9IiNmZmZmZmYiIG9wYWNpdHk9IjAuNiIvPjxwYXRoIGQ9Ik0zMDYuMCwzMjQuMCBRNDUwLjAsMjcwLjAgNTk0LjAsMzI0LjAgTDU5NC4wLDczOC4wIEwzMDYuMCw3MzguMCBaIiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIwLjUiLz48cGF0aCBkPSJNMzE1LjAsNDUwLjAgTDU4NS4wLDQ1MC4wIEw1ODUuMCw3MjkuMCBMMzE1LjAsNzI5LjAgWiIgZmlsbD0iI2Q4YzA4YSIvPjxwYXRoIGQ9Ik0xNDQuMCw4MTAuMCBxMTgwLjAsLTQ1LjAgMzI0LjAsMCBxMTQ0LjAsMzYuMCAyNzAuMCwtMC4wMSIgc3Ryb2tlPSIjZDhjMDhhIiBzdHJva2Utd2lkdGg9IjE2IiBmaWxsPSJub25lIiBvcGFjaXR5PSIwLjg1IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cmVjdCB3aWR0aD0iOTAwIiBoZWlnaHQ9IjkwMCIgZmlsdGVyPSJ1cmwoI2cpIiBvcGFjaXR5PSIwLjUiLz48dGV4dCB4PSI4ODQiIHk9Ijg4NCIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMjIiIGZpbGw9IiMwMDAwMDA1NSI+c2FtcGxlIGltYWdlIOKAlCByZXBsYWNlPC90ZXh0Pjwvc3ZnPg==",
+    "featured": false
+  },
+  {
+    "id": "chalk-ground-gesso",
+    "name": "Chalk Ground",
+    "category": "grounds",
+    "unit": "250 g tub",
+    "price": 600,
+    "status": "instock",
+    "batch": "Batch 08 · 2026",
+    "madeFrom": "Chalk and rabbit-skin-free size, mixed for panels and boards.",
+    "notes": "Two thin coats, sanded between, gives the surface I use for portrait panels.",
+    "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgOTAwIiB3aWR0aD0iOTAwIiBoZWlnaHQ9IjkwMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJQbGFjZWhvbGRlciBwaG90b2dyYXBoIG9mIGNoYWxrLWdyb3VuZC1nZXNzbyI+PGRlZnM+PGZpbHRlciBpZD0iZyI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuODUiIG51bU9jdGF2ZXM9IjMiLz48ZmVDb2xvck1hdHJpeCB0eXBlPSJzYXR1cmF0ZSIgdmFsdWVzPSIwIi8+PGZlQ29tcG9uZW50VHJhbnNmZXI+PGZlRnVuY0EgdHlwZT0ibGluZWFyIiBzbG9wZT0iMC4wOSIvPjwvZmVDb21wb25lbnRUcmFuc2Zlcj48L2ZpbHRlcj48L2RlZnM+PHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSI5MDAiIGZpbGw9IiNlZmVhZTEiLz48ZWxsaXBzZSBjeD0iNDUwLjAiIGN5PSI3NzQuMCIgcng9IjMwNi4wIiByeT0iNDAuNSIgZmlsbD0iIzAwMCIgb3BhY2l0eT0iMC4wOCIvPjxyZWN0IHg9IjM3OC4wIiB5PSIxODAuMCIgd2lkdGg9IjE0NC4wIiBoZWlnaHQ9IjE0NC4wIiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIwLjYiLz48cGF0aCBkPSJNMzA2LjAsMzI0LjAgUTQ1MC4wLDI3MC4wIDU5NC4wLDMyNC4wIEw1OTQuMCw3MzguMCBMMzA2LjAsNzM4LjAgWiIgZmlsbD0iI2ZmZmZmZiIgb3BhY2l0eT0iMC41Ii8+PHBhdGggZD0iTTMxNS4wLDQ1MC4wIEw1ODUuMCw0NTAuMCBMNTg1LjAsNzI5LjAgTDMxNS4wLDcyOS4wIFoiIGZpbGw9IiNlOWUyZDQiLz48cGF0aCBkPSJNMTQ0LjAsODEwLjAgcTE4MC4wLC00NS4wIDMyNC4wLDAgcTE0NC4wLDM2LjAgMjcwLjAsLTAuMDEiIHN0cm9rZT0iI2U5ZTJkNCIgc3Ryb2tlLXdpZHRoPSIxNiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iMC44NSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSI5MDAiIGZpbHRlcj0idXJsKCNnKSIgb3BhY2l0eT0iMC41Ii8+PHRleHQgeD0iODg0IiB5PSI4ODQiIHRleHQtYW5jaG9yPSJlbmQiIGZvbnQtZmFtaWx5PSJHZW9yZ2lhLHNlcmlmIiBmb250LXNpemU9IjIyIiBmaWxsPSIjMDAwMDAwNTUiPnNhbXBsZSBpbWFnZSDigJQgcmVwbGFjZTwvdGV4dD48L3N2Zz4=",
+    "featured": false
+  },
+  {
+    "id": "cotton-rag-paper",
+    "name": "Cotton Rag Paper",
+    "category": "grounds",
+    "unit": "5 sheets · 38 × 56 cm",
+    "price": 900,
+    "status": "instock",
+    "madeFrom": "Handmade cotton rag paper, cold pressed, sized for watercolour.",
+    "notes": "Bought from a papermaker I have used for years, not made by me — sold on because it suits these paints.",
+    "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgOTAwIiB3aWR0aD0iOTAwIiBoZWlnaHQ9IjkwMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJQbGFjZWhvbGRlciBwaG90b2dyYXBoIG9mIGNvdHRvbi1yYWctcGFwZXIiPjxkZWZzPjxmaWx0ZXIgaWQ9ImciPjxmZVR1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIwLjg1IiBudW1PY3RhdmVzPSIzIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjxmZUNvbXBvbmVudFRyYW5zZmVyPjxmZUZ1bmNBIHR5cGU9ImxpbmVhciIgc2xvcGU9IjAuMDkiLz48L2ZlQ29tcG9uZW50VHJhbnNmZXI+PC9maWx0ZXI+PC9kZWZzPjxyZWN0IHdpZHRoPSI5MDAiIGhlaWdodD0iOTAwIiBmaWxsPSIjZWZlYWUxIi8+PGVsbGlwc2UgY3g9IjQ1MC4wIiBjeT0iNzc0LjAiIHJ4PSIzMDYuMCIgcnk9IjQwLjUiIGZpbGw9IiMwMDAiIG9wYWNpdHk9IjAuMDgiLz48cmVjdCB4PSIxODAuMCIgeT0iMjE2LjAiIHdpZHRoPSI1NDAuMCIgaGVpZ2h0PSI0ODYuMDAwMDAwMDAwMDAwMDYiIGZpbGw9IiNmM2VjZGYiIHN0cm9rZT0iIzAwMDAwMDE4Ii8+PHJlY3QgeD0iMTkyLjAiIHk9IjIyOC4wIiB3aWR0aD0iNTQwLjAiIGhlaWdodD0iNDg2LjAwMDAwMDAwMDAwMDA2IiBmaWxsPSIjZmFmNmVlIiBzdHJva2U9IiMwMDAwMDAxOCIvPjxyZWN0IHg9IjIwNC4wIiB5PSIyNDAuMCIgd2lkdGg9IjU0MC4wIiBoZWlnaHQ9IjQ4Ni4wMDAwMDAwMDAwMDAwNiIgZmlsbD0iI2YzZWNkZiIgc3Ryb2tlPSIjMDAwMDAwMTgiLz48cmVjdCB4PSIyMTYuMCIgeT0iMjUyLjAiIHdpZHRoPSI1NDAuMCIgaGVpZ2h0PSI0ODYuMDAwMDAwMDAwMDAwMDYiIGZpbGw9IiNmYWY2ZWUiIHN0cm9rZT0iIzAwMDAwMDE4Ii8+PHBhdGggZD0iTTI1Mi4wMDAwMDAwMDAwMDAwMyw1NTguMCBRNDA1LjAsNDUwLjAgNTU4LjAsNTc2LjAiIHN0cm9rZT0iI2YyZWNlMCIgc3Ryb2tlLXdpZHRoPSIxMCIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iMC43NSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTE0NC4wLDgxMC4wIHExODAuMCwtNDUuMCAzMjQuMCwwIHExNDQuMCwzNi4wIDI3MC4wLC0wLjAxIiBzdHJva2U9IiNmMmVjZTAiIHN0cm9rZS13aWR0aD0iMTYiIGZpbGw9Im5vbmUiIG9wYWNpdHk9IjAuODUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxyZWN0IHdpZHRoPSI5MDAiIGhlaWdodD0iOTAwIiBmaWx0ZXI9InVybCgjZykiIG9wYWNpdHk9IjAuNSIvPjx0ZXh0IHg9Ijg4NCIgeT0iODg0IiB0ZXh0LWFuY2hvcj0iZW5kIiBmb250LWZhbWlseT0iR2VvcmdpYSxzZXJpZiIgZm9udC1zaXplPSIyMiIgZmlsbD0iIzAwMDAwMDU1Ij5zYW1wbGUgaW1hZ2Ug4oCUIHJlcGxhY2U8L3RleHQ+PC9zdmc+",
+    "featured": false
+  }
+];
+
+</script>
+<script>
+/* =============================================================================
+   app.js — shared behaviour for every page.
+   Depends on data/site.js (window.SITE) and data/artworks.js (window.ARTWORKS).
+   Written in plain browser JavaScript: no build step, no libraries, no npm.
+   ========================================================================== */
+(function () {
+  "use strict";
+
+  var SITE = window.SITE || {};
+  var WORKS = window.ARTWORKS || [];
+
+  /* --- small helpers ---------------------------------------------------- */
+  function $(sel, root) { return (root || document).querySelector(sel); }
+  function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+  function get(obj, path) {
+    return path.split(".").reduce(function (o, k) { return (o == null ? undefined : o[k]); }, obj);
+  }
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c];
+    });
+  }
+  function money(n) {
+    if (n == null || n === "" || isNaN(n)) return "Price on request";
+    return "₹" + Number(n).toLocaleString("en-IN");
+  }
+  function dims(w) {
+    if (!w.w_cm || !w.h_cm) return "";
+    var inch = function (cm) { return Math.round(cm / 2.54); };
+    return w.w_cm + " × " + w.h_cm + " cm (" + inch(w.w_cm) + " × " + inch(w.h_cm) + " in)";
+  }
+  var STATUS = {
+    available: { label: "Available", cls: "tag--available" },
+    reserved:  { label: "Reserved",  cls: "tag--reserved" },
+    sold:      { label: "Sold",      cls: "tag--sold" },
+    nfs:       { label: "Not for sale", cls: "tag--nfs" }
+  };
+  function statusOf(w) { return STATUS[w.status] || STATUS.available; }
+  function themeName(id) {
+    var t = (SITE.themes || []).filter(function (x) { return x.id === id; })[0];
+    return t ? t.name : id;
+  }
+  function workUrl(w) { return "artwork.html?id=" + encodeURIComponent(w.id); }
+
+  /* --- data access ------------------------------------------------------ *
+   * If the optional Node server is running, it serves the live gallery from
+   * /api/artworks. Otherwise the file data/artworks.js is the gallery.       */
+  function allWorks() { return (window.ARTWORKS || []).slice(); }
+  function findWork(id) {
+    return allWorks().filter(function (w) { return w.id === id; })[0] || null;
+  }
+  function countByTheme(id) {
+    return allWorks().filter(function (w) { return (w.themes || []).indexOf(id) > -1; }).length;
+  }
+
+  /* --- text bindings: <span data-site="artist.name"> --------------------- */
+  function applyBindings(root) {
+    $$("[data-site]", root).forEach(function (el) {
+      var v = get(SITE, el.getAttribute("data-site"));
+      if (v != null && v !== "") el.textContent = v;
+    });
+    $$("[data-site-html]", root).forEach(function (el) {
+      var v = get(SITE, el.getAttribute("data-site-html"));
+      if (Array.isArray(v)) el.innerHTML = v.map(function (p) { return "<p>" + esc(p) + "</p>"; }).join("");
+    });
+    $$("[data-site-attr]", root).forEach(function (el) {
+      // format:  data-site-attr="href:contact.email|mailto:"
+      var spec = el.getAttribute("data-site-attr").split("|");
+      var pair = spec[0].split(":");
+      var prefix = spec[1] || "";
+      var v = get(SITE, pair[1]);
+      if (v == null || v === "") { el.hidden = true; return; }
+      el.setAttribute(pair[0], prefix + v);
+      if (el.hasAttribute("data-site-fill")) el.textContent = v;
+    });
+  }
+
+  /* --- header / navigation ---------------------------------------------- */
+  function initChrome() {
+    var header = $(".site-header");
+    if (header) {
+      var onScroll = function () { header.classList.toggle("is-stuck", window.scrollY > 8); };
+      onScroll(); window.addEventListener("scroll", onScroll, { passive: true });
+    }
+    var toggle = $(".nav-toggle"), nav = $(".nav");
+    if (toggle && nav) {
+      toggle.addEventListener("click", function () {
+        var open = nav.classList.toggle("is-open");
+        toggle.setAttribute("aria-expanded", String(open));
+      });
+      $$(".nav a").forEach(function (a) {
+        a.addEventListener("click", function () { nav.classList.remove("is-open"); });
+      });
+    }
+    /* mark the current page in the nav. A link carrying a query string
+       (India Series) only counts when that query string is showing too, so
+       "Work" and "India Series" are never both underlined at once. */
+    var here = (location.pathname.split("/").pop() || "index.html") + location.search;
+    var links = $$(".nav a").filter(function (a) { return !a.classList.contains("btn"); });
+    var exact = links.filter(function (a) { return a.getAttribute("href") === here; });
+    (exact.length ? exact : links.filter(function (a) {
+      var href = a.getAttribute("href") || "";
+      return href.indexOf("?") === -1 && href === here.split("?")[0];
+    })).forEach(function (a) { a.setAttribute("aria-current", "page"); });
+    var y = $("#year"); if (y) y.textContent = new Date().getFullYear();
+  }
+
+  /* --- reveal on scroll -------------------------------------------------- */
+  function initReveal(root) {
+    var els = $$(".reveal", root || document);
+    if (!("IntersectionObserver" in window)) {
+      els.forEach(function (el) { el.classList.add("is-in"); }); return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); }
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.06 });
+    els.forEach(function (el) { io.observe(el); });
+  }
+
+  /* --- lightbox ---------------------------------------------------------- */
+  var lightbox;
+  function openLightbox(src, caption) {
+    if (!lightbox) {
+      lightbox = document.createElement("div");
+      lightbox.className = "lightbox";
+      lightbox.innerHTML =
+        '<button class="lightbox__close" aria-label="Close image">✕</button>' +
+        '<img alt=""><p class="lightbox__caption"></p>';
+      document.body.appendChild(lightbox);
+      lightbox.addEventListener("click", function (e) {
+        if (e.target === lightbox || e.target.classList.contains("lightbox__close")) closeLightbox();
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") closeLightbox();
+      });
+    }
+    $("img", lightbox).src = src;
+    $("img", lightbox).alt = caption || "";
+    $(".lightbox__caption", lightbox).textContent = caption || "";
+    lightbox.classList.add("is-open");
+    document.body.style.overflow = "hidden";
+  }
+  function closeLightbox() {
+    if (lightbox) lightbox.classList.remove("is-open");
+    document.body.style.overflow = "";
+  }
+
+  /* --- toast ------------------------------------------------------------- */
+  var toastEl, toastTimer;
+  function toast(msg) {
+    if (!toastEl) {
+      toastEl = document.createElement("div");
+      toastEl.className = "toast"; toastEl.setAttribute("role", "status");
+      document.body.appendChild(toastEl);
+    }
+    toastEl.textContent = msg;
+    toastEl.classList.add("is-open");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove("is-open"); }, 3200);
+  }
+
+  /* --- artwork card ------------------------------------------------------ */
+  function cardHTML(w) {
+    var st = statusOf(w);
+    var priceHTML = w.status === "sold" ? '<span class="sold">Sold</span>'
+      : w.status === "nfs" ? '<span class="sold">Not for sale</span>'
+      : money(w.price);
+    return '<a class="card reveal" href="' + workUrl(w) + '">' +
+      '<div class="card__frame">' +
+        '<img src="' + esc(w.image) + '" alt="' + esc(w.title) + ' — ' + esc(w.medium) + '" loading="lazy">' +
+        '<span class="tag ' + st.cls + '">' + st.label + '</span>' +
+      '</div>' +
+      '<div class="card__body">' +
+        '<h3 class="card__title">' + esc(w.title) + '</h3>' +
+        '<p class="card__meta">' + esc(w.medium) + (w.w_cm ? " · " + w.w_cm + "×" + w.h_cm + " cm" : "") +
+          (w.year ? " · " + esc(w.year) : "") + '</p>' +
+        '<p class="card__price">' + priceHTML + '</p>' +
+      '</div></a>';
+  }
+  function renderCards(container, works, emptyMsg) {
+    if (!container) return;
+    if (!works.length) {
+      container.innerHTML = '<p class="muted">' + esc(emptyMsg || "No works to show yet.") + "</p>";
+      return;
+    }
+    container.innerHTML = works.map(cardHTML).join("");
+    initReveal(container);
+  }
+
+  /* =============================================================== ENQUIRY */
+  /* Turns any form into a structured enquiry and delivers it by the method
+     chosen in site.js → forms.mode. Falls back to mailto if a POST fails,
+     so an enquiry is never silently lost.                                    */
+  var Enquiry = {
+    collect: function (form) {
+      var data = {};
+      new FormData(form).forEach(function (v, k) {
+        if (v instanceof File) { if (v.name) data[k] = "(file: " + v.name + ")"; return; }
+        data[k] = data[k] ? data[k] + ", " + v : v;
+      });
+      return data;
+    },
+    asText: function (data, subject) {
+      var lines = [subject, "".padEnd ? "".padEnd(subject.length, "=") : "======", ""];
+      Object.keys(data).forEach(function (k) {
+        if (k === "consent" || k === "_gotcha" || !data[k]) return;
+        lines.push(labelFor(k) + ": " + data[k]);
+      });
+      lines.push("", "Sent from " + location.href);
+      return lines.join("\n");
+    },
+    mailto: function (data, subject) {
+      var to = get(SITE, "contact.email") || "";
+      return "mailto:" + to + "?subject=" + encodeURIComponent(subject) +
+             "&body=" + encodeURIComponent(Enquiry.asText(data, subject));
+    },
+    send: function (form, subject) {
+      var mode = get(SITE, "forms.mode") || "mailto";
+      var data = Enquiry.collect(form);
+      data._subject = subject;
+      data._page = location.href;
+      if (mode === "mailto") {
+        window.location.href = Enquiry.mailto(data, subject);
+        return Promise.resolve({ ok: true, via: "mailto" });
+      }
+      var url = mode === "server" ? "/api/enquiry" : get(SITE, "forms.formEndpoint");
+      if (!url) {
+        window.location.href = Enquiry.mailto(data, subject);
+        return Promise.resolve({ ok: true, via: "mailto" });
+      }
+      var body;
+      var headers = { "Accept": "application/json" };
+      var key = get(SITE, "forms.accessKey");
+      if (key) data.access_key = key;                 // Web3Forms
+      data.subject = subject;                          // most services use this
+      if (form.querySelector('input[type="file"]') && mode !== "server") {
+        body = new FormData(form);                     // keeps attachments
+        Object.keys(data).forEach(function (k) { if (!body.has(k)) body.append(k, data[k]); });
+      } else {
+        headers["Content-Type"] = "application/json";
+        body = JSON.stringify(data);
+      }
+      return fetch(url, { method: "POST", headers: headers, body: body })
+        .then(function (r) {
+          if (!r.ok) throw new Error("HTTP " + r.status);
+          return { ok: true, via: mode };
+        });
+    },
+    /* Wire a <form data-enquiry="Subject line"> element up completely. */
+    bind: function (form) {
+      if (!form) return;
+      var status = $(".form-status", form) || form.parentNode.querySelector(".form-status");
+      var button = form.querySelector('[type="submit"]');
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        if (form.querySelector('[name="_gotcha"]') && form.querySelector('[name="_gotcha"]').value) return; // bot
+        if (!form.reportValidity()) return;
+        var subject = form.getAttribute("data-enquiry") || "Website enquiry";
+        var title = form.querySelector('[name="artwork"]');
+        if (title && title.value) subject += " — " + title.value;
+        var original = button ? button.textContent : "";
+        if (button) { button.disabled = true; button.textContent = "Sending…"; }
+        Enquiry.send(form, subject).then(function (res) {
+          if (status) {
+            status.className = "form-status is-ok";
+            status.textContent = res.via === "mailto"
+              ? "Your email programme should now be open with the enquiry filled in — press send there to deliver it."
+              : (get(SITE, "forms.successMessage") || "Thank you — your enquiry has been sent.");
+          }
+          if (res.via !== "mailto") form.reset();
+          form.setAttribute("data-sent", "true");
+          /* pages that hold state of their own (the shop basket) listen for this */
+          form.dispatchEvent(new CustomEvent("enquiry:sent", { bubbles: true, detail: { via: res.via } }));
+        }).catch(function (err) {
+          if (status) {
+            status.className = "form-status is-err";
+            status.innerHTML = "The form could not be delivered (" + esc(err.message) + "). " +
+              '<a href="' + esc(Enquiry.mailto(Enquiry.collect(form), form.getAttribute("data-enquiry") || "Enquiry")) +
+              '">Send it by email instead</a>, or write to ' +
+              '<a href="mailto:' + esc(get(SITE, "contact.email")) + '">' + esc(get(SITE, "contact.email")) + "</a>.";
+          }
+        }).then(function () {
+          if (button) { button.disabled = false; button.textContent = original; }
+        });
+      });
+    }
+  };
+  var LABELS = {
+    name: "Name", email: "Email", phone: "Phone", city: "City", country: "Country",
+    type: "Type of work", subject_matter: "Subject", theme: "Theme", medium: "Preferred medium",
+    size: "Size", budget: "Budget", deadline: "Needed by", framing: "Framing",
+    reference_links: "Reference links", usage: "Intended use", message: "Message",
+    artwork: "Artwork", heard: "How they found you", prints: "Interested in prints"
+  };
+  function labelFor(k) { return LABELS[k] || k.charAt(0).toUpperCase() + k.slice(1).replace(/_/g, " "); }
+
+  /* --- boot -------------------------------------------------------------- */
+  function init() {
+    applyBindings(document);
+    initChrome();
+    initReveal(document);
+    $$("[data-enquiry]").forEach(Enquiry.bind);
+    $$("[data-lightbox]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        openLightbox(el.getAttribute("data-lightbox"), el.getAttribute("data-caption") || "");
+      });
+    });
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+  else init();
+
+  /* --- public surface used by page scripts -------------------------------- */
+  window.Studio = {
+    $: $, $$: $$, esc: esc, money: money, dims: dims, get: get,
+    works: allWorks, find: findWork, countByTheme: countByTheme,
+    themeName: themeName, statusOf: statusOf, workUrl: workUrl,
+    cardHTML: cardHTML, renderCards: renderCards,
+    reveal: initReveal, lightbox: openLightbox, toast: toast,
+    enquiry: Enquiry, site: SITE
+  };
+})();
+
+</script>
+<script>
+(function () {
+  var S = window.Studio, works = S.works();
+
+  /* ---- hero: the newest featured work, with a second work stacked behind -- */
+  var featured = works.filter(function (w) { return w.featured; });
+  var hero = featured[0] || works[0];
+  var second = featured.filter(function (w) { return w !== hero; })[0] || works[1];
+  if (hero) {
+    var fig = document.getElementById("hero-figure");
+    var main = fig.querySelector(".hero__stack-main");
+    main.src = hero.image;
+    main.alt = hero.title + " — " + hero.medium;
+    if (second) fig.querySelector(".hero__stack-inset").src = second.image;
+    fig.querySelector("figcaption").innerHTML =
+      "<strong>" + S.esc(hero.title) + "</strong>, " + S.esc(hero.year) + "<br>" +
+      '<span class="muted">' + S.esc(hero.medium) + "</span>";
+    main.style.cursor = "zoom-in";
+    main.addEventListener("click", function () { S.lightbox(hero.image, hero.title + " — " + hero.medium); });
+  }
+
+  /* ---- three facts, taken from the real data rather than written by hand -- */
+  var forSale = works.filter(function (w) { return w.status === "available" && w.price; });
+  var cheapest = forSale.length ? Math.min.apply(null, forSale.map(function (w) { return w.price; })) : null;
+  var facts = [];
+  if (cheapest) facts.push("Originals from " + S.money(cheapest));
+  facts.push(forSale.length + " works available now");
+  facts.push("Commissions open");
+  document.getElementById("hero-facts").innerHTML =
+    facts.map(function (f) { return "<li>" + S.esc(f) + "</li>"; }).join("");
+
+  document.getElementById("hero-themes").innerHTML =
+    (S.site.themes || []).slice(0, 6).map(function (t) { return "<span>" + S.esc(t.name) + "</span>"; }).join("");
+
+  /* ---- selected work: the first card runs wide ---------------------------- */
+  var pick = (featured.length ? featured : works).slice(0, 5);
+  S.renderCards(document.getElementById("featured-grid"), pick);
+
+  /* ---- the eleven series, with live counts -------------------------------- */
+  document.getElementById("theme-grid").innerHTML = (S.site.themes || []).map(function (t) {
+    var n = S.countByTheme(t.id);
+    return '<a class="theme-card reveal" href="gallery.html?theme=' + encodeURIComponent(t.id) + '">' +
+      '<div><h3 class="theme-card__name">' + S.esc(t.name) + "</h3>" +
+      '<p class="theme-card__blurb">' + S.esc(t.blurb) + "</p></div>" +
+      '<span class="theme-card__count">' + (n ? n + (n === 1 ? " work" : " works") : "Open to commission") + "</span></a>";
+  }).join("");
+
+  document.getElementById("home-steps").innerHTML =
+    (S.site.commissionSteps || []).slice(0, 3).map(function (s) {
+      return '<li class="step"><div><h3>' + S.esc(s.title) + "</h3><p>" + S.esc(s.text) + "</p></div></li>";
+    }).join("");
+
+  /* ---- for spaces --------------------------------------------------------- */
+  var sp = S.site.spaces || {};
+  if (sp.show === false) {
+    document.getElementById("spaces").hidden = true;
+  } else {
+    if (sp.intro) document.getElementById("spaces-intro").textContent = sp.intro;
+    document.getElementById("space-list").innerHTML = (sp.types || []).map(function (t) {
+      return "<li><strong>" + S.esc(t.name) + "</strong><span>" + S.esc(t.blurb) + "</span></li>";
+    }).join("");
+  }
+
+  /* ---- the studio shop ---------------------------------------------------- */
+  var shop = S.site.shop || {};
+  var products = (window.PRODUCTS || []).filter(function (p) { return p.featured; });
+  if (!products.length) products = (window.PRODUCTS || []).slice(0, 3);
+  if (shop.show === false || !products.length) {
+    document.getElementById("materials").hidden = true;
+  } else {
+    document.getElementById("materials-strip").innerHTML = products.slice(0, 3).map(function (p) {
+      return '<a class="card reveal" href="shop.html#p-' + encodeURIComponent(p.id) + '">' +
+        '<div class="card__frame"><img src="' + S.esc(p.image) + '" alt="' + S.esc(p.name) +
+          '" loading="lazy" style="aspect-ratio:1/1;object-fit:cover"></div>' +
+        '<div class="card__body"><h3 class="card__title">' + S.esc(p.name) + "</h3>" +
+        '<p class="card__meta">' + S.esc(p.unit || "") + "</p>" +
+        '<p class="card__price">' + S.money(p.price) + "</p></div></a>";
+    }).join("");
+  }
+
+  /* ---- testimonials appear only once real ones are added to site.js ------- */
+  var voices = S.site.testimonials || [];
+  if (voices.length) {
+    document.getElementById("voices").hidden = false;
+    document.getElementById("testimonials").innerHTML = voices.map(function (v) {
+      return '<figure class="voice reveal"><blockquote>' + S.esc(v.quote) + "</blockquote>" +
+        "<figcaption>" + S.esc(v.who) + (v.where ? ' <span class="muted">· ' + S.esc(v.where) + "</span>" : "") +
+        "</figcaption></figure>";
+    }).join("");
+  }
+
+  S.reveal(document);
+})();
+</script>
+
+<script>
+/* The preview is a single page, so links the scripts write out at run time are
+   caught here: a painting or a jar opens full size, anything else jumps to the
+   section that covers it. */
+(function () {
+  var SECTIONS = {
+    "index.html": "#top", "gallery.html": "#work", "artwork.html": "#work",
+    "commission.html": "#commission", "spaces.html": "#spaces",
+    "shop.html": "#materials", "about.html": "#about", "contact.html": "#contact",
+    "admin.html": "#top"
+  };
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest("a[href]");
+    if (!a) return;
+    var href = a.getAttribute("href") || "";
+    if (href.indexOf(".html") === -1) return;          // real links are left alone
+    e.preventDefault();
+    var card = e.target.closest("a.card");
+    if (card) {
+      var img = card.querySelector("img");
+      var title = card.querySelector(".card__title");
+      if (img) { window.Studio.lightbox(img.src, title ? title.textContent : ""); return; }
+    }
+    var target = document.querySelector(SECTIONS[href.split("?")[0].split("#")[0]] || "#top");
+    if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, true);
+})();
+</script>

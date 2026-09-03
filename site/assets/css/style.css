@@ -417,3 +417,55 @@ p  { margin: 0 0 1.1em; }
 .admin-tabs { display: flex; gap: .5rem; margin-bottom: 1.6rem; border-bottom: 1px solid var(--rule); padding-bottom: 1rem; }
 .admin-tabs .chip { font-size: .82rem; padding: .5rem 1.1rem; }
 .order-bar.is-parked { opacity: 0; pointer-events: none; transform: translate(-50%, 140%); transition: opacity var(--t), transform var(--t); }
+
+/* =============================================================================
+   Landing page
+   ========================================================================== */
+.facts { list-style: none; display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; padding: 0; margin: 1.8rem 0 0; }
+.facts li { font-size: .82rem; letter-spacing: .04em; color: var(--ink-2); display: flex; align-items: center; gap: .5rem; }
+.facts li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex: none; }
+
+/* two works, one behind the other — the studio wall, not a stock photo */
+.hero__stack { position: relative; }
+/* these need .hero__stack in front of them to beat the plain `.hero__figure img` rule */
+.hero__stack .hero__stack-main { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); box-shadow: var(--shadow-lift); }
+.hero__stack .hero__stack-inset {
+  position: absolute; right: -1.7rem; bottom: -2.4rem; width: 36%; height: auto; aspect-ratio: 3 / 4;
+  object-fit: cover; border-radius: var(--radius); box-shadow: var(--shadow-lift);
+  border: 6px solid var(--paper); z-index: 2;
+}
+.hero__stack .hero__caption { z-index: 3; }
+@media (max-width: 900px) { .hero__stack-inset { display: none; } }
+
+/* the first work in the selected row is given the space it deserves */
+@media (min-width: 900px) {
+  .grid--feature > .card:first-child { grid-column: span 2; }
+  .grid--feature > .card:first-child .card__frame img { aspect-ratio: 16 / 11; object-fit: cover; }
+  .grid--feature > .card:first-child .card__title { font-size: 1.6rem; }
+}
+
+.ticks { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--rule); }
+.ticks li { display: grid; gap: .2rem; padding: 1rem 0; border-bottom: 1px solid var(--rule); }
+.ticks strong { font-family: var(--serif); font-size: 1.15rem; font-weight: 500; }
+.ticks span { font-size: .89rem; color: var(--ink-3); }
+
+.signature {
+  font-family: var(--serif); font-style: italic; font-size: 1.75rem; color: var(--accent);
+  margin: 1.4rem 0 .6rem; line-height: 1;
+}
+
+.closing {
+  display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(2rem, 5vw, 4rem);
+  background: var(--paper-2); border-radius: var(--radius); padding: clamp(1.8rem, 4.5vw, 3.2rem);
+  border-top: 2px solid var(--accent);
+}
+@media (max-width: 860px) { .closing { grid-template-columns: 1fr; } }
+.assurances { list-style: none; padding: 0; margin: 0; display: grid; align-content: start; }
+.assurances li { display: grid; gap: .2rem; padding: .9rem 0; border-top: 1px solid var(--rule); }
+.assurances li:first-child { border-top: 0; padding-top: 0; }
+.assurances strong { font-size: .82rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; }
+.assurances span { font-size: .88rem; color: var(--ink-3); }
+
+.voice { margin: 0; background: var(--paper-2); border-left: 2px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0; padding: 1.4rem 1.6rem; }
+.voice blockquote { font-family: var(--serif); font-size: 1.25rem; line-height: 1.4; margin: 0 0 .8rem; }
+.voice figcaption { font-size: .84rem; color: var(--ink-2); }
