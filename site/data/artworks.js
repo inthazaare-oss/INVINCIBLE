@@ -14,6 +14,47 @@
 
 window.ARTWORKS = [
   {
+    "id": "buddha-head",
+    "title": "Buddha Head",
+    "year": null,
+    "themes": [
+      "sculpture",
+      "traditional"
+    ],
+    "style": "",
+    "medium": "",
+    "w_cm": null,
+    "h_cm": null,
+    "price": null,
+    "status": "available",
+    "prints": false,
+    "framed": false,
+    "place": "",
+    "story": "",
+    "image": "",
+    "featured": false
+  },
+  {
+    "id": "still-life-with-wine-and-grapes",
+    "title": "Still Life with Wine and Grapes",
+    "year": null,
+    "themes": [
+      "still-life"
+    ],
+    "style": "",
+    "medium": "",
+    "w_cm": null,
+    "h_cm": null,
+    "price": null,
+    "status": "available",
+    "prints": false,
+    "framed": false,
+    "place": "",
+    "story": "",
+    "image": "",
+    "featured": false
+  },
+  {
     "id": "farmhouse-in-the-foothills",
     "title": "Farmhouse in the Foothills",
     "year": null,

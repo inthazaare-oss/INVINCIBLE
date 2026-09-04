@@ -88,7 +88,9 @@ window.SITE = {
     { id: "deserts",      name: "Desert Life",               blurb: "Heat, distance and the people who live in it." },
     { id: "mountains",    name: "Mountain Life",             blurb: "High villages, herders and the weather of altitude." },
     { id: "rivers",       name: "Riverscapes",               blurb: "Ghats, boats, floods and river towns." },
-    { id: "political",    name: "Political Life",            blurb: "Public life, protest, assembly and the crowd." }
+    { id: "political",    name: "Political Life",            blurb: "Public life, protest, assembly and the crowd." },
+    { id: "still-life",   name: "Still Life",                blurb: "Objects, fruit and glass, studied for their light." },
+    { id: "sculpture",    name: "Sculpture & Relief",        blurb: "Work in stone and modelled form, beside the painting." }
   ],
 
   /* --- 5. Commission pricing guide -------------------------------------- *

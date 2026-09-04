@@ -99,10 +99,11 @@ to the edge of the work. A good photograph sells; a yellow, tilted one does not.
 
 ---
 
-### Four entries are already waiting for you
+### Six entries are already waiting for you
 
-**Farmhouse in the Foothills**, **Portrait in Lockdown**, **Two Cranes at Sunrise** and
-**The Dancer** are in the panel with no photograph yet. Click one, drop its photograph on it, and the image fills in by itself.
+**Buddha Head**, **Still Life with Wine and Grapes**, **Farmhouse in the Foothills**,
+**Portrait in Lockdown**, **Two Cranes at Sunrise** and **The Dancer** are in the panel with
+no photograph yet. Click one, drop its photograph on it, and the image fills in by itself.
 Those are working titles — rename them to whatever you actually call the paintings, and add
 the year, medium, size and price while you are there.
 
