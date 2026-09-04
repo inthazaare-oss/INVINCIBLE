@@ -46,7 +46,7 @@
       "</p>" +
       '<div class="work">' +
         '<figure class="work__image" style="margin:0" id="work-image">' +
-          '<img src="' + S.esc(w.image) + '" alt="' + S.esc(w.title) + " — " + S.esc(w.medium) + '">' +
+          S.frameHTML(w, w.title + (w.medium ? " — " + w.medium : "")) +
         "</figure>" +
         '<div class="work__aside">' +
           '<span class="tag ' + st.cls + '">' + st.label + "</span>" +
@@ -137,7 +137,13 @@
   S.renderCards(document.getElementById("related"), related.slice(0, 3));
 
   var fig = document.getElementById("work-image");
-  fig.addEventListener("click", function () { S.lightbox(w.image, w.title + " — " + w.medium + " · " + S.dims(w)); });
+  if (w.image) {
+    fig.addEventListener("click", function () {
+      S.lightbox(w.image, [w.title, w.medium, S.dims(w)].filter(Boolean).join(" · "));
+    });
+  } else {
+    fig.style.cursor = "default";
+  }
 
   S.enquiry.bind(root.querySelector("[data-enquiry]"));
   S.reveal(root);

@@ -15,8 +15,8 @@
   if (!root) return;
 
   var DRAFT_KEY = "studio.artworks.draft.v1";
-  var MAX_EDGE = 1800;          // longest side of a stored image, in pixels
-  var JPEG_QUALITY = 0.82;
+  var MAX_EDGE = 2000;          // longest side of a stored image, in pixels
+  var JPEG_QUALITY = 0.9;
 
   var state = {
     works: [],
@@ -187,29 +187,38 @@
       : "<strong>Drop a photograph of the painting here</strong><br><span class='s'>or click to choose a file — JPG or PNG</span>";
   }
 
+  function enhanceOn() {
+    var box = document.getElementById("enhance-toggle");
+    return !box || box.checked;
+  }
+
+  /* Photographs are trimmed, resized, levelled, saturated and sharpened by
+     assets/js/imagefix.js before they ever reach the site. */
   function resize(file) {
-    return new Promise(function (resolve, reject) {
-      var img = new Image();
-      var url = URL.createObjectURL(file);
-      img.onload = function () {
-        var scale = Math.min(1, MAX_EDGE / Math.max(img.width, img.height));
-        var c = document.createElement("canvas");
-        c.width = Math.round(img.width * scale);
-        c.height = Math.round(img.height * scale);
-        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
-        URL.revokeObjectURL(url);
-        c.toBlob(function (blob) {
-          resolve({
-            blob: blob,
-            dataUrl: c.toDataURL("image/jpeg", JPEG_QUALITY),
-            width: c.width, height: c.height,
-            ratio: c.width / c.height
-          });
-        }, "image/jpeg", JPEG_QUALITY);
-      };
-      img.onerror = function () { reject(new Error("That file could not be read as an image.")); };
-      img.src = url;
+    return window.StudioImage.prepare(file, { enhance: enhanceOn(), maxEdge: MAX_EDGE, quality: JPEG_QUALITY });
+  }
+
+  /* the preview keeps the untouched version so the artist can judge the change */
+  function previewWithCompare(dzId, out) {
+    var dz = document.getElementById(dzId);
+    dz.innerHTML = "<img src='" + S.esc(out.dataUrl) + "' alt='Preview' data-after='" + S.esc(out.dataUrl) +
+      "' data-before='" + S.esc(out.originalUrl) + "'>" +
+      "<span class='s'>" + (out.enhanced
+        ? "Improved: " + S.esc(out.notes.join(", ") || "no change needed") +
+          " — <button type='button' class='chip' data-compare>hold to see the original</button>"
+        : "Saved as photographed.") +
+      "</span>";
+    var btn = dz.querySelector("[data-compare]");
+    if (!btn) return;
+    var img = dz.querySelector("img");
+    var show = function (which) { img.src = img.getAttribute("data-" + which); };
+    ["mousedown", "touchstart"].forEach(function (ev) {
+      btn.addEventListener(ev, function (e) { e.preventDefault(); e.stopPropagation(); show("before"); });
     });
+    ["mouseup", "mouseleave", "touchend"].forEach(function (ev) {
+      btn.addEventListener(ev, function (e) { e.stopPropagation(); show("after"); });
+    });
+    btn.addEventListener("click", function (e) { e.preventDefault(); e.stopPropagation(); });
   }
 
   function handleFile(file) {
@@ -219,7 +228,7 @@
       var f = document.getElementById("work-form");
       var base = slug(f.title_.value || file.name.replace(/\.[^.]+$/, ""));
       state.pendingImage = { dataUrl: out.dataUrl, blob: out.blob, filename: base + ".jpg" };
-      showPreview(out.dataUrl);
+      previewWithCompare("dropzone", out);
 
       /* suggest the dimensions ratio if the artist has not filled them in */
       if (!f.w_cm.value && !f.h_cm.value) {
@@ -235,12 +244,15 @@
           .then(function (j) {
             if (!j.ok) throw new Error(j.error || "upload failed");
             f.image.value = j.path;
-            flag("Image uploaded to the studio server as <code>" + S.esc(j.path) + "</code>.", "is-ok");
+            flag("Uploaded as <code>" + S.esc(j.path) + "</code> (" + out.width + "×" + out.height + "px" +
+                 (out.notes.length ? "; " + S.esc(out.notes.join(", ")) : "") + ").", "is-ok");
           });
       }
       f.image.value = "images/works/" + state.pendingImage.filename;
       flag("Image ready (" + out.width + "×" + out.height + "px, " +
-           Math.round(out.blob.size / 1024) + " KB). Use <strong>Download image file</strong> below, " +
+           Math.round(out.blob.size / 1024) + " KB" +
+           (out.notes.length ? "; " + S.esc(out.notes.join(", ")) : "") +
+           "). Use <strong>Download image file</strong> below, " +
            "then put the file into your site's <code>images/works/</code> folder — or press " +
            "<strong>Embed image in file</strong> to carry it inside the gallery file instead.", "is-info");
     }).catch(function (e) { flag(e.message, "is-err"); });
@@ -553,7 +565,7 @@
       var f = document.getElementById("product-form");
       var base = slug(f.name_.value || file.name.replace(/\.[^.]+$/, ""));
       pstate.pendingImage = { dataUrl: out.dataUrl, blob: out.blob, filename: base + ".jpg" };
-      pShowPreview(out.dataUrl);
+      previewWithCompare("p-dropzone", out);
       if (state.server) {
         var fd = new FormData();
         fd.append("file", out.blob, pstate.pendingImage.filename);
@@ -563,12 +575,14 @@
           .then(function (j) {
             if (!j.ok) throw new Error(j.error || "upload failed");
             f.image.value = j.path;
-            pFlag("Image uploaded as <code>" + S.esc(j.path) + "</code>.", "is-ok");
+            pFlag("Uploaded as <code>" + S.esc(j.path) + "</code> (" + out.width + "×" + out.height + "px" +
+                  (out.notes.length ? "; " + S.esc(out.notes.join(", ")) : "") + ").", "is-ok");
           });
       }
       f.image.value = "images/products/" + pstate.pendingImage.filename;
       pFlag("Image ready (" + out.width + "×" + out.height + "px, " + Math.round(out.blob.size / 1024) +
-            " KB). Use <strong>Download image file</strong>, then put it in your site's " +
+            " KB" + (out.notes.length ? "; " + S.esc(out.notes.join(", ")) : "") +
+            "). Use <strong>Download image file</strong>, then put it in your site's " +
             "<code>images/products/</code> folder — or <strong>Embed image in file</strong>.", "is-info");
     }).catch(function (e) { pFlag(e.message, "is-err"); });
   }

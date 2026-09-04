@@ -280,7 +280,9 @@
 
 <script>
 (function () {
-  var S = window.Studio, works = S.works();
+  var S = window.Studio;
+  /* the front page is the shop window: only works with a photograph belong on it */
+  var works = S.works().filter(function (w) { return w.image; });
 
   /* ---- hero: the newest featured work, with a second work stacked behind -- */
   var featured = works.filter(function (w) { return w.featured; });

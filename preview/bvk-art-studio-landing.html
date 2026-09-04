@@ -475,6 +475,15 @@ p  { margin: 0 0 1.1em; }
 .voice blockquote { font-family: var(--serif); font-size: 1.25rem; line-height: 1.4; margin: 0 0 .8rem; }
 .voice figcaption { font-size: .84rem; color: var(--ink-2); }
 
+/* an entry that is written up but not yet photographed */
+.card__awaiting, .work__image .card__awaiting {
+  display: grid; place-items: center; aspect-ratio: 4 / 5; width: 100%;
+  background:
+    repeating-linear-gradient(45deg, var(--paper-2) 0 12px, var(--paper-3) 12px 24px);
+  color: var(--ink-3); text-align: center; font-size: .8rem; letter-spacing: .12em;
+  text-transform: uppercase; line-height: 1.6;
+}
+
 </style>
 <div id="top"></div>
 <a class="visually-hidden" href="#main">Skip to content</a>
@@ -761,18 +770,21 @@ window.SITE = {
       "Original works are available for sale, and I accept a limited number of " +
       "commissions each year."                            // SAMPLE (rewrite in your own voice)
     ],
-    location: "City, State, India",                       // SAMPLE
-    studioNote: "Studio visits by appointment.",          // SAMPLE
+    location: "Huzurnagar, Suryapet District, Telangana",
+    studioNote: "Studio visits by appointment.",
     portrait: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MDAgMTAwMCIgd2lkdGg9IjgwMCIgaGVpZ2h0PSIxMDAwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlBsYWNlaG9sZGVyIHBvcnRyYWl0IG9mIHRoZSBhcnRpc3QiPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iYiIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2VmZTZkOCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2Q4YzdhZSIvPjwvbGluZWFyR3JhZGllbnQ+PGZpbHRlciBpZD0iZyI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuOSIgbnVtT2N0YXZlcz0iMyIvPjxmZUNvbG9yTWF0cml4IHR5cGU9InNhdHVyYXRlIiB2YWx1ZXM9IjAiLz48ZmVDb21wb25lbnRUcmFuc2Zlcj48ZmVGdW5jQSB0eXBlPSJsaW5lYXIiIHNsb3BlPSIwLjA5Ii8+PC9mZUNvbXBvbmVudFRyYW5zZmVyPjwvZmlsdGVyPjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjEwMDAiIGZpbGw9InVybCgjYikiLz48ZWxsaXBzZSBjeD0iNDAwIiBjeT0iMzgwIiByeD0iMTQwIiByeT0iMTcwIiBmaWxsPSIjNmY1YTQ1IiBvcGFjaXR5PSIwLjc1Ii8+PHBhdGggZD0iTTE3MCwxMDAwIFE0MDAsNTIwIDYzMCwxMDAwIFoiIGZpbGw9IiM0YTNkMmYiIG9wYWNpdHk9IjAuOCIvPjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iMTAwMCIgZmlsdGVyPSJ1cmwoI2cpIiBvcGFjaXR5PSIwLjUiLz48dGV4dCB4PSI3ODAiIHk9Ijk4MCIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMjIiIGZpbGw9IiMwMDAwMDA1NSI+c2FtcGxlIGltYWdlIOKAlCByZXBsYWNlIHdpdGggeW91ciBwaG90b2dyYXBoPC90ZXh0Pjwvc3ZnPgo="                      // replace with a photo of you
   },
 
   /* --- 2. Contact — where enquiries reach you --------------------------- */
   contact: {
-    email: "you@example.com",                             // SAMPLE — your real email
-    phone: "+91 00000 00000",                             // SAMPLE — or leave "" to hide
-    whatsapp: "910000000000",                             // digits only, or "" to hide
-    instagram: "https://instagram.com/yourhandle",         // or "" to hide
-    facebook: "",
+    email: "venkatesh15567@gmail.com",
+    /* Left empty on purpose: a placeholder phone number on a live site sends
+       real buyers to a dead line. Put your number in and it appears in the
+       footer, on the contact page and as a WhatsApp button. */
+    phone: "",                                            // e.g. "+91 98765 43210"
+    whatsapp: "",                                         // digits only, e.g. "919876543210"
+    instagram: "",                                        // your profile link
+    facebook: "",                                         // e.g. your Facebook page
     youtube: ""
   },
 
@@ -954,21 +966,84 @@ window.SITE = {
 </script>
 <script>
 /* =============================================================================
-   artworks.js — THE GALLERY. One entry per painting or drawing.
-   You do not need to edit this by hand: open admin.html in your browser,
-   add your works there, and it writes a replacement copy of this file for you.
-   -----------------------------------------------------------------------------
-   status:  "available" | "reserved" | "sold" | "nfs"   (nfs = not for sale)
-   price:   a number in rupees, or null to show "Price on request"
-   themes:  ids taken from the themes list in site.js
-   image:   a path like "images/works/my-painting.jpg"
-   featured:true puts the work on the front page
-   -----------------------------------------------------------------------------
-   Every entry below is SAMPLE DATA using placeholder images. Delete them all
-   once your own paintings are in.
+   artworks.js — the gallery. Written by the Studio Panel on 2026-09-04T01:57:10.699Z.
    ========================================================================== */
 
+/* -----------------------------------------------------------------------------
+   THE THREE ENTRIES AT THE TOP are Venkatesham's own paintings, written up ready
+   for their photographs. Open admin.html, click the entry, drop the photograph
+   on it, and the image, size and file name fill in by themselves.
+
+   Their titles are working titles, not his — rename them. Year, medium, size,
+   price and the story behind each are deliberately left empty rather than
+   guessed at.
+   -------------------------------------------------------------------------- */
+
 window.ARTWORKS = [
+  {
+    "id": "portrait-in-lockdown",
+    "title": "Portrait in Lockdown",
+    "year": null,
+    "themes": [
+      "portraits",
+      "abstract",
+      "political"
+    ],
+    "style": "Abstract",
+    "medium": "",
+    "w_cm": null,
+    "h_cm": null,
+    "price": null,
+    "status": "available",
+    "prints": false,
+    "framed": false,
+    "place": "",
+    "story": "",
+    "image": "",
+    "featured": false
+  },
+  {
+    "id": "two-cranes-at-sunrise",
+    "title": "Two Cranes at Sunrise",
+    "year": 2025,
+    "themes": [
+      "landscapes"
+    ],
+    "style": "",
+    "medium": "",
+    "w_cm": null,
+    "h_cm": null,
+    "price": null,
+    "status": "available",
+    "prints": false,
+    "framed": false,
+    "place": "",
+    "story": "",
+    "image": "",
+    "featured": false
+  },
+  {
+    "id": "the-dancer",
+    "title": "The Dancer",
+    "year": null,
+    "themes": [
+      "abstract",
+      "life-studies",
+      "traditional"
+    ],
+    "style": "",
+    "medium": "",
+    "w_cm": null,
+    "h_cm": null,
+    "price": null,
+    "status": "available",
+    "prints": false,
+    "framed": false,
+    "place": "",
+    "story": "",
+    "image": "",
+    "featured": false
+  },
   {
     "id": "dawn-over-the-dunes",
     "title": "Dawn over the Dunes",
@@ -1607,6 +1682,19 @@ window.PRODUCTS = [
   }
 
   /* --- artwork card ------------------------------------------------------ */
+  /* medium · size · year, skipping whatever has not been filled in yet */
+  function metaLine(w) {
+    return [w.medium, (w.w_cm && w.h_cm ? w.w_cm + "×" + w.h_cm + " cm" : ""), w.year]
+      .filter(function (part) { return part; }).map(esc).join(" · ");
+  }
+  function frameHTML(w, alt) {
+    if (w.image) {
+      return '<img src="' + esc(w.image) + '" alt="' + esc(alt) + '" loading="lazy">';
+    }
+    /* An entry written up before its photograph has been taken. The studio
+       panel fills the image in the moment a photograph is dropped on it. */
+    return '<div class="card__awaiting"><span>Photograph<br>to be added</span></div>';
+  }
   function cardHTML(w) {
     var st = statusOf(w);
     var priceHTML = w.status === "sold" ? '<span class="sold">Sold</span>'
@@ -1614,13 +1702,12 @@ window.PRODUCTS = [
       : money(w.price);
     return '<a class="card reveal" href="' + workUrl(w) + '">' +
       '<div class="card__frame">' +
-        '<img src="' + esc(w.image) + '" alt="' + esc(w.title) + ' — ' + esc(w.medium) + '" loading="lazy">' +
+        frameHTML(w, w.title + (w.medium ? " — " + w.medium : "")) +
         '<span class="tag ' + st.cls + '">' + st.label + '</span>' +
       '</div>' +
       '<div class="card__body">' +
         '<h3 class="card__title">' + esc(w.title) + '</h3>' +
-        '<p class="card__meta">' + esc(w.medium) + (w.w_cm ? " · " + w.w_cm + "×" + w.h_cm + " cm" : "") +
-          (w.year ? " · " + esc(w.year) : "") + '</p>' +
+        '<p class="card__meta">' + metaLine(w) + '</p>' +
         '<p class="card__price">' + priceHTML + '</p>' +
       '</div></a>';
   }
@@ -1761,7 +1848,7 @@ window.PRODUCTS = [
     $: $, $$: $$, esc: esc, money: money, dims: dims, get: get,
     works: allWorks, find: findWork, countByTheme: countByTheme,
     themeName: themeName, statusOf: statusOf, workUrl: workUrl,
-    cardHTML: cardHTML, renderCards: renderCards,
+    cardHTML: cardHTML, renderCards: renderCards, frameHTML: frameHTML, metaLine: metaLine,
     reveal: initReveal, lightbox: openLightbox, toast: toast,
     enquiry: Enquiry, site: SITE
   };
@@ -1770,7 +1857,9 @@ window.PRODUCTS = [
 </script>
 <script>
 (function () {
-  var S = window.Studio, works = S.works();
+  var S = window.Studio;
+  /* the front page is the shop window: only works with a photograph belong on it */
+  var works = S.works().filter(function (w) { return w.image; });
 
   /* ---- hero: the newest featured work, with a second work stacked behind -- */
   var featured = works.filter(function (w) { return w.featured; });

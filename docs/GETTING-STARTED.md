@@ -73,8 +73,17 @@ Save the file and refresh the page in your browser. That is the whole edit cycle
 
 1. Open **`site/admin.html`** in your browser.
 2. Press **+ Add a work**.
-3. Type the title, then drag the photograph onto the drop area. The panel shrinks
-   it for the web automatically — drop the picture straight from your phone.
+3. Type the title, then drag the photograph onto the drop area. The panel prepares it
+   for the web automatically: it trims any flat black or white border (the bars you get
+   from screenshots and video frames), resizes it in careful steps to 2000 pixels on its
+   longest side, pulls the darkest and lightest parts back to true black and white, lifts
+   the colour a little, and sharpens gently. Hold *"hold to see the original"* under the
+   preview to judge the change, or switch **Improve photographs automatically** off at the
+   top of the panel to keep a photograph exactly as taken.
+
+   It cannot invent detail that is not in the photograph. Flat daylight, no flash, camera
+   square to the canvas, cropped to the edge of the work — that is still what makes the
+   difference.
 4. Fill in year, size, medium, price and which of your series it belongs to.
 5. Press **Save this work**.
 6. When you have added everything, press **Export gallery file**. Your browser
@@ -89,6 +98,13 @@ Photographing paintings: flat daylight, no flash, camera square to the canvas, c
 to the edge of the work. A good photograph sells; a yellow, tilted one does not.
 
 ---
+
+### Three entries are already waiting for you
+
+**Portrait in Lockdown**, **Two Cranes at Sunrise** and **The Dancer** are in the panel with
+no photograph yet. Click one, drop its photograph on it, and the image fills in by itself.
+Those are working titles — rename them to whatever you actually call the paintings, and add
+the year, medium, size and price while you are there.
 
 ## 3b. Adding your paints and materials
 

@@ -1,19 +1,82 @@
 /* =============================================================================
-   artworks.js — THE GALLERY. One entry per painting or drawing.
-   You do not need to edit this by hand: open admin.html in your browser,
-   add your works there, and it writes a replacement copy of this file for you.
-   -----------------------------------------------------------------------------
-   status:  "available" | "reserved" | "sold" | "nfs"   (nfs = not for sale)
-   price:   a number in rupees, or null to show "Price on request"
-   themes:  ids taken from the themes list in site.js
-   image:   a path like "images/works/my-painting.jpg"
-   featured:true puts the work on the front page
-   -----------------------------------------------------------------------------
-   Every entry below is SAMPLE DATA using placeholder images. Delete them all
-   once your own paintings are in.
+   artworks.js — the gallery. Written by the Studio Panel on 2026-09-04T01:57:10.699Z.
    ========================================================================== */
 
+/* -----------------------------------------------------------------------------
+   THE THREE ENTRIES AT THE TOP are Venkatesham's own paintings, written up ready
+   for their photographs. Open admin.html, click the entry, drop the photograph
+   on it, and the image, size and file name fill in by themselves.
+
+   Their titles are working titles, not his — rename them. Year, medium, size,
+   price and the story behind each are deliberately left empty rather than
+   guessed at.
+   -------------------------------------------------------------------------- */
+
 window.ARTWORKS = [
+  {
+    "id": "portrait-in-lockdown",
+    "title": "Portrait in Lockdown",
+    "year": null,
+    "themes": [
+      "portraits",
+      "abstract",
+      "political"
+    ],
+    "style": "Abstract",
+    "medium": "",
+    "w_cm": null,
+    "h_cm": null,
+    "price": null,
+    "status": "available",
+    "prints": false,
+    "framed": false,
+    "place": "",
+    "story": "",
+    "image": "",
+    "featured": false
+  },
+  {
+    "id": "two-cranes-at-sunrise",
+    "title": "Two Cranes at Sunrise",
+    "year": 2025,
+    "themes": [
+      "landscapes"
+    ],
+    "style": "",
+    "medium": "",
+    "w_cm": null,
+    "h_cm": null,
+    "price": null,
+    "status": "available",
+    "prints": false,
+    "framed": false,
+    "place": "",
+    "story": "",
+    "image": "",
+    "featured": false
+  },
+  {
+    "id": "the-dancer",
+    "title": "The Dancer",
+    "year": null,
+    "themes": [
+      "abstract",
+      "life-studies",
+      "traditional"
+    ],
+    "style": "",
+    "medium": "",
+    "w_cm": null,
+    "h_cm": null,
+    "price": null,
+    "status": "available",
+    "prints": false,
+    "framed": false,
+    "place": "",
+    "story": "",
+    "image": "",
+    "featured": false
+  },
   {
     "id": "dawn-over-the-dunes",
     "title": "Dawn over the Dunes",

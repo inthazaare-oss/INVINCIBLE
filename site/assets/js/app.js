@@ -162,6 +162,19 @@
   }
 
   /* --- artwork card ------------------------------------------------------ */
+  /* medium · size · year, skipping whatever has not been filled in yet */
+  function metaLine(w) {
+    return [w.medium, (w.w_cm && w.h_cm ? w.w_cm + "×" + w.h_cm + " cm" : ""), w.year]
+      .filter(function (part) { return part; }).map(esc).join(" · ");
+  }
+  function frameHTML(w, alt) {
+    if (w.image) {
+      return '<img src="' + esc(w.image) + '" alt="' + esc(alt) + '" loading="lazy">';
+    }
+    /* An entry written up before its photograph has been taken. The studio
+       panel fills the image in the moment a photograph is dropped on it. */
+    return '<div class="card__awaiting"><span>Photograph<br>to be added</span></div>';
+  }
   function cardHTML(w) {
     var st = statusOf(w);
     var priceHTML = w.status === "sold" ? '<span class="sold">Sold</span>'
@@ -169,13 +182,12 @@
       : money(w.price);
     return '<a class="card reveal" href="' + workUrl(w) + '">' +
       '<div class="card__frame">' +
-        '<img src="' + esc(w.image) + '" alt="' + esc(w.title) + ' — ' + esc(w.medium) + '" loading="lazy">' +
+        frameHTML(w, w.title + (w.medium ? " — " + w.medium : "")) +
         '<span class="tag ' + st.cls + '">' + st.label + '</span>' +
       '</div>' +
       '<div class="card__body">' +
         '<h3 class="card__title">' + esc(w.title) + '</h3>' +
-        '<p class="card__meta">' + esc(w.medium) + (w.w_cm ? " · " + w.w_cm + "×" + w.h_cm + " cm" : "") +
-          (w.year ? " · " + esc(w.year) : "") + '</p>' +
+        '<p class="card__meta">' + metaLine(w) + '</p>' +
         '<p class="card__price">' + priceHTML + '</p>' +
       '</div></a>';
   }
@@ -316,7 +328,7 @@
     $: $, $$: $$, esc: esc, money: money, dims: dims, get: get,
     works: allWorks, find: findWork, countByTheme: countByTheme,
     themeName: themeName, statusOf: statusOf, workUrl: workUrl,
-    cardHTML: cardHTML, renderCards: renderCards,
+    cardHTML: cardHTML, renderCards: renderCards, frameHTML: frameHTML, metaLine: metaLine,
     reveal: initReveal, lightbox: openLightbox, toast: toast,
     enquiry: Enquiry, site: SITE
   };

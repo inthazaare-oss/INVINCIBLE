@@ -36,18 +36,21 @@ window.SITE = {
       "Original works are available for sale, and I accept a limited number of " +
       "commissions each year."                            // SAMPLE (rewrite in your own voice)
     ],
-    location: "City, State, India",                       // SAMPLE
-    studioNote: "Studio visits by appointment.",          // SAMPLE
+    location: "Huzurnagar, Suryapet District, Telangana",
+    studioNote: "Studio visits by appointment.",
     portrait: "images/ui/artist.svg"                      // replace with a photo of you
   },
 
   /* --- 2. Contact — where enquiries reach you --------------------------- */
   contact: {
-    email: "you@example.com",                             // SAMPLE — your real email
-    phone: "+91 00000 00000",                             // SAMPLE — or leave "" to hide
-    whatsapp: "910000000000",                             // digits only, or "" to hide
-    instagram: "https://instagram.com/yourhandle",         // or "" to hide
-    facebook: "",
+    email: "venkatesh15567@gmail.com",
+    /* Left empty on purpose: a placeholder phone number on a live site sends
+       real buyers to a dead line. Put your number in and it appears in the
+       footer, on the contact page and as a WhatsApp button. */
+    phone: "",                                            // e.g. "+91 98765 43210"
+    whatsapp: "",                                         // digits only, e.g. "919876543210"
+    instagram: "",                                        // your profile link
+    facebook: "",                                         // e.g. your Facebook page
     youtube: ""
   },
 

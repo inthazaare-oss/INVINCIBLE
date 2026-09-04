@@ -61,6 +61,10 @@
       <div class="admin-bar">
         <span class="badge" id="mode-badge">Checking…</span>
         <span class="badge" id="dirty-badge" hidden>Unsaved changes</span>
+        <label class="check" style="margin-left:.4rem">
+          <input type="checkbox" id="enhance-toggle" checked>
+          <span>Improve photographs automatically</span>
+        </label>
       </div>
     </div>
   </div>
@@ -285,9 +289,17 @@
             (when the studio server is running) or export the file and upload it into your site's
             <code>data/</code> folder — <code>artworks.js</code> for paintings,
             <code>products.js</code> for materials.</p></details>
-        <details><summary>Do I have to resize my photographs?</summary>
-          <p>No. Drop the photograph straight from your phone or camera — this page shrinks it to
-            1800 pixels on its longest side, which is plenty for the web and keeps your site fast.</p></details>
+        <details><summary>What does “improve photographs automatically” do?</summary>
+          <p>Drop the photograph straight from your phone or camera; before it reaches your site this
+            page trims any flat black or white border (the bars you get from screenshots and video
+            frames), shrinks it to 2000 pixels on its longest side in careful steps, pulls the darkest
+            and lightest parts back to true black and white, lifts the colour a little because
+            photographs of paint always lose some, and sharpens gently. Hold <em>“hold to see the
+            original”</em> under the preview to judge it, and switch the box off at the top if you
+            would rather keep a photograph exactly as taken.</p>
+          <p>It cannot invent detail that is not in the photograph. A blurred or badly lit picture
+            comes out cleaner but not truer — the only real fix is to photograph the painting again,
+            in flat daylight, camera square to the canvas, cropped to the edge of the work.</p></details>
         <details><summary>How does someone pay for materials?</summary>
           <p>They don't, on the website. An order arrives as an itemised email; you reply with the
             total including packing and postage to their pin code, and a UPI or bank transfer request.
@@ -345,6 +357,7 @@
 <script src="data/artworks.js"></script>
 <script src="assets/js/app.js"></script>
 <script src="data/products.js"></script>
+<script src="assets/js/imagefix.js"></script>
 <script src="assets/js/admin.js"></script>
 </body>
 </html>
