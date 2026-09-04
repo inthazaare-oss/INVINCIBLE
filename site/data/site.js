@@ -14,7 +14,7 @@ window.SITE = {
     studio: "BVK ART Studio",
     /* Your own name, as it appears in your bio and beside your signature.
        If the studio is just you, this can be your full name. */
-    name: "Venkatesham",                                 // write it in full if you prefer
+    name: "BVK",                                         // how the artist signs
     /* The small line under the studio name in the header. */
     role: "Painter & Draughtsman",
     tagline: "Painter of landscapes, people and the many lives of India", // SAMPLE

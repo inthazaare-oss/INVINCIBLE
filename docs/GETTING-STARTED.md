@@ -99,10 +99,10 @@ to the edge of the work. A good photograph sells; a yellow, tilted one does not.
 
 ---
 
-### Three entries are already waiting for you
+### Four entries are already waiting for you
 
-**Portrait in Lockdown**, **Two Cranes at Sunrise** and **The Dancer** are in the panel with
-no photograph yet. Click one, drop its photograph on it, and the image fills in by itself.
+**Farmhouse in the Foothills**, **Portrait in Lockdown**, **Two Cranes at Sunrise** and
+**The Dancer** are in the panel with no photograph yet. Click one, drop its photograph on it, and the image fills in by itself.
 Those are working titles — rename them to whatever you actually call the paintings, and add
 the year, medium, size and price while you are there.
 
@@ -140,6 +140,20 @@ Two things to get right before you sell materials:
 - **Postage.** Ask your courier what they will and will not carry. Powders and liquids are
   sometimes restricted, especially by air. I have written that caution into the shop terms;
   confirm the specifics for your own courier and city.
+
+### Doing it from a computer instead
+
+If the photographs are already on a computer, one command prepares a whole folder of them —
+the same trimming, resizing, levels, colour and sharpening the panel does:
+
+```bash
+pip install Pillow
+python3 tools/enhance-photos.py ~/Desktop/paintings/          # → site/images/works/
+python3 tools/enhance-photos.py photo.jpg --name two-cranes-at-sunrise
+python3 tools/enhance-photos.py ~/Desktop/pigments/ --products
+```
+
+Then open the panel and point each entry at its file.
 
 ---
 

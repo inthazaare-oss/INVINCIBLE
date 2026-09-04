@@ -103,6 +103,15 @@
       return href.indexOf("?") === -1 && href === here.split("?")[0];
     })).forEach(function (a) { a.setAttribute("aria-current", "page"); });
     var y = $("#year"); if (y) y.textContent = new Date().getFullYear();
+
+    /* Copyright belongs to the person. Name the artist as well as the studio,
+       unless one already contains the other — "BVK · BVK ART Studio" helps nobody. */
+    var copy = $("#copyline");
+    if (copy) {
+      var who = get(SITE, "artist.name") || "", studio = get(SITE, "artist.studio") || "";
+      copy.textContent = (!who || studio.indexOf(who) > -1 || who.indexOf(studio) > -1)
+        ? (studio || who) : who + " · " + studio;
+    }
   }
 
   /* --- reveal on scroll -------------------------------------------------- */

@@ -14,6 +14,26 @@
 
 window.ARTWORKS = [
   {
+    "id": "farmhouse-in-the-foothills",
+    "title": "Farmhouse in the Foothills",
+    "year": null,
+    "themes": [
+      "landscapes"
+    ],
+    "style": "",
+    "medium": "",
+    "w_cm": null,
+    "h_cm": null,
+    "price": null,
+    "status": "available",
+    "prints": false,
+    "framed": false,
+    "place": "",
+    "story": "",
+    "image": "",
+    "featured": false
+  },
+  {
     "id": "portrait-in-lockdown",
     "title": "Portrait in Lockdown",
     "year": null,

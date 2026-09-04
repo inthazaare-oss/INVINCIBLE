@@ -723,7 +723,7 @@ p  { margin: 0 0 1.1em; }
     </div>
     <p class="small muted" style="margin-top:1rem">This is the landing page as a single self-contained file. In the real site, the links above open separate pages for the gallery, commissions, space work and the studio shop.</p>
     <div class="footer__bottom">
-      <span>© <span id="year">2026</span> <span data-site="artist.name">Venkatesham</span> · <span data-site="artist.studio">BVK ART Studio</span>. All paintings, drawings and photographs on this site are the artist's copyright and may not be reproduced without permission.</span>
+      <span>© <span id="year">2026</span> <span id="copyline">BVK ART Studio</span>. All paintings, drawings and photographs on this site are the artist's copyright and may not be reproduced without permission.</span>
       <span>Preview</span>
     </div>
   </div>
@@ -748,7 +748,7 @@ window.SITE = {
     studio: "BVK ART Studio",
     /* Your own name, as it appears in your bio and beside your signature.
        If the studio is just you, this can be your full name. */
-    name: "Venkatesham",                                 // write it in full if you prefer
+    name: "BVK",                                         // how the artist signs
     /* The small line under the studio name in the header. */
     role: "Painter & Draughtsman",
     tagline: "Painter of landscapes, people and the many lives of India", // SAMPLE
@@ -980,6 +980,26 @@ window.SITE = {
    -------------------------------------------------------------------------- */
 
 window.ARTWORKS = [
+  {
+    "id": "farmhouse-in-the-foothills",
+    "title": "Farmhouse in the Foothills",
+    "year": null,
+    "themes": [
+      "landscapes"
+    ],
+    "style": "",
+    "medium": "",
+    "w_cm": null,
+    "h_cm": null,
+    "price": null,
+    "status": "available",
+    "prints": false,
+    "framed": false,
+    "place": "",
+    "story": "",
+    "image": "",
+    "featured": false
+  },
   {
     "id": "portrait-in-lockdown",
     "title": "Portrait in Lockdown",
@@ -1623,6 +1643,15 @@ window.PRODUCTS = [
       return href.indexOf("?") === -1 && href === here.split("?")[0];
     })).forEach(function (a) { a.setAttribute("aria-current", "page"); });
     var y = $("#year"); if (y) y.textContent = new Date().getFullYear();
+
+    /* Copyright belongs to the person. Name the artist as well as the studio,
+       unless one already contains the other — "BVK · BVK ART Studio" helps nobody. */
+    var copy = $("#copyline");
+    if (copy) {
+      var who = get(SITE, "artist.name") || "", studio = get(SITE, "artist.studio") || "";
+      copy.textContent = (!who || studio.indexOf(who) > -1 || who.indexOf(studio) > -1)
+        ? (studio || who) : who + " · " + studio;
+    }
   }
 
   /* --- reveal on scroll -------------------------------------------------- */
